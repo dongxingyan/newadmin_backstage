@@ -1,0 +1,88 @@
+<div class="wrap">
+    <!--<div class="header">-->
+        <!--<div class="content">-->
+            <!--<div class="header-left">-->
+                <!--<span class="name pf14">机构管理系统</span>-->
+            <!--</div>-->
+            <!--<div class="header-right">-->
+                <!--<div class="userName pf16">-->
+                    <!--你好{{vm.name}}-->
+                    <!--<div class="exit tc" ng-click="vm.signout()">退出机构管理系统</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="container">
+        <div class="contain">
+            <div class="nav pf12">
+                <div class="nav-logo">
+
+                </div>
+                <div class="status common" ng-class="{active:vm.isActive('main.status')}" ui-sref="main.status" >
+                    <span class="iconfont">&#xe619;</span>
+                    状态预览
+                </div>
+                <div class="meeting-room common" ng-class="{active:vm.isActive('main.meeting-room')}" ui-sref="main.meeting-room">
+                    <i class="iconfont">&#xe6aa;</i>
+                    会议室管理</div>
+                <div class="meeting common" ng-class="{active:vm.isActive('main.meeting-manage')}" ui-sref="main.meeting-manage">
+                    <i class="iconfont">&#xe618;</i>
+                    会议管理</div>
+                <div class="record common" ng-class="{active:vm.isActive('main.live-recording')}" ui-sref="main.live-recording">
+                    <i class="iconfont">&#xe636;</i>
+                    录制直播</div>
+                <div class="count common" ng-class="{active:vm.isActive('main.meeting-count')}" ui-sref="main.meeting-count">
+                    <i class="iconfont"> &#xe62c;</i>
+                    会议统计</div>
+                <div class="statistics common" ng-click="vm.navToggle()">
+                    <i class="iconfont"> &#xe63a;</i>
+                    统计
+                </div>
+                <div class="statistics-use common" ng-show="vm.isClick" ui-sref="main.use-count" ng-class="{active:vm.isActive('main.use-count')}">
+                    使用统计
+                </div>
+                <div class="statistics-broadcast common"  ng-show="vm.isClick" ng-class="{active:vm.isActive('main.broadcast-count')}">
+                    直播统计
+                </div>
+
+                <div class="device common" ng-class="{active:vm.isActive('main.device-manage')}" ui-sref="main.device-manage({page:1})">
+                    <i class="iconfont"> &#xe641;</i>
+                    硬件管理</div>
+                <div class="account common" ng-class="{active:vm.isActive('main.user-account')}" ui-sref="main.user-account({page:1})">
+                    <i class="iconfont"> &#xe607;</i>
+                    用户账号</div>
+                <div class="department common" ng-class="{active:vm.isActive('main.department-manage')}" ui-sref="main.department-manage">
+                    <i class="iconfont"> &#xe612;</i>
+                    部门管理</div>
+                <div class="communication common" ng-class="{active:vm.isActive('main.address-list')}" ui-sref="main.address-list({page:1})">
+                    <i class="iconfont">&#xe605;</i>
+                    通讯录</div>
+                <div class="change common" ng-class="{active:vm.isActive('main.change-password')}" ui-sref="main.change-password">
+                    <i class="iconfont"> &#xe62f;</i>
+                    修改密码</div>
+            </div>
+            <div class="contain-right">
+                <!--<div class="header">-->
+                <!--<div class="content">-->
+                <!--<div class="header-left">-->
+                <!--<span class="name pf14">机构管理系统</span>-->
+                <!--</div>-->
+                <!--<div class="header-right">-->
+                <!--<div class="userName pf16">-->
+                <!--你好{{vm.name}}-->
+                <!--<div class="exit tc" ng-click="vm.signout()">退出机构管理系统</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+
+                <ui-view>
+                </ui-view>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</div>

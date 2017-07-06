@@ -1,0 +1,52 @@
+<div class="main">
+    <div class="head">
+        <div class="head-content">
+            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
+            <div class="userss">
+                会议室管理<br>MEETING ROOM MANAGEMENT
+            </div>
+            <div class="right2" ng-click="vm.signout()">
+                <img src="../../../static/images2/red-end.png" alt="" class="red">
+                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="title">
+            <span>会议室管理</span>
+        </div>
+        <div class="list">
+            <table class="table">
+                <tr>
+                    <th>会议室号</th>
+                    <th>会议室名称</th>
+                    <th>限制人数</th>
+                    <th>主持人密码</th>
+                    <th>访客密码</th>
+                    <th>操作</th>
+                </tr>
+                <tr ng-repeat="item in vm.items">
+                    <td>{{!item.meetingRoomNum?"":item.meetingRoomNum}}</td>
+                    <td>{{!item.name?"":item.name}}</td>
+                    <td>{{!item.capacity?"":item.capacity}}</td>
+                    <td>{{!item.hostPassword?"":item.hostPassword}}</td>
+                    <td>{{!item.guestPassword?"":item.guestPassword}}</td>
+                    <td ><a ui-sref="main.room-modify({id:item.id})">修改</a></td>
+
+                </tr>
+
+            </table>
+        </div>
+        <div class="paging">
+            <span>第<i ng-bind="vm.selPage"></i>页/共<i ng-bind="vm.total"></i>页，共<i ng-bind="vm.totalCount"></i>条</span>
+            <span class="before page-common" ng-click="vm.prevPage(vm.selPage)" ng-class="{1:'bg'}[vm.selPage]">＜</span>
+            <ul>
+                <li class="pageNum page-common" ng-click="vm.selectPage(item.value)"  ng-repeat="item in vm.pager" ng-class="{true:'current',false:'normal'}[item.isCurrent]">{{item.type==0?item.value:'...'}}</li>
+            </ul>
+            <span class="after page-common" ng-click="vm.nextPage(vm.selPage)" ng-class="{'bg':vm.selPage==vm.total}">＞</span>
+            <input type="text" class="skip" ng-model="vm.count">
+            <span class="skipButton" ng-click="vm.jump(vm.count)">跳转</span>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,202 @@
+main-create-broadcast {
+  width: 100%
+  height: 100%
+  .ml20 {
+    margin-left: 20px;
+  }
+  .main {
+  //width: 100%
+    height: 100%
+    display: flex
+  //background: pink;
+    flex-direction column
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+    font-size: 12px;
+    .title {
+      font-size: 14px;
+      height: 50px
+      margin-left: 20px
+      margin-top: 20px;
+      line-height: 50px
+      background: #fff;
+      box-shadow 0 2px 2px 0 #ccc
+      ul {
+        list-style none;
+        .create-live-title {
+          margin-left: 5px;
+        }
+        li {
+          float: left;
+          a {
+            text-decoration none;
+          }
+        }
+      }
+    }
+    .create-broadcast {
+      margin-left: 20px;
+    }
+    .box-broadcast {
+      height: 25px
+      margin: 20px;
+      display flex
+      .box-left {
+        width: 120px
+        line-height: 25px
+        display: flex
+        justify-content space-between
+        .cg {
+          display: inline-block
+        }
+        .notice {
+          color: red;
+          margin-left: 18px;
+          margin-top: 3px;
+        }
+      }
+      .live-radio {
+        display: flex;
+        align-items center;
+        input {
+          width: 17px;
+          margin-right: 6px;
+          padding: 7px;
+        }
+        label {
+          margin-right: 20px;
+          margin-top: 6px;
+        }
+      }
+      .box-right {
+        margin-left: 15px
+        .live-desc {
+          height:204px;
+          border: 1px solid #cccccc !important;
+        }
+        select {
+          height: 22px;
+        }
+        input {
+          height: 26px;
+          border: 1px solid #cccccc;
+        }
+        span {
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+        .input-live-password {
+          color: red;
+          margin-left: 10px;
+        }
+        .titleContent {
+          width: 290px
+        }
+        .inputBox {
+          width: 163px
+        }
+      }
+    }
+
+    .box-pic {
+      margin: 20px;
+      display flex
+      .box-left {
+        width: 120px
+        line-height: 25px
+        display: flex
+        justify-content space-between
+      }
+        .box-right{
+          display: flex
+          margin-left: 15px;
+          align-items center;
+          .input-file-container {
+            width: 70px;
+            height: 30px;
+            cursor: pointer;
+            background: #169bd5;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 141px;
+            margin-left: 25px;
+            padding-top: 6px;
+            border-radius: 3px;
+          }
+          #preview {
+            width: 204px
+            height: 204px
+            border: 1px solid #cccccc
+            background: #ffffff
+          }
+          img {
+            width: 200px;
+            height: 200px;
+          }
+          input {
+            width: 64px;
+            height: 24px;
+            margin-top: -21px;
+            margin-left: 6px;
+            opacity: 0;
+          }
+          .uploadPic {
+            width: 100px
+            height: 80px
+            margin-right:20px
+            background: pink
+
+          }
+            .commend{
+              color:#999;
+              margin-top: 140px;
+              margin-left: 10px;
+            }
+
+        }
+    }
+    .box-describe {
+      margin: 20px;
+      display flex
+      .box-left {
+        width: 120px
+        line-height: 25px
+        display: flex
+        justify-content space-between
+      }
+      .box-right {
+        margin-left: 15px;
+        textarea {
+          border: 1px solid #cccccc;
+          width: 204px;
+        }
+      }
+    }
+    .bottom {
+      display flex
+      justify-content center;
+      margin-bottom:30px;
+      .common {
+        width: 140px
+        height: 40px
+        border-radius 5px
+        cursor pointer
+      }
+      #save {
+        margin-right: 30px
+        background: #169BD5;
+        border: none;
+        color: #ffffff;
+      }
+      #cancel {
+        border: 1px solid #aaa
+        background: #fff;
+      }
+    }
+
+  }
+}
+#laydate_box .laydate_bottom {
+  height: 33px;
+}

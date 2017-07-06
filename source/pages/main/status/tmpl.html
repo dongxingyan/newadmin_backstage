@@ -1,0 +1,127 @@
+<div class="main">
+    <div class="head">
+        <div class="head-content">
+            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
+            <div class="userss">
+                状态总览<br>STATE THE OVERVIEW
+            </div>
+            <div class="right2" ng-click="vm.signout()">
+                <img src="../../../static/images2/red-end.png" alt="" class="red">
+                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+            </div>
+        </div>
+    </div>
+    <!--<div class="title">-->
+    <!--<span>状态预览</span>-->
+    <!--</div>-->
+    <div class="box">
+        <!--<div class="belong common">-->
+        <!--<div class="top">-->
+        <!--<i class="iconfont">&#xe601;</i>-->
+        <!--所属机构-->
+        <!--</div>-->
+        <!--<div class="bottom">{{vm.department}}</div>-->
+        <!--</div>-->
+        <!--<div class="count common ">-->
+        <!--<div class="top">-->
+        <!--<i class="iconfont">&#xe6aa;</i>-->
+        <!--会议室总数-->
+        <!--</div>-->
+        <!--<div class="bottom">{{vm.count}}</div>-->
+        <!--</div>-->
+        <!--<div class="device common ">-->
+        <!--<div class="top">-->
+        <!--<i class="iconfont"> &#xe602;</i>-->
+        <!--设备账号-->
+        <!--</div>-->
+        <!--<div class="bottom">{{vm.deviceAccount}}</div>-->
+        <!--</div>-->
+        <!--<div class="userAccount common ">-->
+        <!--<div class="top">-->
+        <!--<i class="iconfont"> &#xe607;</i>-->
+        <!--用户账号-->
+        <!--</div>-->
+        <!--<div class="bottom">{{vm.userAccount}}</div>-->
+        <!--</div>-->
+        <div class="right-top">
+            <div class="organize">
+                <!--<table>-->
+                    <!--<tr class="box-title">-->
+                        <!--<td>长城宽带</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>高清并发</td>-->
+                        <!--<td>12方</td>-->
+                        <!--<td>2014-05-08</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>高清并发</td>-->
+                        <!--<td>12方</td>-->
+                        <!--<td>2014-05-08</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>高清并发</td>-->
+                        <!--<td>12方</td>-->
+                        <!--<td>2014-05-08</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>高清并发</td>-->
+                        <!--<td>12方</td>-->
+                        <!--<td>2014-05-08</td>-->
+                    <!--</tr>-->
+
+
+                <!--</table>-->
+
+                <div class="department">
+                    <table>
+                        <tr class="box-title">
+                            <td>所属机构</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" class="count">{{vm.department}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="count-device">
+                    <table>
+                        <tr class="box-title">
+                            <td>设备账号（单位：个）</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" class="count">{{vm.deviceAccount}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="content-right">
+                <div class="count-meetingroom">
+                    <table>
+                        <tr class="box-title">
+                            <td>会议室总数（单位：个）</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" class="count">{{vm.count}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="account">
+                    <table>
+                        <tr class="box-title">
+                            <td>用户账号（单位：个）</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" class="count">{{vm.userAccount}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--图表部分-->
+        <div class="list" style="overflow:hidden;position:relative; margin-top:30px">
+            <div id="container" style="min-width:700px;height:400px;max-width:1200px;margin-top:50px;float:left"></div>
+            <div id="container2" style="min-width:400px;max-width:600px;float:left;margin-top:15px;height:450px; margin-left:50px;">
+            </div>
+            <span id="contents" style="position: absolute;right:39px;top: 107px;"></span>
+        </div>
+    </div>

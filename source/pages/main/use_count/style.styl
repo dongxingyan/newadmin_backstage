@@ -1,0 +1,407 @@
+main-use-count {
+  width: 100%
+  height: 100%
+  .ml20 {
+    margin-left: 20px;
+  }
+  .main {
+  //width: 100%
+    height: 100%
+    display: flex
+  //background: pink;
+    flex-direction column
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+    font-size: 14px;
+    //.box{
+    //  .count-title{
+    //    height: 65px;
+    //    line-height: 65px;
+    //    font-family: "微软雅黑";
+    //    display: flex;
+    //    justify-content: space-between;
+    //    font-size: 12px;
+    //    color: #646464;
+    //    padding:0 20px;
+    //    font-weight: bold;
+    //    .buttons{
+    //      //width: 250px;
+    //      button {
+    //        background: #31a3dd;
+    //        color: #fff;
+    //        height: 35px;
+    //        line-height: 35px;
+    //        text-align: center;
+    //        border-radius: 5px;
+    //        border: 0;
+    //        outline: none;
+    //        padding-left: 15px;
+    //        padding-right: 15px;
+    //        cursor: pointer;
+    //      }
+    //    }
+    //
+    //    .chaxun-right {
+    //      position: relative;
+    //      input {
+    //        width: 120px;
+    //        height: 30px;
+    //        line-height: 30px;
+    //      }
+    //      .imgcirle {
+    //        display: inline-block;
+    //        position: absolute;
+    //        top: 18px;
+    //        left: -32px;
+    //        height: 30px;
+    //        line-height: 30px;
+    //        border: 1px solid #a9a9a9;
+    //        text-align: center;
+    //        background: url(../../../static/images2/clock.png) no-repeat center center;
+    //        width: 33px;
+    //      }
+    //    }
+    //    .query {
+    //      display: inline-block;
+    //      height: 30px;
+    //      line-height: 30px;
+    //      font-size: 13px;
+    //      background: url(../../../static/images2/chaxun.png) no-repeat 0px 0px;
+    //      cursor: pointer;
+    //      width: 90px;
+    //      margin-top: 18px;
+    //    }
+    //  }
+    //  .count-content{
+    //    display:flex;
+    //    justify-content space-between;
+    //    .statical-chart{
+    //      width: 720px
+    //    }
+    //    .list {
+    //      flex:1;
+    //      margin:0 20px;
+    //      display: flex
+    //      flex-direction column
+    //      justify-content space-between
+    //    //overflow-y auto
+    //      table {
+    //      //width: 100%
+    //        flex 1
+    //
+    //      }
+    //      tr, td, th {
+    //        text-align center
+    //        padding: 0 5px;
+    //        border: 1px solid #d3d8dc
+    //        border-collapse: collapse
+    //        vertical-align middle
+    //        flex 1
+    //      }
+    //      th{
+    //        height: 35px
+    //        font-weight normal
+    //        background #F5F6FA
+    //      }
+    //      td {
+    //        height: 35px
+    //        font-size:12px
+    //      }
+    //      tr:nth-child(odd) {
+    //        background: #F5F6FA
+    //      }
+    //      tr:nth-child(even) {
+    //        background #ffffff
+    //      }
+    //      .paging {
+    //        height: 26px
+    //        line-height: 26px
+    //        display flex
+    //        justify-content: center
+    //        i{
+    //          font-style normal
+    //          color:red;
+    //        }
+    //        .page-common {
+    //          font-size: 12px
+    //          display: block
+    //          width: 26px
+    //          height: 26px
+    //          line-height: 26px
+    //          text-align center
+    //          border: 1px solid #aaaaaa
+    //          margin-right: 5px;
+    //          color: #393f51
+    //          cursor pointer
+    //        //border-radius 5px;
+    //        }
+    //        .before {
+    //          margin-left: 10px;
+    //        }
+    //        .after {
+    //          margin-right: 20px;
+    //        }
+    //        .bg {
+    //          background-color: rgba(128, 128, 128, .3)
+    //          border: none;
+    //        }
+    //        ul {
+    //          padding-left: 0;
+    //        }
+    //        li {
+    //          float: left;
+    //        }
+    //        .page-common:hover {
+    //          background: #ccc;
+    //        }
+    //        .pageNum {
+    //          list-style none
+    //        }
+    //        .current {
+    //          background: #0099CC
+    //          border: none
+    //        }
+    //        .skip{
+    //          width: 30px
+    //          height: 26px
+    //          line-height: 26px
+    //        //text-align center
+    //          border: 1px solid #aaaaaa
+    //          margin-right: 5px;
+    //          color: #393f51
+    //        }
+    //        .skipButton{
+    //          width: 35px
+    //          height: 26px
+    //          text-align center
+    //          cursor pointer
+    //          background:#0099CC
+    //        }
+    //
+    //      }
+    //    }
+    //
+    //  }
+    //
+    //
+    //}
+    .use-count-box-right-header {
+      background: #ffffff;
+      width: 90%;
+      margin-left: 2%;
+      margin-right: 5%;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 5px;
+      .use-count-text-container {
+        display: flex;
+        align-items: center;
+        padding-left: 16px;
+        .use-count-nav-icon {
+          background: #31a3dd;
+          width: 4px;
+          height: 19px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          border-radius: 10px;
+        }
+        .right-title {
+          height: 65px;
+          line-height: 65px;
+          font-family: "微软雅黑";
+          display: flex;
+          justify-content: space-between;
+          font-size: 18px;
+          color: #646464;
+          text-indent: 10px;
+          font-weight: bold;
+        }
+      }
+      .search-condition-container {
+        display: flex;
+        padding-bottom: 18px;
+        .time-button-container {
+          display: flex;
+          border: 1px solid #ccc;
+          margin-left: 16px;
+          .selected {
+            background: #31a3dd !important;
+            color: #ffffff !important;
+          }
+          div {
+            background: #fff;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            border: 0;
+            padding-left: 15px;
+            padding-right: 15px;
+            cursor: pointer;
+          }
+          div:hover {
+            background: #31a3dd !important;
+            color: #ffffff !important;
+          }
+        }
+        .search-time-container {
+          margin-left: 3%;
+          display: flex;
+          div {
+            width: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          input {
+            height: 35px;
+            border: 1px solid #ccc;
+            width: 152px;
+            text-align: center;
+          }
+          i {
+            display: inline-block;
+            width: 25px;
+            background: #a9a9a9;
+            height: 1px;
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-top: 15px;
+          }
+        }
+        .meeting-search-input-container input {
+          border: 1px solid #ccc;
+          height: 35px;
+          width: 200px;
+          margin-left: 10px;
+          padding-left: 10px;
+        }
+        .search-button {
+          font-size: 16px;
+          text-align center
+          color: #31a3dd;
+          height: 35px;
+          line-height: 35px;
+          cursor: pointer;
+          &:hover {
+            color: #1b729f;
+          }
+        }
+        .output-table-button {
+          font-size:16px;
+          color: #31a3dd;
+          height: 35px;
+          line-height: 35px;
+          text-align: center;
+          cursor: pointer;
+          background: #fff;
+          &:hover {
+            color: #1b729f;
+          }
+        }
+      }
+    }
+    .row {
+      display: flex;
+      background: #ffffff;
+      width: 90%;
+      margin-left: 2%;
+      margin-right: 5%;
+      padding-left: 20px;
+      display: flex;
+      border-radius: 5px;
+      margin-top: 22px;
+    }
+    .new-department {
+      display: block;
+      width: 117px;
+      border-radius: 5px;
+      border: none;
+      background: #f4a14f;
+      color: #fff;
+      font-family: "微软雅黑";
+      text-align: center;
+      line-height: 35px;
+      font-size: 15px;
+      position: absolute;
+      right: 10px;
+      top: 14px;
+      cursor: pointer;
+
+    }
+    th {
+      font-size: 16px;
+    }
+    tr {
+      line-height: 40px;
+    }
+
+    button:hover {
+      background: #1b729f;
+    }
+    .warn-info-tip-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 9999;
+      background: rgba(0,0,0, 0.1);
+    }
+    .warn-type-container {
+      width: 315px;
+      height: 72px;
+      background: #ffffff;
+      top: 40%;
+      left: 40%;
+      right: 50%;
+      bottom: 50%;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      border-radius: 3px;
+    }
+    .warn-type-container img {
+      margin-right: 14px;
+    }
+    .meeting-room-use-times {
+      float: left;
+      border: 1px solid #ccc;
+      margin-left: 15px;
+      width: 70%;
+      margin-top: 30px;
+      padding-top: 20px;
+      margin-right: 1%;
+    }
+    .meeting-room-use-times div {
+      width: 100%;
+      height: 300px;
+    }
+    .meeting-room-chart-container {
+      width: 25%;
+      height: 300px;
+      right: 0;
+      border: 1px solid #ccc;
+      overflow-y: auto;
+      padding-top: 20px;
+      margin-top: 30px;
+      padding-right: 20px;
+      padding-bottom: 10px;
+    }
+    .meeting-room-chart-container tr {
+      /*overflow-y: auto;*/
+      line-height: 25px;
+    }
+    .meeting-room-chart-container table {
+      text-align: center;
+      width: 88%;
+    }
+
+
+
+    .meeting-duration-table td {
+      width: 106px;
+    }
+  }
+}

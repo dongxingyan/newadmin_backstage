@@ -1,0 +1,189 @@
+main-meeting-count {
+  width: 100%
+  height: 100%
+  .ml20 {
+    margin-left: 20px;
+  }
+  .main {
+  //width: 100%
+    height: 100%
+    display: flex
+  //background: pink;
+    flex-direction column
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+    font-size: 14px;
+    .box{
+      .count-title{
+        height: 65px;
+        line-height: 65px;
+        font-family: "微软雅黑";
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #646464;
+        padding:0 20px;
+        font-weight: bold;
+        .buttons{
+          //width: 250px;
+          button {
+            background: #31a3dd;
+            color: #fff;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            border-radius: 5px;
+            border: 0;
+            outline: none;
+            padding-left: 15px;
+            padding-right: 15px;
+            cursor: pointer;
+          }
+        }
+
+        .chaxun-right {
+          position: relative;
+          input {
+            width: 120px;
+            height: 30px;
+            line-height: 30px;
+          }
+          .imgcirle {
+            display: inline-block;
+            position: absolute;
+            top: 18px;
+            left: -32px;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #a9a9a9;
+            text-align: center;
+            background: url(../../../static/images2/clock.png) no-repeat center center;
+            width: 33px;
+          }
+        }
+        .query {
+          display: inline-block;
+          height: 30px;
+          line-height: 30px;
+          font-size: 13px;
+          background: url(../../../static/images2/chaxun.png) no-repeat 0px 0px;
+          cursor: pointer;
+          width: 90px;
+          margin-top: 18px;
+        }
+      }
+      .count-content{
+        display:flex;
+        justify-content space-between;
+        .statical-chart{
+          width: 720px
+        }
+        .list {
+          flex:1;
+          margin:0 20px;
+          display: flex
+          flex-direction column
+          justify-content space-between
+        //overflow-y auto
+          table {
+          //width: 100%
+            flex 1
+
+          }
+          tr, td, th {
+            text-align center
+            padding: 0 5px;
+            border: 1px solid #d3d8dc
+            border-collapse: collapse
+            vertical-align middle
+            flex 1
+          }
+          th{
+            height: 35px
+            font-weight normal
+            background #F5F6FA
+          }
+          td {
+            height: 35px
+            font-size:12px
+          }
+          tr:nth-child(odd) {
+            background: #F5F6FA
+          }
+          tr:nth-child(even) {
+            background #ffffff
+          }
+          .paging {
+            height: 26px
+            line-height: 26px
+            display flex
+            justify-content: center
+            i{
+              font-style normal
+              color:red;
+            }
+            .page-common {
+              font-size: 12px
+              display: block
+              width: 26px
+              height: 26px
+              line-height: 26px
+              text-align center
+              border: 1px solid #aaaaaa
+              margin-right: 5px;
+              color: #393f51
+              cursor pointer
+            //border-radius 5px;
+            }
+            .before {
+              margin-left: 10px;
+            }
+            .after {
+              margin-right: 20px;
+            }
+            .bg {
+              background-color: rgba(128, 128, 128, .3)
+              border: none;
+            }
+            ul {
+              padding-left: 0;
+            }
+            li {
+              float: left;
+            }
+            .page-common:hover {
+              background: #ccc;
+            }
+            .pageNum {
+              list-style none
+            }
+            .current {
+              background: #0099CC
+              border: none
+            }
+            .skip{
+              width: 30px
+              height: 26px
+              line-height: 26px
+            //text-align center
+              border: 1px solid #aaaaaa
+              margin-right: 5px;
+              color: #393f51
+            }
+            .skipButton{
+              width: 35px
+              height: 26px
+              text-align center
+              cursor pointer
+              background:#0099CC
+            }
+
+          }
+        }
+
+      }
+
+
+    }
+
+  }
+}

@@ -1,0 +1,241 @@
+<div class="main">
+    <div class="feedback" ng-show="vm.visible">
+        <div class="alerts">
+            <div class="alert-head">
+                温馨提示
+                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.close()">
+                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
+            </div>
+            <div class="alert-content">{{vm.feedbackContent}}</div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.close()">确定</span>
+            </div>
+        </div>
+    </div>
+    <div class="feedback" ng-show="vm.visible1">
+        <div class="alerts">
+            <div class="alert-head">
+                温馨提示
+                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.cancel()">
+                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
+            </div>
+            <div class="alert-content">{{vm.feedbackContent}}</div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.sureDelete()">确定</span>
+                <span class="alert-cancel" ng-click="vm.cancel()">取消</span>
+            </div>
+        </div>
+    </div>
+    <div class="feedback" ng-show="vm.visible2">
+        <div class="alerts1">
+            <div class="alert1-head">
+                添加人员
+            </div>
+            <div class="create-broadcast">
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">人员姓名：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.personName" maxlength="30" placeholder="请输入姓名">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">联系邮箱：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.personEmail" maxlength="30" placeholder="请输入邮箱">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">联系电话：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.personPhone" maxlength="30" placeholder="请输入联系电话">
+                    </div>
+                </div>
+                <div class="box-describe">
+                    <div class="box-left">
+                        <span class="notice"></span>
+                        <span class="titleText">备注信息：</span>
+                    </div>
+                    <div class="box-right">
+                        <textarea class="live-desc" name="" ng-model="vm.remark" cols="30" rows="8"></textarea>
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="titleText">分组管理：</span>
+                    </div>
+                    <div class="box-right">
+                        <select ng-model="vm.teamManage" style="border: 1px solid #cccccc;">
+                            <option value="">未分组</option>
+                            <option ng-value="item.id" ng-repeat="item in vm.teams" ng-hide="item.tName === ''">{{item.tName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.sureAdd()">确定</span>
+                <span class="alert-cancel" ng-click="vm.cancel()">取消</span>
+            </div>
+        </div>
+    </div>
+    <div class="feedback" ng-show="vm.visible3">
+        <div class="alerts1">
+            <div class="alert1-head">
+                编辑人员
+            </div>
+            <div class="create-broadcast">
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">人员姓名：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.personName" maxlength="30" placeholder="请输入姓名">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">联系邮箱：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.personEmail" maxlength="30" placeholder="请输入邮箱">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">联系电话：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.personPhone" maxlength="30" placeholder="请输入联系电话">
+                    </div>
+                </div>
+                <div class="box-describe">
+                    <div class="box-left">
+                        <span class="notice"></span>
+                        <span class="titleText">备注信息：</span>
+                    </div>
+                    <div class="box-right">
+                        <textarea class="live-desc" name="" ng-model="vm.remark" cols="30" rows="8"></textarea>
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="titleText">分组管理：</span>
+                    </div>
+                    <div class="box-right">
+                        <select style="border: 1px solid #cccccc;" ng-model="vm.teamManage">
+                            <option value="">未分组</option>
+                            <option ng-value="item.id" ng-repeat="item in vm.teams" ng-hide="item.tName === ''">{{item.tName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.sureModify()">确定</span>
+                <span class="alert-cancel" ng-click="vm.cancel()">取消</span>
+            </div>
+        </div>
+    </div>
+    <div class="feedback" ng-show="vm.visible4">
+        <div class="alerts">
+            <div class="alert-head">
+                温馨提示
+                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.cancelSingle()">
+                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
+            </div>
+            <div class="alert-content">{{vm.feedbackContent4}}</div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.sureDeleteSingle()">确定</span>
+                <span class="alert-cancel" ng-click="vm.cancelSingle()">取消</span>
+            </div>
+        </div>
+    </div>
+    <div class="head">
+        <div class="head-content">
+            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
+            <div class="userss">
+                通讯录<br>ADDRESS LIST
+            </div>
+            <div class="right2" ng-click="vm.signout()">
+                <img src="../../../static/images2/red-end.png" alt="" class="red">
+                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+            </div>
+        </div>
+    </div>
+    <div class="address-box">
+        <div class="title">
+            <span>通讯录</span>
+            <button class="create" ng-click="vm.addPerson()">添加人员</button>
+        </div>
+        <div class="address-list">
+            <div class="table">
+                <table class="tableContent">
+                    <tr>
+                        <th>姓名</th>
+                        <th>邮箱</th>
+                        <th>电话</th>
+                        <th>分组</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr ng-repeat="item in vm.items">
+                        <td>{{item.cName}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.phoneNum}}</td>
+                        <td>{{item.tName}}</td>
+                        <td><a href="" ng-click="vm.modifySingle(item.cName,item.email,item.phoneNum,item.teamId,item.id)">修改</a>  <a href="" ng-click="vm.deleteSingle(item.id)">删除</a></td>
+                    </tr>
+                </table>
+                <div class="paging">
+                    <span>第<i ng-bind="vm.selPage"></i>页/共<i ng-bind="vm.total"></i>页，共<i ng-bind="vm.totalCount"></i>条</span>
+                    <span class="before page-common" ng-click="vm.prevPage(vm.selPage)" ng-class="{1:'bg'}[vm.selPage]">＜</span>
+                    <ul>
+                        <li class="pageNum page-common" ng-click="vm.selectPage(item.value)"  ng-repeat="item in vm.pager" ng-class="{true:'current',false:'normal'}[item.isCurrent]">{{item.type==0?item.value:'...'}}</li>
+                    </ul>
+                    <span class="after page-common" ng-click="vm.nextPage(vm.selPage)" ng-class="{'bg':vm.selPage==vm.total}">＞</span>
+                    <input type="text" class="skip" ng-model="vm.count">
+                    <span class="skipButton" ng-click="vm.jump(vm.count)">跳转</span>
+                </div>
+
+            </div>
+            <div class="right">
+                <div class="contacts">
+                    <span class="linkMan">联系人</span>
+                    <span>所有联系人<a href="javascript:;" ng-click="vm.showAll()">({{vm.allContactsCount}}人)</a></span>
+                    <span>未分组联系人<a href="javascript:;" ng-click="vm.showUngrouped()" >({{vm.ungrouped}}人)</a></span>
+                </div>
+                <div class="group">
+                    <span class="link-group group-common">联系组
+                    <img class="addIcon" src="../../../static/images2/groupadd.png" alt="" ng-click="vm.addGroup()">
+                    </span>
+                    <div class="group-add" ng-show="vm.ifAdd">
+                        <input class="groupName" type="text" placeholder="请填写群组名称" ng-model="vm.groupName">
+                        <span class="edit"><a href="" ng-click="vm.sure()">确定</a>  <a href="" ng-click="vm.addGroup()">取消</a></span>
+                    </div>
+                    <ul class="group-common" >
+                        <li ng-repeat="item in vm.teams">
+                            <div class="groupName">
+                                <span ng-click="vm.showGroup(item.id,item.account)">{{item.tName}}<a href="javascript:;">({{item.account}}人)</a></span>
+                                <span style="font-weight:normal;font-size:12px;"><a href="" class="modify" ng-click="vm.modify(item.id)">修改</a> <a href="" class="delete" ng-click="vm.delete(item.id)">删除</a></span>
+                            </div>
+                            <div class="group-edit" ng-show="item.id==vm.parentId" ng-if="vm.ifModify">
+                                <input class="groupName" type="text" ng-model="vm.groupName1">
+                                <span class="edit"><a href="" ng-click="vm.sureEdit(item.id)">确定</a>  <a href="" ng-click="vm.cancelEdit()">取消</a></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

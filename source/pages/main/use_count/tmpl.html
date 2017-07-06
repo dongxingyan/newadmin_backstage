@@ -1,0 +1,80 @@
+<div class="main">
+    <div class="head">
+        <div class="head-content">
+            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
+            <div class="userss">使用统计<br>USAGE STATISTICS</div>
+            <div class="right2" ng-click="vm.signout()">
+                <img src="../../../static/images2/red-end.png" alt="" class="red">
+                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="use-count-box-right-header">
+            <div class="use-count-text-container">
+                <div class="use-count-nav-icon"></div>
+                <div class="right-title">使用统计</div>
+            </div>
+            <div class="search-condition-container">
+                <div class="time-button-container">
+                    <div id="J-nearly-week" ng-class="{'selected':vm.currentBtn==1}[true]" ng-click="vm.chooseDate(1)" ui-sref="week">近一周</div>
+                    <div id="J-nearly-month" ng-class="{'selected':vm.currentBtn==2}" ng-click="vm.chooseDate(2)" ui-sref="month">近一月</div>
+                    <div id="J-nearly-year" ng-class="{'selected':vm.currentBtn==3}" ng-click="vm.chooseDate(3)" ui-sref="year">近一年</div>
+                </div>
+                <div class="search-time-container">
+                    <input type="text" id="calendarStart" placeholder="点击获取开始日期">
+                    <div>至</div>
+                    <input type="text" id="calendarEnd" placeholder="点击获取截止日期">
+                </div>
+                <div class="meeting-search-input-container">
+                    <input type="text" placeholder="多个会议室请用，隔开" id="J-meeting-room">
+                </div>
+                <div class="col-xs-1">
+                    <div class="search-button" id="J-search">查询</div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="output-table-button" id="J-output-charts">导出报表</div>
+                </div>
+            </div>
+        </div>
+        <ui-view>
+            <div class="row">
+                <div style="float: left;margin-left: 15px;width: 81%;margin-top: 30px;padding-top: 20px;margin-right: 1%;">
+                    <div id="meeting-use-times" style="width: 97%; height: 300px; display: flex; justify-content: center; align-items: center;"></div>
+                </div>
+                <div style="width: 19%;height: 300px;right: 0;border-left: 1px solid #ccc;overflow-y: auto;padding-top: 20px;margin-top: 30px;padding-right: 20px;margin-bottom: 30px;">
+                    <table style="text-align: center; width: 88%;" id="J-meeting-times-table">
+                    </table>
+
+                </div>
+            </div>
+            <div class="row">
+                <div style="float: left; margin-left: 15px; width: 81%;margin-top: 10px; padding-top: 20px;margin-right: 1%;">
+                    <div id="meeting-concurrent" style="width: 97%; height: 300px; display: flex; justify-content: center; align-items: center;"></div>
+                </div>
+                <div style="width: 19%;height: 300px;right: 0;border-left: 1px solid #ccc;overflow-y: auto;margin-top: 10px; padding-top: 20px;padding-right: 20px;margin-bottom: 30px;">
+                    <table style="text-align: center; width: 88%;" id="J-meeting-concurrent-table">
+                    </table>
+                </div>
+            </div>
+            <div class="row" style="flex-direction: column; align-items: center;">
+                <div style="float: left; margin-left: 15px; width: 96%;margin-top: 30px;padding-top: 20px;padding-left: 20px;">
+                    <div id="meeting-times" style="width: 96%; height: 300px; display: flex; justify-content: center; align-items: center;"></div>
+                </div>
+            </div>
+            <div class="row" style="height: 138px !important; margin-top: 0; padding-top: 37px; text-align: center; margin-bottom: 20px;">
+                <div style="overflow: auto; margin-right: 20px; width: 100%;display: flex; justify-content: center;">
+                    <table class="meeting-duration-table" id="J-meeting-duration-table">
+                        <tr style="background: #f5f6f5;" id="J-date-row">
+                        </tr>
+                        <tr style="background: #e8f5ff;" id="J-participant-time-row">
+                        </tr>
+                        <tr style="background: #fff7e5;" id="J-meeting-use-time-row">
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </ui-view>
+    </div>
+
+</div>
