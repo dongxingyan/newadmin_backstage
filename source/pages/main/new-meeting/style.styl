@@ -1,0 +1,280 @@
+main-new-meeting {
+  width: 100%
+  height: 100%
+  .ml20 {
+    margin-left: 20px;
+  }
+  .mr90 {
+    margin-right: 90px;
+  }
+  .btnBg{
+    background:#333;
+  }
+  .main {
+  //width: 100%
+    height: 100%
+    display: flex
+    position: relative;
+    flex-direction column
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+    font-size: 12px;
+    .feedback{
+       z-index 2
+       position absolute
+       width: 100%
+       height: 100%
+       display: flex
+       justify-content center
+       align-items center
+       background:rgba(0,0,0,.5)
+      .alerts{
+        width: 300px;
+        height: 210px;
+        background:#fff;
+        border-radius: 5px;
+        .alert-head{
+          height: 40px;
+          background: #31a3dd;
+          line-height: 40px;
+          padding-left: 35px;
+          color: #ffffff;
+          font-size: 12px;
+          position: relative;
+          border-radius: 5px 5px 0px 0px;
+          .img-right,.delet-right,.add-right,.page-right{
+            position: absolute;
+            right: 6px;
+            top: 8px;
+            height: 25px;
+          }
+        }
+        .img-left{
+          position: absolute;
+          left: 10px;
+          top: 10px;
+          height: 21px;
+        }
+        .alert-content{
+          height: 110px;
+          line-height: 110px;
+          text-align: center;
+          font-family: "微软雅黑";
+          font-size: 16px;
+
+        }
+        .alert-bottom span{
+          display: inline-block;
+          text-align: center;
+          padding: 5px;
+          height: 30px;
+          width: 80px;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+        .alert-sure,.delet-sure,.add-sure,.page-sure{
+          background:#31a3dd;
+          color: #fff;
+        }
+        .alert-bottom{
+          text-align: center;
+        }
+      }
+
+    }
+
+    .box1{
+      .title {
+        font-size: 14px;
+        height: 30px
+        margin-left: 20px
+        line-height: 30px
+        background: #fff;
+        ul {
+          list-style none
+          li {
+            float: left;
+            a {
+              text-decoration none;
+              color: #09c;
+            }
+          }
+          .nav-icon {
+            margin-left: 5px;
+            margin-right: 5px;
+          }
+        }
+      }
+      .create-broadcast {
+        padding-left: 42px;
+        background: #fff
+      }
+    }
+
+    .join-meeting-member {
+      display flex
+
+      .addressMember, .inviteMember {
+        width: 200px;
+        height: 200px;
+        display flex
+        flex-direction column
+        border: 1px solid #aaa
+      }
+      div .memberName {
+        background: #eee;
+        display inline-block;
+        width: 100%
+        height: 20px
+        line-height: 20px
+      }
+      .arrow {
+        width: 30px
+        background url("../../../static/images/middleyou.png") center center no-repeat;
+        background-size: 100%;
+      }
+      .addressMember {
+        .allMember {
+          flex 1;
+          overflow: scroll;
+          ul {
+            margin: 0;
+            padding-left: 10px;
+            li {
+              height: 20px
+              line-height: 20px
+              list-style none;
+            }
+          }
+          .detail li{
+            font-weight:700;
+          }
+        }
+
+    }
+    .inviteMember {
+      .memberName {
+        display: flex
+        justify-content space-around
+        .clearAll {
+          cursor pointer
+        }
+      }
+      .allInviter{
+        flex:1;
+        overflow: scroll;
+        ul>li{
+          list-style none
+        }
+      }
+    }
+  }
+  .box-meeting {
+    height: 25px
+    line-height: 25px
+    margin: 20px;
+    display: flex
+    .is-send-mail-container {
+      display: flex;
+      width: 200px;
+      align-items: center;
+      input {
+        width: 19px;
+        height: 19px;
+        margin-right: 5px;
+      }
+      label {
+        margin-top: 7px;
+        margin-right: 30px;
+      }
+    }
+    .meeting-time-text {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+    .titleLeft {
+      display: flex
+      justify-content space-between
+      width: 100px
+      height: 25px
+      line-height: 25px
+      text-align right
+      margin-right: 12px;
+      i {
+        font-style normal
+        color: red;
+      }
+      input {
+        padding-left: 8px;
+        border: 1px solid #c6c6c6;
+      }
+    }
+    .inputBox {
+      width: 163px
+      height: 25px
+    }
+    .get {
+      width: 54px;
+      height: 25px;
+      border-radius: 3px;
+      background: #09c;
+      border: none;
+      margin-left: 10px;
+      margin-right: 30px;
+      cursor: pointer;
+      color: #ffffff;
+      &:hover{
+        background :#aaa;
+      }
+    }
+    .theme {
+      width: 357px
+    }
+    .choose {
+      height: 25px
+      line-height: 25
+      margin-right: 10px;
+    }
+    .no {
+      margin-left: 70px;
+    }
+  }
+  .describe {
+    margin: 20px;
+    .titleLeft {
+      display: inline-block
+      width: 100px
+      height: 25px
+      line-height: 25px
+      text-align right
+      margin-right: 9px;
+    }
+    textarea {
+      vertical-align top
+      width: 200px;
+      height: 200px;
+    }
+  }
+
+  .bottom {
+    margin-bottom: 20px;
+    display flex
+    justify-content center;
+    .common {
+      width: 140px
+      height: 40px
+      border-radius 5px
+      cursor: pointer;
+    }
+    #save {
+      margin-right: 30px
+      background: #169BD5;
+      border: none;
+    }
+    #cancel {
+      border: 1px solid #aaa
+      background: #fff;
+    }
+  }
+}
+
+}

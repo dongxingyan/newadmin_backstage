@@ -1,0 +1,112 @@
+<form name="createForm" id="createForm" class="main" action="">
+    <div class="head">
+        <div class="head-content">
+            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
+            <div class="userss">
+                录制直播<br>LIVE RECORDING
+            </div>
+            <div class="right2" ng-click="vm.signout()">
+                <img src="../../../static/images2/red-end.png" alt="" class="red">
+                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+            </div>
+        </div>
+    </div>
+    <div class="box1">
+        <div class="title">
+            <ul>
+                <li><a ui-sref="main.live-recording">直播活动 > </a></li>
+                <li class="active create-live-title">创建直播</li>
+            </ul>
+        </div>
+        <div class="create-broadcast">
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="notice">*</span>
+                    <span class="titleText">直播标题：</span>
+                </div>
+                <div class="box-right">
+                    <input type="text" class="titleContent" ng-model="vm.liveTitile" maxlength="30">
+                    <span class="cg">30字以内</span>
+                </div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="notice">*</span>
+                    <span class="titleText">会议室号：</span>
+                </div>
+                <div class="box-right">
+                    <select ng-model="vm.meetingRoomNum" style="border: 1px solid #cccccc;">
+                        <option ng-value="item.meetingRoomNum" ng-repeat="item in vm.meetingRoomList" ng-hide="item.meetingRoomNum === ''">{{item.meetingRoomNum}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="notice">*</span>
+                    <span class="titleText">预计直播时间：</span>
+                </div>
+                <div class="box-right">
+                    <input id="J-create-start-time" name="start-time" class="inputBox laydate-icon" ng-model="vm.startLiveTime">
+                    <span>至</span>
+                    <input id="J-create-end-time" name="end-time" class="inputBox laydate-icon" ng-model="vm.endLiveTime">
+                </div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="notice">*</span>
+                    <span class="titleText">直播权限：</span>
+                </div>
+                <div class="box-right live-radio">
+                    <input id="public" type="radio" name="radioButton" ng-click="vm.liveAuthority = 0"  checked>
+                    <label for="public" ng-click="vm.liveAuthority = 0">公开</label>
+                    <input id="private" type="radio" name="radioButton" ng-click="vm.liveAuthority = 1">
+                    <label for="private" ng-click="vm.liveAuthority = 1">加密</label>
+                    <input type="text" class="inputBox" ng-show="vm.liveAuthority == 1" ng-model="vm.livePass">
+                    <span class="input-live-password" ng-show="vm.liveAuthority == 1 && vm.livePass === ''">请输入直播密码</span>
+                </div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="notice">*</span>
+                    <span class="titleText">清晰度：</span>
+                </div>
+                <div class="box-right live-radio">
+                    <input id="normal" type="radio" name="articulation" ng-click="vm.articulation = 0" checked>
+                    <label for="normal" ng-click="vm.articulation = 0">标清</label>
+                    <input id="higher" type="radio" name="articulation" ng-click="vm.articulation = 1">
+                    <label for="higher" ng-click="vm.articulation = 1">高清</label>
+                </div>
+            </div>
+            <div class="box-pic">
+                <div class="box-left">
+                    <span class="notice"></span>
+                    <span class="titleText">封面图：</span>
+                </div>
+                <div class="box-right" id="myCtrl">
+                    <form enctype="multipart/form-data" method="post">
+                        <div id="preview"></div>
+                        <div class="input-file-container"> 选择图片
+                            <input id="changeImgInput" type="file" ng-click="vm.imgChange($event)" value="浏览" accept="image/jpg,image/jpeg,image/png" />
+                        </div>
+                        <span class="commend">建议尺寸1920×1080，支持jpg,gif，png格式，不大于1M</span>
+                    </form>
+                </div>
+            </div>
+            <div class="box-describe">
+                <div class="box-left">
+                    <span class="notice"></span>
+                    <span class="titleText">直播描述：</span>
+                </div>
+                <div class="box-right">
+                    <textarea class="live-desc" name="" ng-model="vm.liveDescription" cols="30" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="bottom">
+                <input type="button" value="保存" id="save" class="common" ng-click="vm.createLive()">
+                <input type="button" value="取消" id="cancel" class="common" ui-sref="main.live-recording">
+            </div>
+        </div>
+    </div>
+
+
+</form>

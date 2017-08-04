@@ -1,0 +1,163 @@
+<div class="main">
+    <div class="feedback" ng-show="vm.visible">
+        <div class="alerts1">
+            <div class="alert1-head">
+                编辑账号
+            </div>
+            <div class="create-broadcast">
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">所属机构：</span>
+                    </div>
+                    <div class="box-right">
+                        <!--<input type="text" class="titleContent" ng-model="vm.personName" maxlength="30" placeholder="请输入姓名">-->
+                        <span class="titleContent"> {{vm.department}}</span>
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice"></span>
+                        <span class="titleText">账号别名：</span>
+                    </div>
+                    <div class="box-right">
+                        <!--<input type="text" class="titleContent" ng-model="vm.personEmail" maxlength="30" placeholder="请输入邮箱">-->
+                        <span class="titleContent">{{vm.aliasName}}</span>
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">登录账号：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.account" maxlength="30" placeholder="6-12位字母或数字">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice">*</span>
+                        <span class="titleText">登录密码：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.loginPassword" maxlength="30" placeholder="6-12位字母或数字">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice"></span>
+                        <span class="titleText">部门：</span>
+                    </div>
+                    <div class="box-right">
+                        <select ng-model="vm.departName" style="border: 1px solid #cccccc;">
+                            <option value="">无</option>
+                            <option ng-value="item.id" ng-repeat="item in vm.departments" ng-hide="item.tName === ''">{{item.departName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice"></span>
+                        <span class="titleText">用户名：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.userName" maxlength="30">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice"></span>
+                        <span class="titleText">账号邮箱：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.acountEmail" maxlength="30">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="notice"></span>
+                        <span class="titleText">联系电话：</span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.phoneNum" maxlength="30">
+                    </div>
+                </div>
+                <div class="box-describe">
+                    <div class="box-left">
+                        <span class="notice"></span>
+                        <span class="titleText">账号描述：</span>
+                    </div>
+                    <div class="box-right">
+                        <textarea class="live-desc" name="" ng-model="vm.remark" cols="30" rows="5" placeholder="请输入描述信息，50字以内"></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.sureEdit()">确定</span>
+                <span class="alert-cancel" ng-click="vm.close()">取消</span>
+            </div>
+        </div>
+    </div>
+    <div class="feedback" ng-show="vm.visible1">
+        <div class="alerts">
+            <div class="alert-head">
+                温馨提示
+                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.close()">
+                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
+            </div>
+            <div class="alert-content">{{vm.feedbackContent}}</div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.close()">确定</span>
+            </div>
+        </div>
+    </div>
+    <div class="head">
+        <div class="head-content">
+            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
+            <div class="userss">
+                用户账号<br>USER ACCOUNT
+            </div>
+            <div class="right2" ng-click="vm.signout()">
+                <img src="../../../static/images2/red-end.png" alt="" class="red">
+                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="title">
+            <span>用户账号</span>
+        </div>
+        <div class="list">
+            <table class="table">
+                <tr>
+                    <th>账号别名</th>
+                    <th>用户名</th>
+                    <th>登录账号</th>
+                    <th>登录密码</th>
+                    <th>用户电话</th>
+                    <th>操作</th>
+                </tr>
+                <tr ng-repeat="item in vm.items">
+                    <td>{{!item.accountAlias?"":item.accountAlias}}</td>
+                    <td>{{!item.displayName?"":item.displayName}}</td>
+                    <td>{{!item.pexipName?"":item.pexipName}}</td>
+                    <td>{{!item.pexipPassword?"":item.pexipPassword}}</td>
+                    <td>{{!item.userTel?"":item.userTel}}</td>
+                    <td><a href="" style="text-decoration: none" ng-click="vm.userModify(item.id,item.departId,item.accountAlias,item.departId)">修改</a></td>
+                </tr>
+            </table>
+        </div>
+        <div class="paging">
+            <span>第<i ng-bind="vm.selPage"></i>页/共<i ng-bind="vm.total"></i>页，共<i ng-bind="vm.totalCount"></i>条</span>
+            <span class="before page-common" ng-click="vm.prevPage(vm.selPage)" ng-class="{1:'bg'}[vm.selPage]">＜</span>
+            <ul>
+                <li class="pageNum page-common" ng-click="vm.selectPage(item.value,item.type)"  ng-repeat="item in vm.pager" ng-class="{true:'current',false:'normal'}[item.isCurrent]">{{item.type==0?item.value:'...'}}</li>
+            </ul>
+            <span class="after page-common" ng-click="vm.nextPage(vm.selPage)" ng-class="{'bg':vm.selPage==vm.total}">＞</span>
+            <input type="text" class="skip" ng-model="vm.count">
+            <span class="skipButton" ng-click="vm.jump(vm.count)">跳转</span>
+        </div>
+    </div>
+
+</div>

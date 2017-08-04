@@ -1,0 +1,28 @@
+<div class="content">
+    <div class="logo">
+
+    </div>
+    <div class="container">
+        <!--<div class="left">-->
+        <!--</div>-->
+        <div class="right">
+            <form action="">
+                <span class="loginTip" ng-bind="vm.errorMsg" ng-class="{'true':'opacity1','false':'opacity0'}[vm.isFailed()]"></span>
+                <div class="userName common pr inputBox">
+                    <input type="text" class="inputCommon pf55" placeholder="请输入用户名" ng-model="vm.username">
+                </div>
+                <div class="password common pr inputBox">
+                    <input type="password" class="inputCommon pf55" placeholder="请输入密码" ng-model="vm.password">
+                </div>
+                <!--<div class="checkCode common pr inputBox">-->
+                    <!--<input type="text" class="inputCommon inputCode pf55" placeholder="请输入验证码" ng-model="vm.checkCode">-->
+                    <!--<img ng-src={{vm.codeUrl}} title="看不清，换一张" class="code" ng-click="vm.getCode()">-->
+                    <!--&lt;!&ndash;<span class="code" ></span>&ndash;&gt;-->
+                <!--</div>-->
+                <div class="logon inputBox">
+                    <input type="button" class="inputCommon loginBtn" ng-value="vm.loginText" ng-click="vm.login()" ng-disabled="vm.isLogin">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

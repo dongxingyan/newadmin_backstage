@@ -1,0 +1,330 @@
+main-use-count {
+  width: 100%
+  height: 100%
+  .ml20 {
+    margin-left: 20px;
+  }
+  .main {
+    overflow: auto
+    height: 100%
+    display: flex
+    flex-direction column
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+    font-size: 14px;
+    .use-count-box-right-header {
+      background: #ffffff;
+      width: 90%;
+      margin-left: 2%;
+      margin-right: 5%;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 5px;
+      .use-count-text-container {
+        display: flex;
+        align-items: center;
+        padding-left: 16px;
+        .use-count-nav-icon {
+          background: #31a3dd;
+          width: 4px;
+          height: 19px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          border-radius: 10px;
+        }
+        .right-title {
+          height: 65px;
+          line-height: 65px;
+          font-family: "微软雅黑";
+          display: flex;
+          justify-content: space-between;
+          font-size: 18px;
+          color: #646464;
+          text-indent: 10px;
+          font-weight: bold;
+        }
+      }
+      .search-condition-container {
+        display: flex;
+        padding-bottom: 18px;
+        .time-button-container {
+          display: flex;
+          border: 1px solid #ccc;
+          margin-left: 16px;
+          height: 37px;
+          .selected {
+            background: #31a3dd !important;
+            color: #ffffff !important;
+          }
+          div {
+            background: #fff;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            border: 0;
+            padding-left: 15px;
+            padding-right: 15px;
+            cursor: pointer;
+            width: 72px;
+          }
+          div:hover {
+            background: #31a3dd !important;
+            color: #ffffff !important;
+          }
+        }
+        .search-time-container {
+          margin-left: 2%;
+          display: flex;
+          div {
+            width: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          input {
+            height: 37px;
+            line-height: 37px;
+            border: 1px solid #ccc;
+            width: 127px;
+            text-align: center;
+          }
+          i {
+            display: inline-block;
+            width: 25px;
+            background: #a9a9a9;
+            height: 1px;
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-top: 15px;
+          }
+        }
+        .meeting-search-input-container input {
+          border: 1px solid #ccc;
+          height: 37px;
+          width: 177px;
+          margin-left: 10px;
+          padding-left: 10px;
+        }
+        .search-button {
+          font-size: 16px;
+          text-align center
+          color: #31a3dd;
+          height: 35px;
+          line-height: 35px;
+          cursor: pointer;
+          &:hover {
+            color: #1b729f;
+          }
+        }
+        .output-table-button {
+          font-size:16px;
+          color: #31a3dd;
+          height: 35px;
+          line-height: 35px;
+          text-align: center;
+          cursor: pointer;
+          background: #fff;
+          &:hover {
+            color: #1b729f;
+          }
+        }
+      }
+    }
+    .row {
+      display: flex;
+      background: #ffffff;
+      width: 90%;
+      margin-left: 2%;
+      margin-right: 5%;
+      padding-left: 20px;
+      display: flex;
+      border-radius: 5px;
+      margin-top: 22px;
+      .meeting-room-charts-container {
+          float: left;
+          margin-left: 15px;
+          width: 69%;
+          height: 300px;
+          margin-top: 30px;
+          padding-top: 20px;
+          margin-right: 1%;
+          div {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+      }
+      .meeting-room-table-container {
+          width: 28%;
+          height: 300px;
+          right: 0;
+          border-left: 1px solid #ccc;
+          overflow-y: auto;
+          margin-top: 30px;
+          padding-right: 20px;
+          table {
+              text-align: center;
+              width: 100%;
+          }
+      }
+      .meeting-concurrent-charts-container {
+          float: left;
+          margin-left: 15px;
+          width: 69%;
+          margin-top: 10px;
+          padding-top: 20px;
+          height: 300px;
+          margin-right: 1%;
+          div {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+      }
+      .meeting-concurrent-table-container {
+          width: 28%;
+          height: 300px;
+          right: 0;
+          border-left: 1px solid #ccc;
+          overflow-y: auto;
+          margin-top: 10px;
+          padding-right: 20px;
+          margin-bottom: 30px;
+          table {
+              text-align: center;
+              width: 100%;
+              tr {
+                  th {
+                      text-align: center;
+                  }
+              }
+          }
+      }
+    }
+    .meeting-duration-chart-row {
+      flex-direction: column;
+      align-items: center;
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      .meeting-duration-chart-container {
+        float: left;
+        margin-left: 15px;
+        width: 100%;
+        margin-top: 30px;
+        padding-top: 20px;
+        padding-left: 20px;
+        div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    .meeting-duration-table-row {
+        //height: 180px !important;
+        margin-top: 0;
+        padding-top: 37px;
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 37px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        div {
+            overflow-y: auto;
+            margin-right: 20px;
+            width: 100%;
+            display: flex;
+        }
+    }
+    .new-department {
+      display: block;
+      width: 117px;
+      border-radius: 5px;
+      border: none;
+      background: #f4a14f;
+      color: #fff;
+      font-family: "微软雅黑";
+      text-align: center;
+      line-height: 35px;
+      font-size: 15px;
+      position: absolute;
+      right: 10px;
+      top: 14px;
+      cursor: pointer;
+
+    }
+    th {
+      font-size: 16px;
+      text-align: center;
+    }
+    tr {
+      line-height: 40px;
+    }
+
+    button:hover {
+      background: #1b729f;
+    }
+    .warn-info-tip-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 9999;
+      background: rgba(0,0,0, 0.1);
+    }
+    .warn-type-container {
+      width: 315px;
+      height: 72px;
+      background: #ffffff;
+      top: 40%;
+      left: 40%;
+      right: 50%;
+      bottom: 50%;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      border-radius: 3px;
+    }
+    .warn-type-container img {
+      margin-right: 14px;
+    }
+    .meeting-room-use-times {
+      float: left;
+      border: 1px solid #ccc;
+      margin-left: 15px;
+      width: 70%;
+      margin-top: 30px;
+      padding-top: 20px;
+      margin-right: 1%;
+    }
+    .meeting-room-use-times div {
+      width: 100%;
+      height: 300px;
+    }
+    .meeting-room-chart-container {
+      width: 25%;
+      height: 300px;
+      right: 0;
+      border: 1px solid #ccc;
+      overflow-y: auto;
+      padding-top: 20px;
+      margin-top: 30px;
+      padding-right: 20px;
+      padding-bottom: 10px;
+    }
+    .meeting-room-chart-container tr {
+      overflow-y: auto;
+      line-height: 25px;
+    }
+    .meeting-room-chart-container table {
+      text-align: center;
+      width: 88%;
+    }
+    .meeting-duration-table {
+      width: 200%;
+    }
+  }
+}

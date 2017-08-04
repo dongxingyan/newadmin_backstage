@@ -1,0 +1,67 @@
+<div class="wrap">
+    <div class="container">
+        <div class="contain">
+            <div class="nav pf12">
+                <div class="nav-logo">
+                </div>
+                <div class="status common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.status')}" ui-sref="main.status" >
+                    <span class="iconfont">&#xe619;</span>
+                    状态预览
+                </div>
+                <div class="meeting-room common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.meeting-room')}" ui-sref="main.meeting-room">
+                    <i class="iconfont">&#xe6aa;</i>
+                    会议室管理</div>
+                <div class="meeting common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.meeting-manage')}" ui-sref="main.meeting-manage">
+                    <i class="iconfont">&#xe618;</i>
+                    会议管理</div>
+                <div class="record common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.live-recording')}" ui-sref="main.live-recording">
+                    <i class="iconfont">&#xe636;</i>
+                    录制直播</div>
+                <div class="statistics common" ng-click="vm.navToggle()">
+                    <i class="iconfont"> &#xe63a;</i>
+                    统计
+                </div>
+                <div class="statistics-use common" ng-if="vm.isClick" ui-sref="main.use-count" ng-class="{active:vm.isActive('main.use-count')}">
+                    使用统计
+                </div>
+                <div class="statistics-broadcast common"  ng-if="vm.isClick" ui-sref="main.broadcast-count" ng-class="{active:vm.isActive('main.broadcast-count')}">
+                    直播统计
+                </div>
+                <div class="device common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.device-manage')}" ui-sref="main.device-manage({page:1})">
+                    <i class="iconfont"> &#xe641;</i>
+                    硬件管理</div>
+                <div class="account common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.user-account')}" ui-sref="main.user-account({page:1})">
+                    <i class="iconfont"> &#xe607;</i>
+                    用户账号</div>
+                <div class="department common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.department-manage')}" ui-sref="main.department-manage">
+                    <i class="iconfont"> &#xe612;</i>
+                    部门管理</div>
+                <div class="communication common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.address-list')}" ui-sref="main.address-list({page:1})">
+                    <i class="iconfont">&#xe605;</i>
+                    通讯录</div>
+                <div class="change common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.change-password')}" ui-sref="main.change-password">
+                    <i class="iconfont"> &#xe62f;</i>
+                    修改密码</div>
+            </div>
+            <div class="contain-right">
+                <ui-view>
+                </ui-view>
+            </div>
+            <!-- 操作成功 消息提示框 -->
+            <div id="J-warn-modal" class="info-tip-modal hide">
+                <div class="hide">
+                    <img src="../../static/images/warning.png">
+                    <span id="J-warn-tip-text"></span>
+                </div>
+            </div>
+            <!-- 操作失败 消息提示框 -->
+            <div id="J-success-modal" class="info-tip-modal hide">
+                <div class="hide">
+                    <img src="../../static/images/success.png">
+                    <span id="J-success-tip-text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

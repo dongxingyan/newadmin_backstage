@@ -1,0 +1,98 @@
+<div class="main">
+    <div class="head">
+        <div class="head-content">
+            <div class="userss">使用统计<br>USAGE STATISTICS</div>
+            <div class="right2" ng-click="vm.signout()">
+                <img src="../../../static/images2/red-end.png" alt="" class="red">
+                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+            </div>
+        </div>
+    </div>
+    <div class="box" style="background: none;">
+        <div class="use-count-box-right-header">
+            <div class="use-count-text-container">
+                <div class="use-count-nav-icon"></div>
+                <div class="right-title">使用统计</div>
+            </div>
+            <div class="search-condition-container">
+                <div class="time-button-container">
+                    <div id="J-nearly-week" ng-class="{ 'selected': vm.currentBtn == 1 }" ng-click = "vm.getOneWeekData()">近一周</div>
+                    <div id="J-nearly-month" ng-class="{ 'selected': vm.currentBtn == 2 }" ng-click = "vm.getOneMonthData()">近一月</div>
+                    <div id="J-nearly-year" ng-class="{ 'selected': vm.currentBtn == 3 }" ng-click = "vm.getOneYearData()">近一年</div>
+                </div>
+                <div class="search-time-container">
+                    <input type="text" ng-model="vm.calendarStart" id="J-calendar-start" placeholder="点击获取开始日期">
+                    <div>至</div>
+                    <input type="text" ng-model="vm.calendarEnd" id="J-calendar-end" placeholder="点击获取截止日期">
+                </div>
+                <div class="meeting-search-input-container">
+                    <input type="text" placeholder="多个会议室请用，隔开" ng-model="vm.meetingRoomStr">
+                </div>
+                <div class="col-xs-1">
+                    <div class="search-button" ng-click="vm.searchCountData()">查询</div>
+                </div>
+                <div>
+                    <div class="output-table-button" ng-click="vm.outputCharts()">导出报表</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="meeting-room-charts-container">
+                <div id="meeting-use-times" style="height: 100%;"></div>
+            </div>
+            <div class="meeting-room-table-container">
+                <table id="J-meeting-times-table">
+                    <tr>
+                        <th>会议室</th>
+                        <th>次数</th>
+                    </tr>
+                    <tr ng-repeat="item in vm.meetingTime track by $index">
+                        <td>{{item.vmrNum}}</td>
+                        <td>{{item.vmrCount}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="meeting-concurrent-charts-container">
+                <div id="meeting-concurrent" style="height: 100%;"></div>
+            </div>
+            <div class="meeting-concurrent-table-container">
+                <table id="J-meeting-concurrent-table">
+                    <tr>
+                        <th>会议室</th>
+                        <th>并发</th>
+                    </tr>
+                    <tr ng-repeat="item in vm.meetingConcurrent track by $index">
+                        <td>{{item.vmrNum}}</td>
+                        <td>{{item.simultaneous}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row meeting-duration-chart-row">
+            <div class="meeting-duration-chart-container">
+                <div id="meeting-times" style="height: 300px;"></div>
+            </div>
+        </div>
+        <div class="row meeting-duration-table-row">
+            <div>
+                <table class="meeting-duration-table" id="J-meeting-duration-table">
+                    <tr style="background: #f5f6f5;" id="J-date-row">
+                        <td></td>
+                        <td ng-repeat="item in vm.meetingDurationTime track by $index">{{item}}</td>
+                    </tr>
+                    <tr style="background: #e8f5ff;" id="J-participant-time-row">
+                        <td title="会议室时长" style="cursor: pointer;">会议室时长</td>
+                        <td ng-repeat="item in vm.meetingRoomDuration track by $index">{{item}}</td>
+                    </tr>
+                    <tr style="background: #fff7e5;" id="J-meeting-use-time-row">
+                        <td title="参会总时长" style="cursor: pointer;">参会总时长</td>
+                        <td ng-repeat="item in vm.participantTotalDuration track by $index">{{item}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
