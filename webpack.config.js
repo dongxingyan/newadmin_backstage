@@ -1,18 +1,18 @@
-var path = require('path');
-var fs = require('fs');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var merge = require('webpack-merge');
-var webpack = require('webpack');
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, './source');
-var BUILD_PATH = path.resolve(ROOT_PATH, './dist');
-var TARGET = process.env.npm_lifecycle_event;
-var exec = require('child_process').exec, child;
-var OpenBrowserPlugin = require('open-browser-webpack-plugin');
-var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+var path                  = require('path');
+var fs                    = require('fs');
+var HtmlwebpackPlugin     = require('html-webpack-plugin');
+var merge                 = require('webpack-merge');
+var webpack               = require('webpack');
+var ROOT_PATH             = path.resolve(__dirname);
+var APP_PATH              = path.resolve(ROOT_PATH, './source');
+var BUILD_PATH            = path.resolve(ROOT_PATH, './dist');
+var TARGET                = process.env.npm_lifecycle_event;
+var exec                  = require('child_process').exec, child;
+var OpenBrowserPlugin     = require('open-browser-webpack-plugin');
+var CommonsChunkPlugin    = require("webpack/lib/optimize/CommonsChunkPlugin");
 var TransferWebpackPlugin = require('transfer-webpack-plugin');
-var CleanPlugin = require('clean-webpack-plugin');
-var autoprefixer = require('autoprefixer');
+var CleanPlugin           = require('clean-webpack-plugin');
+var autoprefixer        = require('autoprefixer');
 
 /**webpack配置 */
 var configObj = {};
@@ -24,7 +24,7 @@ var commonConfig = {
     },
     output: {
         path: path.resolve(__dirname, BUILD_PATH),
-        filename: "[name]_[hash].js",
+        filename: "[name]_[hash].js"
     },
     externals: {
     },
@@ -43,7 +43,17 @@ var commonConfig = {
 
     //配置短路径引用
     resolve: {
-        alias: { jquery: './source/common/jquery-vendor' },
+        // 模块别名列表（模块别名相对于当前上下文导入）
+        alias: {
+            source: path.resolve(__dirname, './source'),
+            common: path.resolve(__dirname, './source/common'),
+            components: path.resolve(__dirname, './source/components'),
+            language: path.resolve(__dirname, './source/language'),
+            libs: path.resolve(__dirname, './source/libs'),
+            pages: path.resolve(__dirname, './source/pages'),
+            static: path.resolve(__dirname, './source/static'),
+            utils: path.resolve(__dirname, './source/utils')
+        },
         extensions: ['', '.js', '.ts', '.html', '.json', '.less', '.css', '.scss', '.jpg', '.gif', '.png', '.woff', '.woff2', '.svg', '.eot', '.ttf']
     },
     postcss: function () {
@@ -55,9 +65,22 @@ var commonConfig = {
             title: 'DOM',
             filename: 'index.html',
             template: APP_PATH + '/index.html',
-            favicon: APP_PATH + '/static/favicon.ico'
         }),
-        new TransferWebpackPlugin([{ from: './source/static/', to: './libs' }], "")
+        new HtmlwebpackPlugin({
+            title: 'DOM',
+            filename: 'login.html',
+            template: APP_PATH + '/login.html',
+        }),
+        new webpack.ProvidePlugin({
+            $:"jquery",
+            jQuery:"jquery",
+            "window.jQuery":"jquery"
+        }),
+
+        new TransferWebpackPlugin([
+            { from: './source/static/', to: './libs' }
+            ], '')
+
     ],
 };
 
@@ -81,7 +104,7 @@ if (TARGET === 'start') {
     // 测试版发布
     configObj = merge(commonConfig, {
         output: {
-            path: BUILD_PATH + '/new'
+            path: BUILD_PATH
         },
         plugins: []
     });
@@ -100,4 +123,3 @@ if (TARGET === 'start') {
 }
 
 module.exports = configObj;
-
