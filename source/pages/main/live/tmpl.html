@@ -1,0 +1,64 @@
+<div class="main">
+    <div class="box">
+        <div class="title">
+            <span translate="ADMIN_LIVE_ACTIVITY1"></span>
+        </div>
+
+        <div class="search-condition">
+            <span>{{ 'ADMIN_LIVE_NAME' | translate }}： </span>
+            <input class="input-text" type="text" ng-model="vm.liveName" ng-keypress="vm.enterEvent($event)">
+            <input type="button" value="{{'ADMIN_SEARCH'| translate}}" class="search-button"
+                   ng-click="vm.getLiveList()">
+            <input type="button" class="live-operation-button" value="{{'ADMIN_CREATE_LIVE1'| translate}}" ui-sref="main.create-broadcast">
+        </div>
+        <div class="list">
+            <table class="table">
+                <tr>
+                    <th translate="ADMIN_LIVE_NAME"></th>
+                    <th translate="ADMIN_ROOM_NUMBER1"></th>
+                    <th translate="ADMIN_START"></th>
+                    <th translate="ADMIN_END"></th>
+                    <th translate="ADMIN_STATUS"></th>
+                    <th translate="ADMIN_OPERATION" class="operation-title"></th>
+                </tr>
+                <tr ng-repeat="item in vm.liveInfo">
+                    <td>{{item.title}}</td>
+                    <td>{{item.vmrNum }}</td>
+                    <td>{{ vm.formatDate(item.startTime) }}</td>
+                    <td>{{ vm.formatDate(item.endTime) }}</td>
+                    <td ng-if="item.status === 0" translate="ADMIN_NOT_BEGIN"></td>
+                    <td ng-if="item.status === 1" translate="ADMIN_HAS_BEGIN"></td>
+                    <td ng-if="item.status === 2" translate="ADMIN_HAS_END"></td>
+                    <td class="operation-item-container">
+                        <div class="detail-btn" ui-sref="main.detail-broadcast({id: item.id})" translate="ADMIN_LIVE_DETAIL"></div>
+                        <div ng-if="item.status == 0 || item.status == 2" data-toggle="modal" data-target="#deleteLiveModal" translate="ADMIN_DELETE" ng-click="vm.deleteLiveItem(item.id)"></div>
+                        <div ng-if="item.status === 0" ui-sref="main.update-broadcast" ng-click="vm.setUpdateLiveID(item.id)" translate="ADMIN_MODIFY"></div>
+                        <a ng-if="item.status !== 2" href="http://{{vm.previewURLPrefix}}/#/{{item.liveId}}" target="_blank" translate="ADMIN_LIVE_ADDRESS"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <span class="page-text"><span translate="ADMIN_TOTAL2"></span>{{ vm.liveTotalCount }}<span translate="ADMIN_EACH_PAGE"></span>{{ vm.livePageSize }}<span translate="ADMIN_STRIP"></span></span>
+            <ul uib-pagination ng-change="vm.getLiveList();" max-size="7" next-text="|>" previous-text="<|" total-items="vm.liveTotalCount" ng-model="vm.liveCurrent" force-ellipses="true" items-per-page="vm.livePageSize"></ul>
+        </div>
+    </div>
+    <!-- 直播 删除模态框 -->
+    <div class="delete-modal modal fade" id="deleteLiveModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_PROMPT"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="content" translate="ADMIN_IF_DELETE"></div>
+                    <div class="operation">
+                        <div class="sure-btn" ng-click="vm.sureDelete()" translate="ADMIN_SURE"></div>
+                        <div class="cancel-btn" data-dismiss="modal" translate="ADMIN_CANCEL"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

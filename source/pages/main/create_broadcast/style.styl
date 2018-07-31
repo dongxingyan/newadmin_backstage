@@ -5,19 +5,13 @@ main-create-broadcast {
     margin-left: 20px;
   }
   .main {
-  //width: 100%
-    height: 100%
-    display: flex
-  //background: pink;
-    flex-direction column
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
     font-size: 12px;
+    margin-top: -30px;
+    overflow-x: hidden;
     .title {
       font-size: 14px;
       height: 50px
-      margin-left: 20px
-      margin-top: 20px;
-      line-height: 50px
+      line-height: 50px;
       background: #fff;
       box-shadow 0 2px 2px 0 #ccc
       ul {
@@ -34,17 +28,20 @@ main-create-broadcast {
       }
     }
     .create-broadcast {
-      margin-left: 20px;
+      background:#fff;
+      padding-left: 20%;
+      padding-bottom: 1px;
     }
     .box-broadcast {
-      height: 25px
+      height: 30px
       margin: 20px;
       display flex
       .box-left {
-        width: 120px
-        line-height: 25px
-        display: flex
-        justify-content space-between
+        width: 160px
+        line-height: 34px;
+        //display: flex
+        //justify-content space-between
+        text-align: right;
         .cg {
           display: inline-block
         }
@@ -65,34 +62,37 @@ main-create-broadcast {
         label {
           margin-right: 20px;
           margin-top: 6px;
+          font-weight: normal;
         }
       }
       .box-right {
         margin-left: 15px
-        .live-desc {
-          height:204px;
-          border: 1px solid #cccccc !important;
+        input, select {
+          border-radius: 2px;
+          height: 34px;
+          border: 1px solid #cccccc;
+          padding-left: 10px;
         }
         select {
-          height: 22px;
-        }
-        input {
-          height: 26px;
           border: 1px solid #cccccc;
+          width: 360px;
+          padding-left: 10px;
         }
         span {
           margin-left: 5px;
           margin-right: 5px;
+          color: #999999;
         }
         .input-live-password {
           color: red;
           margin-left: 10px;
         }
         .titleContent {
-          width: 290px
+          width: 360px
         }
         .inputBox {
-          width: 163px
+          width: 163px;
+          font-size: 12px;
         }
       }
     }
@@ -101,15 +101,15 @@ main-create-broadcast {
       margin: 20px;
       display flex
       .box-left {
-        width: 120px
-        line-height: 25px
+        width: 160px
+        line-height: 34px
         display: flex
         justify-content space-between
       }
         .box-right{
           display: flex
           margin-left: 15px;
-          align-items center;
+          margin-top: 11px;
           .input-file-container {
             width: 70px;
             height: 30px;
@@ -122,17 +122,25 @@ main-create-broadcast {
             margin-top: 141px;
             margin-left: 25px;
             padding-top: 6px;
-            border-radius: 3px;
+            border-radius: 2px;
           }
           #preview {
             width: 204px
             height: 204px
             border: 1px solid #cccccc
-            background: #ffffff
+            border-radius: 2px;
           }
           img {
-            width: 200px;
-            height: 200px;
+            height: 105px;
+            width: 115px;
+            border-radius: 2px;
+          }
+          button {
+            position: relative;
+            margin-left: 17px;
+            height: 34px;
+            background: rgb(48, 142, 242);
+            border-color: rgb(48, 142, 242);
           }
           input {
             width: 64px;
@@ -150,8 +158,9 @@ main-create-broadcast {
           }
             .commend{
               color:#999;
-              margin-top: 140px;
-              margin-left: 10px;
+              margin-top: 71px;
+              margin-left: -80px;
+              width: 166px;
             }
 
         }
@@ -160,38 +169,36 @@ main-create-broadcast {
       margin: 20px;
       display flex
       .box-left {
-        width: 120px
-        line-height: 25px
+        width: 160px
+        line-height: 34px
         display: flex
         justify-content space-between
       }
       .box-right {
         margin-left: 15px;
-        textarea {
-          border: 1px solid #cccccc;
-          width: 204px;
+        .live-desc {
+          height: 126px;
+          width: 360px;
+          -webkit-border-radius: 2px;
+          -moz-border-radius: 2px;
+          border-radius: 2px;
+          border: 1px solid #ccc;
+          padding-left: 10px;
         }
       }
     }
     .bottom {
       display flex
-      justify-content center;
       margin-bottom:30px;
-      .common {
-        width: 140px
-        height: 40px
-        border-radius 5px
-        cursor pointer
+      margin-left: 194px;
+      button {
+        width: 102px
+        height: 36px
+        margin-right: 20px;
       }
-      #save {
-        margin-right: 30px
-        background: #169BD5;
-        border: none;
-        color: #ffffff;
-      }
-      #cancel {
-        border: 1px solid #aaa
-        background: #fff;
+      .save-btn {
+        background: #308ef2;
+        border-color: #308ef2;
       }
     }
 

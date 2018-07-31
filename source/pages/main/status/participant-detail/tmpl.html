@@ -1,0 +1,123 @@
+<div class="main participant-detail">
+    <div class="box">
+        <div class="participant-title" translate="ADMIN_STATUS_ACTIVE_PARTICIPANT_DETAIL"></div>
+        <!-- 参会者详情 -->
+        <div class="participant-overview">
+            <div class="title">
+                <span>{{ 'ADMIN_STATUS_MEETING_NAME' | translate }}：{{ vm.participantName }}</span>
+            </div>
+            <hr>
+            <div class="participant-detail">
+                <!-- 连接时间 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_PARTICIPANT_LINK_DATE"></div>
+                    <div class="item-value" ng-bind="vm.connectTime"></div>
+                </div>
+                <!-- 持续时间 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_ACTIVE_DURATION"></div>
+                    <div class="item-value" ng-bind="vm.participantDuration"></div>
+                </div>
+                <!-- 系统位置 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_MEETING_LOCATION"></div>
+                    <div class="item-value" ng-bind="vm.systemLocation"></div>
+                </div>
+                <!-- 角色 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_MEETING_ROLE"></div>
+                    <div class="item-value" translate="ADMIN_STATUS_MEETING_HOST" ng-if="vm.role=='chair'"></div>
+                    <div class="item-value" translate="ADMIN_STATUS_MEETING_GUEST" ng-if="vm.role=='guest'"></div>
+                </div>
+                <!-- 是否在演示 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_MEETING_IS_PLAY"></div>
+                    <div class="item-value" translate="ADMIN_YES" ng-if="vm.isPresenting"></div>
+                    <div class="item-value" translate="ADMIN_NOT" ng-if="!vm.isPresenting"></div>
+                </div>
+                <!-- 是否静音 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_MEETING_IS_MUTED"></div>
+                    <div class="item-value" translate="ADMIN_YES" ng-if="vm.isMuted"></div>
+                    <div class="item-value" translate="ADMIN_NOT" ng-if="!vm.isMuted"></div>
+                </div>
+                <!-- 协议 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_PARTICIPANT_PROTOCOL"></div>
+                    <div class="item-value" ng-bind="vm.protocol"></div>
+                </div>
+                <!-- 带宽 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_PARTICIPANT_BANDWIDTH"></div>
+                    <div class="item-value" ng-bind="vm.bandwidth"></div>
+                </div>
+                <!-- 终端来源-->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_PARTICIPANT_DEVICE"></div>
+                    <div class="item-value device-origin" ng-bind="vm.vendor"></div>
+                </div>
+                <!-- 远程IP -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_PARTICIPANT_IP"></div>
+                    <div class="item-value" ng-bind="vm.remoteAddress"></div>
+                </div>
+                <!-- 远程端口 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_PARTICIPANT_PORT"></div>
+                    <div class="item-value" ng-bind="vm.remotePort"></div>
+                </div>
+                <!-- 通话质量 -->
+                <div class="item">
+                    <div class="item-title" translate="ADMIN_STATUS_PARTICIPANT_QUALITY"></div>
+                    <div class="item-value" ng-bind="vm.callQuality"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 媒体流信息 -->
+        <div class="media-detail">
+            <div class="title">
+                <span translate="ADMIN_STATUS_PARTICIPANT_MEDIA"></span>
+            </div>
+            <div class="list">
+                <table class="table" ng-if="vm.mediaList.length">
+                    <tr>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_TYPE"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_START_TIME"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_TX_CODEC"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_TX_BITRATE"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_TX_RESOLUTION"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_TX_PACKETS_SEND"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_TX_PACKETS_LOST"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_TX_JITTER"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_RX_CODEC"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_RX_BITRATE"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_RX_RESOLUTION"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_RX_PACKETS_RECEIVED"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_RX_PACKETS_LOST"></th>
+                        <th translate="ADMIN_STATUS_PARTICIPANT_RX_JITTER"></th>
+                    </tr>
+                    <tr ng-repeat="item in vm.mediaList track by $index">
+                        <td translate="ADMIN_STATUS_PARTICIPANT_VIDEO" ng-if="item.type=='video'"></td>
+                        <td translate="ADMIN_STATUS_PARTICIPANT_AUDIO" ng-if="item.type=='audio'"></td>
+                        <td translate="ADMIN_STATUS_PARTICIPANT_SHOW" ng-if="item.type=='presentation'"></td>
+                        <td ng-bind="vm.formatConnectTime(item.startTime)"></td>
+                        <td ng-bind="item.txCodec"></td>
+                        <td ng-bind="item.txBitrate"></td>
+                        <td ng-bind="item.txResolution"></td>
+                        <td ng-bind="item.txPacketsSent"></td>
+                        <td ng-bind="item.txPacketsLost"></td>
+                        <td ng-bind="item.txJitter"></td>
+                        <td ng-bind="item.rxCodec"></td>
+                        <td ng-bind="item.rxBitrate"></td>
+                        <td ng-bind="item.rxResolution"></td>
+                        <td ng-bind="item.rxPacketsReceived"></td>
+                        <td ng-bind="item.rxPacketsLost"></td>
+                        <td ng-bind="item.rxJitter"></td>
+                    </tr>
+                </table>
+                <div class="no-data" ng-if="!vm.mediaList.length" translate="ADMIN_WARN_TIP18"></div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,4 +1,6 @@
 import {Page, IPageParams, page} from "../../../common/page";
+import * as laydate from 'layui-laydate/dist/laydate';
+import 'layui-laydate/dist/theme/default/laydate.css';
 // webpack的配置，不用管
 require.keys().filter(x => /^\.\/[^\/]+(\/index)?\.(js|ts)$/.test(x)).forEach(x => require(x));
 // 引入样式
@@ -16,7 +18,6 @@ interface IMeetingCountPageParams extends IPageParams {
     // 依赖注入，在init函数的参数表中可以获取。
     requires: ['$timeout'],
     // 这一页的标题
-    title: '机构管理系统',
     name: 'main.meeting-count'
 })
     /**
@@ -48,13 +49,13 @@ class MainMeeting_CountPage extends Page<IMeetingCountPageParams> {
     next
 
     init(timeout: angular.ITimeoutService) {
-        // timeout(() => {
-
-        // })
+        this.initTimePlugin();
+    }
+    initTimePlugin(){
         let start = {
             elem: '#J-count-start-time',
-            event: 'click',
-            format: 'YYYY-MM-DD hh:mm:ss',
+            lang:(localStorage.getItem('lang')&&localStorage.getItem('lang').indexOf('en-us') > -1)?"en":"",
+            format: 'yyyy-MM-dd HH:mm:ss',
             max: '2099-06-16 23:59:59',
             isclear: false,
             istoday: false,
@@ -69,19 +70,19 @@ class MainMeeting_CountPage extends Page<IMeetingCountPageParams> {
         };
         let end = {
             elem: '#J-count-end-time',
-            event: 'click',
-            format: 'YYYY-MM-DD hh:mm:ss',
+            lang:(localStorage.getItem('lang')&&localStorage.getItem('lang').indexOf('en-us') > -1)?"en":"",
+            format: 'yyyy-MM-dd HH:mm:ss',
             istime: true,
             start:'',
-            min: laydate.now(),
+            min: new Date(),
             max: '2099-06-16 23:59:59',
             istoday: false,
             choose: function (dates) {
                 start.max = dates;  // 结束日期选好之后，重置开始日期的最大日期
             }
         };
-        laydate(start);
-        laydate(end);
+        laydate.render(start);
+        laydate.render(end);
     }
     query(){
 
@@ -147,7 +148,6 @@ class MainMeeting_CountPage extends Page<IMeetingCountPageParams> {
     async nextPage() {
         let maxPage = await this.total;
         let page = parseInt(this.params.page);
-        console.log(page)
         if (page < maxPage) {
             this.uiState.go('main.order-manager', {page: page + 1});
         } else {
@@ -158,7 +158,6 @@ class MainMeeting_CountPage extends Page<IMeetingCountPageParams> {
     async  prevPage() {
         let maxPage = this.total
         let page = parseInt(this.params.page);
-        console.log(page)        
         if (page > 1) {
             this.uiState.go('main.order-manager', {page: page - 1})
         } else {

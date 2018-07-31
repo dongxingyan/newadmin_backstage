@@ -1,11 +1,11 @@
 import {Page, IPageParams, page} from "../../../common/page";
+import * as laydate from 'layui-laydate/dist/laydate';
+import 'layui-laydate/dist/theme/default/laydate.css';
 import {global} from "../../../common/global";
 // webpack的配置，不用管
 require.keys().filter(x => /^\.\/[^\/]+(\/index)?\.(js|ts)$/.test(x)).forEach(x => require(x));
 // 引入样式
 require('./style.styl');
-// require("angular");
-// require("jquery")
 // 路由参数的设置
 interface ICreateBroadcastPageParams extends IPageParams {
     page: string;
@@ -19,7 +19,6 @@ interface ICreateBroadcastPageParams extends IPageParams {
     // 依赖注入，在init函数的参数表中可以获取。
     requires: ['$timeout'],
     // 这一页的标题
-    title: '机构管理系统',
     name: 'main.create-broadcast'
 })
     /**
@@ -48,116 +47,119 @@ class MainCreate_BroadcastPage extends Page<ICreateBroadcastPageParams> {
     endLiveTime = '';   // 预计直播结束时间
     liveAuthority = 0;  // 直播权限 是否公开
     articulation = 0;   // 清晰度
+    interact = 1;   // 是否允许互动交流
     liveDescription = '';    // 直播描述
     livePass = '';  // 直播密码
     file = '';
-    fileName = '';
+    coverImage;
+    imageUrl = global.IMG_API_PATH;
 
     init(timeout: angular.ITimeoutService) {
-        // 根据机构ID获取会议室号列表
-        this.remote.getRoomListByOrgID()
-        .then((res) => {
-            let resData = res.data;
-            let resCode = resData.code;
-            if (resCode === "0") {
-                this.meetingRoomList = resData.data;
-            }
-        });
+        this.getMeetingRoomList();
+        this.activationTimePlugIn();
+        this.imgChange();
+    }
+    // 获取会议室号列表
+    getMeetingRoomList () {
+        this.remote.getRoomListByOrgID({
+            start: 0,
+            size: 10
+        })
+            .then((res) => {
+                let resData = res.data;
+                let resCode = resData.code;
+                if (resCode === '0') {
+                    this.meetingRoomList = resData.data.resultList;
+                }
+            });
+    }
+    // 初始化时间插件
+    activationTimePlugIn (){
         let start = {
             elem: '#J-create-start-time',
-            event: 'click',
-            format: 'YYYY-MM-DD hh:mm:ss',
-            min: laydate.now(),
-            max: '2099-06-16 23:59:59',
+            lang:(localStorage.getItem('lang')&&localStorage.getItem('lang').indexOf('en-us') > -1)?"en":"",
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
             isclear: false,
             istoday: false,
             festival: true,
             fixed: false,
             istime: true,
-            zIndex: 9999999,
-            choose: function (dates) {
-                end.min = dates;    // 开始日期选好后，重置结束日期的最小值
-                end.start = dates;  // 将结束日期的初始值设定为开始时间
-            }
+            zIndex: 9999999
         };
         let end = {
             elem: '#J-create-end-time',
-            event: 'click',
-            format: 'YYYY-MM-DD hh:mm:ss',
+            lang:(localStorage.getItem('lang')&&localStorage.getItem('lang').indexOf('en-us') > -1)?"en":"",
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
             istime: true,
-            min: laydate.now(),
-            max: '2099-06-16 23:59:59',
-            istoday: false,
-            choose: function (dates) {
-                start.max = dates;  // 结束日期选好之后，重置开始日期的最大日期
-            }
+            istoday: false
         };
-        laydate(start);
-        laydate(end);
+        laydate.render(start);
+        laydate.render(end);
     }
-    imgChange(event) {
-        let that = this;
-        $('#changeImgInput').on('change', function() {
+    selectPicture () {
+        $('#changeImgInput').trigger('click');
+    }
+    imgChange() {
+        $('#changeImgInput').off('change').on('change', (event) => {
             let file = event.target.files[0];
-            that.fileName = file.name;
-            that.preview(file);
+            if (!file) {
+                return false;
+            }
             // 上传图片
             let picFileForm = new FormData();
-            let files = event.target.files;
-            let count = files.length;
-            picFileForm.append('file', files[files.length - 1]);
-            that.remote.uploadPic(picFileForm);
+            picFileForm.append('file', file)
+            this.remote.uploadPic(picFileForm)
+                .then(response => {
+                    if (response.data['code'] === '0') {
+                        this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS3'));
+                        this.coverImage = response['data'].data['picUrl'];
+                    } else {
+                        this.rootScope.toggleInfoModal(4, response.data['message']);
+                    }
+                }).catch(error => {
+                    this.rootScope.toggleInfoModal(4, error.data.responseText);
+                });
         })
-    }
-    // 图片预览
-    preview(file) {
-        console.warn('file:', file);
-        let img = new Image(),
-             url = img.src = URL.createObjectURL(file);
-        let $img = $(img)
-        img.onload = function() {
-            URL.revokeObjectURL(url)
-            $('#preview').empty().append($img)
-        }
     }
     // 创建直播
     createLive() {
-        let that = this;
         // 获取用户填的信息
-        let liveTitle = that.liveTitile;
-        let meetingRoomNum = that.meetingRoomNum;
+        let liveTitle = this.liveTitile;
+        let meetingRoomNum = this.meetingRoomNum;
         let startTime = $('#J-create-start-time').val();
         let endTime = $('#J-create-end-time').val();
-        let liveAuthority = that.liveAuthority;
-        let livePassword = that.livePass;
-        let articulation = that.articulation;
-        let liveImg = sessionStorage.getItem('updImgURL');
+        let liveAuthority = this.liveAuthority;
+        let livePassword = this.livePass;
+        let articulation = this.articulation;
+        let interact = this.interact;
+        let liveImg = this.coverImage;
         let liveDescription = this.liveDescription;
-
         // 判断必填项
         if (!liveTitle) {
-            alert('请填写直播名称');
-            return;
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_WARN_TIP10'));
+            return false;
         }
         if (!meetingRoomNum) {
-            alert('请选择会议室号')
-            return;
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_WARN_TIP11'));
+            return false;
         }
         if (!startTime) {
-            alert('请选择开始时间');
-            return;
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_WARN_TIP12'));
+            return false;
         }
         if (!endTime) {
-            alert('请选择结束时间');
-            return;
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_WARN_TIP13'));
+            return false;
         }
         if (startTime >= endTime) {
-            alert('开始时间不能大于等于结束时间');
-            return;
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_WARN_TIP14'));
+            return false;
         }
         if (liveAuthority && !livePassword) {
-            alert('请输入直播密码');
-            return;
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_INPUT_PASSWORD'));
+            return false;
         }
 
         let createLiveInfo = {
@@ -169,25 +171,20 @@ class MainCreate_BroadcastPage extends Page<ICreateBroadcastPageParams> {
             'authority': liveAuthority,
             'authCode': livePassword,
             'definition': articulation,
+            'interact': interact,
             'description': liveDescription
         };
 
         this.remote.createLiveActivity(createLiveInfo)
-        .then((res) => {
-            let resData = res.data;
-            if (resData.code === "0") {
-                $('#cancel').trigger('click');
-                sessionStorage.removeItem('updImgURL');
-            } else {
-                alert(resData.message);
-            }
-        });
-
-    }
-
-    signout() {
-        this.session.clear();
-        this.uiState.go('login');
+            .then((res) => {
+                let resData = res.data;
+                if (resData.code === "0") {
+                    this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS2'));
+                    this.uiState.go('main.live')
+                } else {
+                    this.rootScope.toggleInfoModal(4, resData.message);
+                }
+            });
 
     }
 }

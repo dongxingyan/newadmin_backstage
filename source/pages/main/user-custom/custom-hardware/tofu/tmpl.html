@@ -1,0 +1,302 @@
+<div class="tofu">
+    <div class="header">
+        <div class="title">豆腐块管理</div>
+        <div class="operation">
+            <span>豆腐块名称</span>
+            <input type="text" ng-model="vm.contentOfSearch">
+            <span class="apk-name">对应apk</span>
+            <select ng-model="vm.apkId">
+                <option value="0">请选择</option>
+                <option value="{{ apk.id }}" ng-repeat="apk in vm.apkList">{{ apk.name }}</option>
+            </select>
+            <div ng-click="vm.getTofuInfoList()">查询</div>
+            <div data-toggle="modal" data-target="#tofuCreateModal" ng-click="vm.createModalShow()">新增</div>
+        </div>
+    </div>
+    <input id="J-create-tofu-upload" class="hide-file" type="file">
+    <input id="J-content-edit-upload" class="hide-file" type="file">
+    <input id="J-content-add-upload" class="hide-file" type="file">
+    <div class="body">
+        <table>
+            <thead>
+                <th>
+                    <input id="select-all" type="checkbox" ng-click="vm.isSelectAll()" ng-checked="vm.isAllSelect">
+                    <label ng-click="vm.isSelectAll()">全选</label>
+                    <!-- data-toggle="modal" data-target="#tofuDeleteModal" ng-click="vm.delete.deleteType=2" -->
+                    <span class="union-delete" ng-click="vm.deleteManyOpen()" >删除</span>
+                </th>
+                <th>豆腐块名称</th>
+                <th>类别</th>
+                <th>对应APK</th>
+                <th>状态</th>
+                <th>操作</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tofu in vm.tofuList">
+                    <td><input ng-show="tofu.type==3" type="checkbox" ng-checked="tofu.isSelect==1" ng-click="vm.isAllSelectOfItemClick(tofu)"></td>
+                    <td ng-cloak>{{ tofu.name }}</td>
+                    <td ng-cloak ng-show="tofu.type==3">自定义</td>
+                    <td ng-cloak ng-show="tofu.type!=3">系统应用</td>
+                    <td ng-cloak>{{ tofu.apkName}}</td>
+                    <td ng-cloak>
+                        <div ng-show="tofu.status==1">有效</div>
+                        <div ng-show="tofu.status==2">无效</div>
+                    </td>
+                    <td>
+                        <span class="operation" data-toggle="modal" data-target="#tofuContentModal" ng-click="vm.getContentOfTofu(tofu.id)">内容管理</span>
+                        <span class="operation" data-toggle="modal" data-target="#tofuEditModal" ng-click="vm.editModalShow(tofu, $index)">编辑</span>
+                        <span ng-show="tofu.type==3" class="delete" data-toggle="modal" data-target="#tofuDeleteModal" ng-click="vm.delete.deleteId=tofu.id; vm.delete.deleteType=1">删除</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer">
+        <span class="page-text">共{{ vm.totalSize }}条，每页{{ vm.pageSize }}条</span>
+        <ul uib-pagination ng-change="vm.getTofuInfoList();" max-size="vm.maxSize" next-text="|>" previous-text="<|" total-items="vm.totalSize" ng-model="vm.pageId" class="pagination-sm" force-ellipses="true" items-per-page="vm.pageSize"></ul>
+    </div>
+    <!--新增豆腐块 Modal-->
+    <div class="tofu-create-modal modal fade" id="tofuCreateModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">新增豆腐块</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="operation">
+                        <div class="label">关联应用</div>
+                        <select ng-model="vm.create.apkId">
+                            <option value="0">请选择</option>
+                            <option value="{{ apk.id }}" ng-repeat="apk in vm.create.apkList">{{ apk.name }}</option>
+                        </select>
+                        <div class="label">豆腐块名称</div>
+                        <input type="text" placeholder="请输入名称" ng-model="vm.create.tofuName" maxlength="9">
+                    </div>
+                    <table>
+                        <thead class="table-header">
+                            <th>标题</th>
+                            <th>副标题</th>
+                            <th>状态</th>
+                            <th>图片</th>
+                            <th>操作</th>
+                        </thead>
+                        <tr class="table-content" ng-repeat="tofu in vm.create.addTofuList">
+                            <td>
+                                <input type="text" placeholder="请输入标题" maxlength="8" ng-model="tofu.title">
+                            </td>
+                            <td>
+                                <input type="text" placeholder="请输入副标题" maxlength="12" ng-model="tofu.subtitle">
+                            </td>
+                            <td>有效</td>
+                            <td>
+                                <div ng-show="!tofu.url" ng-click="vm.selectFile($index)" class="select-btn">选择文件</div>
+                                <img ng-show="tofu.url" ng-src="{{ vm.filePath+tofu.url }}" width="80" height="25" ng-click="vm.selectFile($index)">
+                            </td>
+                            <td>
+                                <div class="delete-btn" ng-click="vm.removeTofuOfCreate($index)">删除</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="add-module">
+                        <img src="../../../../../static/images/hardware/add-module.png" ng-click="vm.addTofuOfCreate()">
+                    </div>
+                    <div class="save-btn" ng-click="vm.saveOfAddTofu()">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--内容图管理 Modal-->
+    <div class="tofu-content-modal modal fade" id="tofuContentModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">内容管理</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <thead class="table-header">
+                            <th>顺序</th>
+                            <th>标题</th>
+                            <th>副标题</th>
+                            <th>状态</th>
+                            <th>图片</th>
+                            <th>操作</th>
+                        </thead>
+                        <tr class="table-content" ng-repeat="content in vm.content.contentList">
+                            <td>{{ content.sort }}</td>
+                            <td>{{ content.title }}</td>
+                            <td>{{ content.subtitle }}</td>
+                            <td>
+                                <div ng-show="content.status==1">有效</div>
+                                <div ng-show="content.status==2">无效</div>
+                            <td>
+                                <div class="default-img" ng-show="!content.url"></div>
+                                <img ng-src="{{ vm.filePath+content.url }}" ng-show="content.url" width="60" height="30">
+                            </td>
+                            <td class="content-oper">
+                                <div class="edit-btn" data-toggle="modal" data-target="#contentEditModal" ng-click="vm.contentEditModalShow(content)">编辑</div>
+                                <div class="delete-btn" ng-click="vm.deleteContent(content.id)">删除</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="footer-oper">
+                        <div class="add-module">
+                            <img src="../../../../../static/images/hardware/add-module.png" data-toggle="modal" data-target="#contentAddModal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--新增内容图 Modal-->
+    <div class="content-add-modal modal fade" id="contentAddModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">新增</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="title">
+                        填写相关信息
+                    </div>
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">顺序</div>
+                            <input type="text" ng-model="vm.content.add.sort">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">标题</div>
+                            <input type="text" ng-model="vm.content.add.title" maxlength="8">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">副标题</div>
+                            <input type="text" ng-model="vm.content.add.subTitle" maxlength="12">
+                        </div>
+                        <!-- <div class="item">
+                            <div class="item-title">状态</div>
+                            <select ng-model="vm.content.add.status">
+                                <option value="1">有效</option>
+                                <option value="2">无效</option>
+                            </select>
+                        </div> -->
+                        <div class="item">
+                            <div class="item-title">首屏内容图</div>
+                            <div class="content-container">
+                                <div ng-show="!vm.content.add.url" class="content-img-container"></div>
+                                <img ng-show="vm.content.add.url" ng-src="{{ vm.filePath+vm.content.add.url }}" width="68px" height="90px">
+                                <div class="select-btn" ng-click="vm.selectAddContentFile()">选择文件</div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="error-tip" ng-show="vm.content.add.isShowErrorTip">{{ vm.content.add.errorText }}</span>
+                    <div class="save-btn" ng-click="vm.saveContentAdd()">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑内容图 Modal-->
+    <div class="content-edit-modal modal fade" id="contentEditModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">编辑</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="title">
+                        填写相关信息
+                    </div>
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">顺序</div>
+                            <input type="text" ng-model="vm.content.edit.sort">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">标题</div>
+                            <input type="text" ng-model="vm.content.edit.title" maxlength="8">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">副标题</div>
+                            <input type="text" ng-model="vm.content.edit.subTitle" maxlength="12">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">状态</div>
+                            <select ng-model="vm.content.edit.status">
+                                <option value="1">有效</option>
+                                <option value="2">无效</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">首屏内容图</div>
+                            <div class="content-container">
+                                <div ng-show="!vm.content.edit.url" class="content-img-container"></div>
+                                <img ng-show="vm.content.edit.url" ng-src="{{ vm.filePath+vm.content.edit.url }}" width="68px" height="90px">
+                                <div class="select-btn" ng-click="vm.selectContentFile()">选择文件</div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="error-tip" ng-show="vm.content.edit.isShowErrorTip">{{ vm.content.edit.errorText }}</span>
+                    <div class="save-btn" ng-click="vm.saveContentEdit()">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑豆腐块 Modal-->
+    <div class="tofu-edit-modal modal fade" id="tofuEditModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">编辑</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="title">
+                        填写相关信息
+                    </div>
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">豆腐块名称</div>
+                            <input type="text" ng-model="vm.edit.tofuName">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">关联APK</div>
+                            <select ng-model="vm.edit.apkId" ng-disabled="vm.edit.type!=3">
+                                <option value="0">请选择</option>
+                                <option value="{{ apk.id }}" ng-repeat="apk in vm.edit.apkList">{{ apk.name }}</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">状态</div>
+                            <select name="valid" ng-model="vm.edit.status" ng-disabled="vm.edit.type!=3">
+                                <option value="1">有效</option>
+                                <option value="2">无效</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="save-btn" ng-click="vm.saveOfEditTofu()">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--删除豆腐块 Modal-->
+    <div class="tofu-delete-modal modal fade" id="tofuDeleteModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">提示</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="content">删除之后不可恢复，确定删除</div>
+                    <div class="operation">
+                        <div class="sure-btn" ng-click="vm.deleteTofus()">确定</div>
+                        <div class="cancel-btn" data-dismiss="modal">取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

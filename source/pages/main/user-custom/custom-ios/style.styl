@@ -1,0 +1,70 @@
+.ios-login-logo {
+  background: #f5f8f9;
+  width: 175px;
+  height: 50px;
+  border: 1px solid #d8ded7;
+}
+.ios-call-history {
+  background: #f5f8f9;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #d8ded7;
+}
+.ios-ico {
+  background: #f5f8f9;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #d8ded7;
+}
+.ios-start-page {
+  background: #f5f8f9;
+  width: 74px;
+  height: 133px;
+  border: 1px solid #d8ded7;
+}
+.ios-input-of-file {
+  position: absolute;
+  z-index: -10;
+}
+
+.radio-back-img{
+  position: absolute;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background-image: url(../../../../static/images/no-checked.png)
+}
+
+.radio-label{
+    position: relative;
+    cursor: pointer;
+    margin-right: 10px;
+    // 隐藏原来radio样式
+    input[type="radio"]{
+        opacity: 0;
+        &:checked+.radio-back-img{
+            background-image: url(../../../../static/images/have-checked.png)
+        }
+    }
+}
+
+.loading-spinner {
+  margin-top: -21px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  background-color: rgba(255,255,255,0.9);
+  transition: opacity 0.3s;
+  padding: 0;
+  font-size: 14px;
+  color: #4f9fcf;
+  height: 27px;
+  line-height: 27px;
+  img {
+    margin-right: 10px;
+  }
+}
+.having-publish {
+  pointer-events: none;
+  opacity: 0.5;
+}

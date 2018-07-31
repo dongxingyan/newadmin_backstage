@@ -1,0 +1,17 @@
+<div class="main-information">
+    <div class="hardware-header">
+        <div class="title">
+            <div class="icon"></div>
+            <div class="name" translate="ADMIN_CUSTOM_INFORMATION"></div>
+        </div>
+        <div class="module">
+            <div ng-class="{ active: vm.isActive==1 }" ng-click="vm.changeModule('main.custom-information.content', 1)" translate="ADMIN_CUSTOM_CONTENT"></div>
+            <div ng-class="{ active: vm.isActive==2 }" ng-click="vm.changeModule('main.custom-information.video', 2)" translate="ADMIN_VIDEO_LIBRARY"></div>
+        </div>
+    </div>
+
+    <div class="hardware-body">
+        <ui-view></ui-view>
+    </div>
+
+</div>

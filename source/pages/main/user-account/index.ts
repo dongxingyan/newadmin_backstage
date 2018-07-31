@@ -1,6 +1,7 @@
 import {Page, IPageParams, page} from "../../../common/page";
 import {async} from "rxjs/scheduler/async";
 import {timeout} from "rxjs/operator/timeout";
+import {global} from "../../../common/global";
 // webpack的配置，不用管
 require.keys().filter(x => /^\.\/[^\/]+(\/index)?\.(js|ts)$/.test(x)).forEach(x => require(x));
 // 引入样式
@@ -18,7 +19,6 @@ interface IUserAccountPageParams extends IPageParams {
     // 依赖注入，在init函数的参数表中可以获取。
     requires: ['$timeout'],
     // 这一页的标题
-    title: '机构管理系统',
     name: 'main.user-account'
 })
     /**
@@ -56,63 +56,42 @@ class MainUser_AccountPage extends Page<IUserAccountPageParams> {
     phoneNum//联系电话
     remark//账号描述
     pexipName
-    //
     users;
     userId;
     departId;
-    items//
-    pager: any[] = []
-    total//总页数
+    accountList;
     totalCount: number//总条数
-    pageSize: number = 15;//每页显示条数
-    count: number//跳转到某页
-    selPage: number = 1
+    pageSize: number = 10;//每页显示条数
+    selPage: number = 1;
+    imgBase;
+    imgName;
+    codeSrc;//二维码的路径
 
     init() {
-        this.remote.getUserAccount()
+        this.getAccountInfo();
+        this.imgBase = global.IMG_API_PATH1;
+    }
+    // 获取用户账号信息
+    getAccountInfo () {
+        this.remote.userAccount({
+            start: this.selPage,
+            size: this.pageSize
+        })
             .then((res) => {
                 if (res.data.code == "0") {
-                    this.totalCount = parseInt(res.data.data.count);
-                    console.log(this.totalCount)
+                    this.accountList = res.data.data.resultList;
+                    this.totalCount = res.data.data.totalSize;
                 }
-                else if (res.data.code == "2") {
-                    this.uiState.go("login")
-                }
-            });
-        // timeout(() => {
-            this.remote.userAccount()
-                .then((res) => {
-                    if (res.data.code == "0") {
-                        this.pageSize = 15;
-                        this.total = Math.ceil(this.totalCount / this.pageSize)
-                        this.users = res.data.data;
-                        this.pager = this.paging(this.total, this.selPage)
-                        this.items = this.users.slice(0, this.pageSize)
-                    }
-                    else if (res.data.code == "2") {
-                        this.uiState.go("login")
-                    }
-                })
-        // }, 300)
-
-
+            })
     }
-
-    signout() {
-        this.session.clear();
-        this.uiState.go('login');
-
-    }
-
     //点击修改用户信息
     userModify(id, departId, alias) {
-        this.visible = true;
         //获取该机构中所有的部门
+        this.visible = true;
         this.aliasName = "" || alias;
         this.remote.getDepts()
             .then((res) => {
                 this.departments = res.data.data;
-                console.log(this.departments)
             })
         //获取该账号的所属机构和别名
         this.remote.getDepartment()
@@ -123,8 +102,8 @@ class MainUser_AccountPage extends Page<IUserAccountPageParams> {
         this.remote.getUsers(id)
             .then((res) => {
                 if (res.data.code == 0) {
-                    this.account = res.data.data.userName || "";
-                    this.loginPassword = res.data.data.password || "";
+                    this.account = res.data.data.pexipName || "";
+                    this.loginPassword = res.data.data.pexipPassword || "";
                     this.userName = res.data.data.displayName || "";
                     this.acountEmail = res.data.data.userEmail || "";
                     this.phoneNum = res.data.data.userTel || "";
@@ -139,72 +118,71 @@ class MainUser_AccountPage extends Page<IUserAccountPageParams> {
     //  确定保存自己的编辑
     sureEdit() {
         //提交的时候需要判断的有：
+        //    登录密码不能为空
+        //    登录帐号不能为空
         //    邮箱格式是否正确
         //    手机格式是否正确
         //    密码为6-12位字母或数字
         //    账号为6-12位字母或数字
+        if(!this.loginPassword) {
+            this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_WARN_TIP47'));
+            return;
+        }
 
-        //如果有所在的部门
-        console.log(this.departments)
+        if (!this.account) {
+            this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_WARN_TIP48'));
+            return;
+        }
 
-            console.log("haohao")
-            if ((!this.acountEmail.match(/^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/)) && (this.acountEmail != '')) {
-                this.visible = false;
-                this.visible1 = true;
-                this.feedbackContent = "邮箱格式不对"
-            }
-            else if ((!this.phoneNum.match(/^(1+\d{10})$/)) && this.phoneNum != "") {
-                this.visible = false;
-                this.visible1 = true;
-                this.feedbackContent = "手机格式不对"
-            }
-            else if ((!this.loginPassword.match(/^[a-zA-Z0-9]{6,12}$/)) && this.loginPassword != "") {
-                this.visible = false;
-                this.visible1 = true;
-                this.feedbackContent = "密码为6-12位字母或数字"
-            }
-            else if ((!this.account.match(/^[a-zA-Z0-9]{6,12}$/)) && this.account != "") {
-                this.visible = false;
-                this.visible1 = true;
-                this.feedbackContent = "账号为6-12位字母或数字"
-            }
-            else {
-                console.log("执行了")
-                let data = {
-                    organId: sessionStorage.getItem("orgId"),
-                    id: this.userId,
-                    departId: this.departName,
-                    displayName: this.userName,
-                    userName: this.account,
-                    password: this.loginPassword,
-                    userEmail: this.acountEmail,
-                    userTel: this.phoneNum,
-                    pexipName: this.pexipName,
-                    description: this.remark
-                }
-                this.remote.editUserById(this.userId,data)
-                    .then((res) => {
-                    console.log("执行了请求")
-                        this.visible = false;
-                        this.visible1 = true;
-                        if (res.data.code == 15) {
-                            this.feedbackContent = "用户名已存在";
-                        }
-                        else if (res.data.code == 999) {
-                            this.feedbackContent = "服务器内部错误";
-                        }
-                        else if (res.data.code == 0) {
-                            this.feedbackContent = "编辑成功";
-                            this.init();
-                            console.log("编辑成功")
-                        }
-                        else {
-                            this.feedbackContent = "编辑失败";
-                        }
-                    })
-            }
+        if ((!this.acountEmail.match(/^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/)) && (this.acountEmail != '')) {
+            this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP13'));
+        }
+        else if ((!this.phoneNum.match(/^(1+\d{10})$/)) && this.phoneNum != "") {
+            this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP14'));
 
+        }
+        else if ((!this.loginPassword.match(/^[a-zA-Z0-9]{6,12}$/)) && this.loginPassword != "") {
+            this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP15'));
 
+        }
+        else if ((!this.account.match(/^[a-zA-Z0-9]{6,12}$/)) && this.account != "") {
+            this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP16'));
+        }
+        else {
+            let data = {
+                organId: sessionStorage.getItem("orgId"),
+                id: this.userId,
+                departId: this.departName,
+                displayName: this.userName,//用户名
+                userName: this.pexipName,//
+                pexipPassword: this.loginPassword,
+                userEmail: this.acountEmail,
+                userTel: this.phoneNum,
+                pexipName: this.account,//用户账号
+                description: this.remark
+            }
+            this.remote.editUserById(this.userId, data)
+                .then((res) => {
+                    this.visible = false;
+                    // this.visible1 = true;
+                    if (res.data.code == 15) {
+                        this.feedbackContent = this.translate.instant('ADMIN_ERROR_TIP17');
+                    }
+                    else if (res.data.code == 999) {
+                        this.feedbackContent = this.translate.instant('ADMIN_ERROR_TIP3');
+                    }
+                    else if (res.data.code == 0) {
+                        // this.feedbackContent = this.translate.instant('ADMIN_SUCCESS5');
+                        this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS5'));
+                        this.selPage = 1;
+                        this.init();
+
+                    }
+                    else {
+                        this.feedbackContent = this.translate.instant('ADMIN_ERROR_TIP18');
+                    }
+                })
+        }
 
     }
 
@@ -212,132 +190,100 @@ class MainUser_AccountPage extends Page<IUserAccountPageParams> {
     close() {
         this.visible = false;
         this.visible1 = false;
+        //清空信息
+        this.department="";
+        this.aliasName="";
+        this.account="";
+        this.loginPassword="";
+        this.departName="";
+        this.userName="";
+        this.acountEmail="";
+        this.phoneNum="";
+        this.remark="";
     }
 
-    paging(total, current) {
-        // 小于十页全显示
-        if (total <= 10) {
-            let arr = [];
-            for (var i = 0; i < total; i++) {
-                arr[i] = i + 1;
-            }
-            return arr.map(x => ({
-                type: 0,
-                value: x,
-                isCurrent: x === current
-            }))
-        }
-        // 大于十页部分显示
-        else {
-            // 当前页号小于等于5
-            if (current <= 4) {
-                return [1, 2, 3, 4, 5].map<{ type, value?, isCurrent? }>(x => ({
-                    type: 0,
-                    value: x,
-                    isCurrent: x === current
-                }))
-                    .concat([
-                        {type: 1},
-                        {type: 0, value: total, isCurrent: false}
-                    ])
-            }
-            // 当前页号是最后5页之一
-            else if (current > total - 4) {
-                return [
-                    {type: 0, value: 1, isCurrent: false},
-                    {type: 1}
-                ]
-                    .concat([total - 4, total - 3, total - 2, total - 1, total].map(x => ({
-                        type: 0,
-                        value: x,
-                        isCurrent: x === current
-                    })))
-            }
-            // 其它情况
-            else {
-                return [
-                    {type: 0, value: 1, isCurrent: false},
-                    {type: 1}
-                ]
-                    .concat([current - 2, current - 1, current, current + 1, current + 2].map(x => ({
-                        type: 0,
-                        value: x,
-                        isCurrent: x === current
-                    })))
-                    .concat([
-                        {type: 1},
-                        {type: 0, value: total, isCurrent: false}
-                    ])
-            }
+    //点击二维码显示二维码弹框
+    showCode(src) {
+        if (src) {
+            this.imgName = src;
+            this.codeSrc = this.imgBase+src;
+        } else {
+            this.codeSrc = '';
         }
     }
-
-    setData(data) {
-        console.log(this.selPage + "xuanze d")
-        this.items = data.slice((this.pageSize) * (this.selPage - 1), this.selPage * (this.pageSize))
-        console.log(this.items)
+    // 点击下载二维码
+    downloadBtn () {
+       if (this.codeSrc) {
+           this.downloadImg(this.codeSrc);
+       } else {
+           console.log('图片为空');
+       }
     }
 
-    selectPage(page) {
-        if (page < 1 || page > this.total) return;
-        console.log("shifou ")
-        // if(page>2){
-        //     this.setData(this.rooms);
-        // }
-        this.selPage = page
-        this.setData(this.users);
-        console.log(this.selPage)
-        console.log(typeof this.selPage)
-        this.pager = this.paging(this.total, this.selPage)
-        console.log(this.pager);
+    // 点击打印二维码
+    printCode() {
+        let bdhtml = window.document.body.innerHTML;
+        let sprnstr = "<!--startprint-->";
+        let eprnstr = "<!--endprint-->";
+        let prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+        prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+        // window.document.body.innerHTML=prnhtml;
+        // window.print();
+        var newWindow=window.open("","_blank");
+        newWindow.document.body.innerHTML=prnhtml;
+        newWindow.document.close();
+        setTimeout(function(){
+            newWindow.print();
+            newWindow.close();
+        }, 100);
     }
 
-    //页码的显示
-    // 上一页
-    async  prevPage(page) {
-        this.selectPage(page - 1);
-        console.log(page)
-    }
-
-    //下一页
-    async nextPage(page) {
-        this.selectPage(page + 1)
-    }
-
-    //页面跳转
-    jump(page) {
-        console.log(page)
-        if (page) {
-            var page1 = parseInt(page)
-            this.selectPage(page1)
+    downloadImg(url) {
+        if (this.myBrowser()==="IE"|| this.myBrowser()==="Edge"){
+            this.SaveAs5(url);
+        }else{
+            this.download(url);
         }
 
     }
 
-    // jump(page) {
-    //     if (page <= this.total && page >= 1) {
-    //         this.uiState.go("main.user-account", {page: page});
-    //     }
-    // }
-    //
-    // async nextPage() {
-    //     let maxPage = await this.total;
-    //     let page = parseInt(this.params.page);
-    //     if (page < maxPage) {
-    //         this.uiState.go('main.user-account', {page: page + 1});
-    //     } else if(page>1&&page>=maxPage) {
-    //         this.uiState.go('main.user-account', {page: maxPage});
-    //     }
-    // }
-    //
-    // async  prevPage() {
-    //     // let maxPage = this.total
-    //     let page = parseInt(this.params.page);
-    //     console.log(page)
-    //     if (page > 1) {
-    //         this.uiState.go('main.user-account', {page: page - 1})
-    //     } else {
-    //         this.uiState.go('main.user-account', {page: 1})
-    //     }
-    // }
+    SaveAs5(imgURL) {
+        var oPop = window.open(imgURL,"","width=1, height=1, top=5000, left=5000");
+        for(; oPop.document.readyState != "complete"; )
+        {
+            if (oPop.document.readyState == "complete")break;
+        }
+        oPop.document.execCommand("SaveAs");
+        oPop.close();
+    }
+
+    download(src) {
+        var $a = document.getElementById('download-code');
+        $a.setAttribute("href", src);
+        $a.setAttribute("download", "");
+    };
+
+//判断浏览器类型
+    myBrowser(){
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        var isOpera = userAgent.indexOf("Opera") > -1;
+        if (isOpera) {
+            return "Opera"
+        }; //判断是否Opera浏览器
+        if (userAgent.indexOf("Firefox") > -1) {
+            return "FF";
+        } //判断是否Firefox浏览器
+        if (userAgent.indexOf("Chrome") > -1){
+            return "Chrome";
+        }
+        if (userAgent.indexOf("Safari") > -1) {
+            return "Safari";
+        } //判断是否Safari浏览器
+        if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+            return "IE";
+        }; //判断是否IE浏览器
+        if (userAgent.indexOf("Trident") > -1) {
+            return "Edge";
+        } //判断是否Edge浏览器
+    }
 }

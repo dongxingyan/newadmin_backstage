@@ -1,0 +1,243 @@
+<div class="information-video">
+    <input type="file" accept=".mp4, .m3u8" id="J-information-input-video" class="information-input-of-file">
+    <div class="feedback" ng-show="vm.visible">
+        <div class="alerts1">
+            <div class="alert-head">
+                <span translate="ADMIN_ADD_VIDEO"></span>
+                <img src="../../../../../static/images1/delete.png" alt="" class="img-right" ng-click="vm.cancel();vm.stopUpload()">
+            </div>
+            <div class="create-broadcast">
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_UPLOAD_VIDEO"></span>
+                    </div>
+                    <div class="box-right">
+                        <button class="btn-upload" ng-click="vm.chooseFile('videoUrl')" translate="ADMIN_CHOOSE_FILE"></button>
+                        <span translate="ADMIN_MAX_LENGTH"></span>
+                        <div ng-if="vm.uploadVideo.total/1024 > 1" translate="ADMIN_MORE_THAN_SIZE"></div>
+                    </div>
+                </div>
+                <div class="box-upload">
+                    <div class="box-left">
+                        <span class="titleText" ng-if="vm.uploadVideo.name">{{vm.uploadVideo.name}}</span>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar"  aria-valuemin="0" aria-valuemax="100" ng-style="{ width: vm.uploadVideo.progress+'%'}">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="max-width:450px;" class="box-right" ng-if="vm.uploadVideo.load != vm.uploadVideo.total&&vm.uploadVideo.isShow">
+                        <span><i translate="ADMIN_REMAINING_TIME"></i>{{vm.uploadVideo.resttime}}s</span>
+                        <span><i translate="ADMIN_UPLOAD_SPEED"></i> {{vm.uploadVideo.speed}}{{vm.uploadVideo.units}}</span>
+                        <span><i translate="ADMIN_UPLOADED"></i>{{vm.uploadVideo.load}}M/{{vm.uploadVideo.total}}M</span>
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_VIDEO_NAME"></span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" maxlength="9" placeholder="{{'ADMIN_INPUT_VIDEO_NAME'| translate}}" ng-model="vm.inputVideoName">
+                    </div>
+                </div>
+                <div class="box-type">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_GROUP"></span>
+                    </div>
+                    <div class="box-right">
+                        <select ng-model="vm.selectedGroup">
+                            <option value="" translate="ADMIN_PLEASE_CHOOSE"></option>
+                            <option ng-value="item.id" ng-repeat="item in vm.videoGroup">{{item.name}}</option>
+                        </select>
+                        <span translate="ADMIN_NO_CHOOSE"></span>
+                    </div>
+                </div>
+                <div class="tip" translate="ADMIN_UPLOAD_TIP"></div>
+                <div class="video-progress">
+                    <div translate="ADMIN_UPLOAD_PROGRESS"></div>
+                    <div translate="ADMIN_VIDEO_UPLOAD"></div>
+                    <div translate="ADMIN_TRANSCODING"></div>
+                    <div translate="ADMIN_CAN_USE"></div>
+                </div>
+
+            </div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.saveLocalVideo()" translate="ADMIN_SAVE"></span>
+            </div>
+        </div>
+    </div>
+    <div class="video-nav">
+    <div class="nav-title common" translate="ADMIN_NAME"></div>
+    <div class="nav-item common"
+         ng-click="vm.chooseGroup($index,item)"
+         ng-repeat="item in vm.groupList"
+         ng-class="{'active': vm.currentIndex == $index}">
+        <span ng-attr-title="{{item.name}}">{{item.name}}</span>
+        <i>({{item.videoList.length?item.videoList.length:0}})</i>
+    </div>
+    <div>
+        <div class="nav-newly common" role="button" ng-click="vm.newGroup()" translate="ADMIN_NEW_GROUP"></div>
+        <div class="newly-group" ng-show="vm.newlyGroup">
+            <div class="group-title">
+                <span translate="ADMIN_CREATE_GROUP"></span>
+                <span class="group-close" ng-click="vm.cancel()"></span>
+            </div>
+            <input type="text" maxlength="9" placeholder="{{'ADMIN_INPUT_NAME' | translate}}" ng-model="vm.groupName">
+            <span class="newly-sure" ng-click="vm.addGroup()" translate="ADMIN_SURE"></span>
+        </div>
+    </div>
+</div>
+    <div class="video-content">
+    <div class="content-group group-common">
+        <div class="group-tools">
+            <div class="group-current">{{vm.currentGroup.name}}</div>
+            <div ng-if="vm.isDetailGroup" class="group-move" data-toggle="modal" data-target="#renameGroupModal"  ng-click="vm.renameGroup(vm.currentGroup)" translate="ADMIN_RENAME"></div>
+            <div ng-if="vm.isDetailGroup" class="video-delete" data-toggle="modal" data-target="#deleteGroupModal" translate="ADMIN_DELETE_GROUP"></div>
+        </div>
+        <div class="local-upload" role="button" ng-click="vm.localUpload()" translate="ADMIN_UPLOAD"></div>
+    </div>
+    <div class="content-edit group-common">
+        <div ng-click="vm.isSelectAll()">
+            <input type="checkbox" ng-checked="vm.isAllSelect">
+            <span translate="ADMIN_SELECT_ALL"></span>
+        </div>
+        <span class="group-move" ng-click="vm.moveVideo()" translate="ADMIN_MOVE_GROUP"></span>
+        <span class="video-delete" ng-click="vm.deleteVideo()" translate="ADMIN_DELETE"></span>
+    </div>
+    <div class="content-list">
+        <div ng-if="vm.videoList.length > 0" class="content-detail" ng-repeat="item in vm.videoList">
+            <div class="content-preview">
+                <video src="{{vm.imageUrl+item.sourceVideoUrl}}"></video>
+                <div class="video-hover">
+                    <img src="../../../../../static/images/play-icon.png" alt="" ng-if="item.videoUrl&&item.transcodeStatus === 1" ng-click="vm.playVideo(item)">
+                    <span class="play-tip" ng-if="item.transcodeStatus === 0" translate="ADMIN_TRANSCODE"></span>
+                </div>
+            </div>
+            <div class="content-name" ng-click="vm.isAllSelectOfItemClick(item)">
+                <input type="checkbox" ng-checked="item.isSelect==1">
+                <span ng-attr-title="{{item.videoName}}">{{item.videoName}}</span>
+            </div>
+            <div class="content-tools">
+                <div class="tools-edit tools-common" data-toggle="modal" data-target="#editVideoModal" ng-click="vm.editVideo(item)"></div>
+                <div class="tools-move tools-common" data-toggle="modal" data-target="#moveVideoModal"  ng-click="vm.moveVideo(item)"></div>
+                <div class="tools-delete tools-common" data-toggle="modal" data-target="#deleteVideoModal" ng-click="vm.deleteVideo(item.id)"></div>
+            </div>
+        </div>
+        <div ng-if="vm.videoList.length == 0" class="noVideo" translate="ADMIN_NO_VIDEO"></div>
+    </div>
+</div>
+
+    <!--编辑视频名称-->
+    <div class="video-create-modal modal fade" id="editVideoModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_EDIT_NAME"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="item">
+                            <input type="text" maxlength="9" ng-model="vm.modifyName" placeholder="{{'ADMIN_PLEASE_INPUT_NAME' | translate}}">
+                        </div>
+                    </div>
+                    <span class="error-tip" ng-show="vm.create.isShowErrorTip">{{ vm.create.errorText }}</span>
+                    <div class="save-btn" ng-click="vm.sureModify()" translate="ADMIN_SAVE"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--移动分组-->
+    <div class="video-create-modal modal fade" id="moveVideoModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_MOVE_GROUP"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title" translate="ADMIN_MOVE_TO"></div>
+                            <select ng-model="vm.selectedGroup">
+                                <!--<option value="vm" ng-if="vm.isDetailGroup">{{vm.currentGroup.name}}</option>-->
+                                <option value="" translate="ADMIN_NO_GROUP"></option>
+                                <option ng-value="item.id" ng-repeat="item in vm.videoGroup">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span class="error-tip" ng-show="vm.create.isShowErrorTip">{{ vm.create.errorText }}</span>
+                    <div class="save-btn" ng-click="vm.sureMove()" translate="ADMIN_SAVE"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--删除视频-->
+    <div class="video-delete-modal modal fade" id="deleteVideoModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_PROMPT"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="content" translate="ADMIN_IF_DELETE"></div>
+                    <div class="operation">
+                        <div class="sure-btn" ng-click="vm.sureDelete()" translate="ADMIN_SURE"></div>
+                        <div class="cancel-btn" data-dismiss="modal" translate="ADMIN_CANCEL"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--重命名分组-->
+    <div class="video-create-modal modal fade" id="renameGroupModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_EDIT_NAME"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="item">
+                            <input type="text" maxlength="9" ng-model="vm.newGroupName" placeholder="{{'ADMIN_INPUT_NAME' | translate}}">
+                        </div>
+                    </div>
+                    <div class="save-btn" ng-click="vm.sureRename()" translate="ADMIN_SAVE"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--删除分组-->
+    <div class="video-delete-modal modal fade" id="deleteGroupModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_PROMPT"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="content" translate="ADMIN_DELETE_TIP"></div>
+                    <div class="operation">
+                        <div class="sure-btn" ng-click="vm.deleteGroup()" translate="ADMIN_SURE"></div>
+                        <div class="cancel-btn" data-dismiss="modal" translate="ADMIN_CANCEL"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--播放视频-->
+    <div class="video-play-modal modal fade" id="videoPlayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" ng-click="vm.stopVideo()">&times;</span></button>
+                    <div class="modal-title">{{vm.currentPlayVideo.name}}</div>
+                </div>
+                <div class="modal-body">
+                    <video id="video" ng-src="{{vm.currentPlayVideo.videoUrl}}" controls></video>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,118 +1,62 @@
 <div class="main">
-    <div class="feedback" ng-show="vm.visible">
-        <div class="alerts">
-            <div class="alert-head">
-                温馨提示
-                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.close()">
-                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
-            </div>
-            <div class="alert-content">{{vm.feedbackContent}}</div>
-            <div class="alert-bottom">
-                <span class="alert-sure" ng-click="vm.goTo()">确定</span>
-            </div>
-        </div>
-    </div>
-    <div class="feedback" ng-show="vm.visible1">
-        <div class="alerts">
-            <div class="alert-head">
-                温馨提示
-                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.close()">
-                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
-            </div>
-            <div class="alert-content1">
-                <label>本次操作会对以下预约的会议产生影响</label>
-                <div class="tipContent">
-                    <label ng-repeat="item in vm.anotherName1">编号：{{$index+1}} 会议主题：{{item.meetingName}}</label>
-                </div>
-                <label>确定继续此操作吗?</label>
-            </div>
-            <div class="alert-bottom">
-                <span class="alert-sure" ng-click="vm.continue()">确定</span>
-            </div>
-        </div>
-    </div>
-    <div class="head">
-        <div class="head-content">
-            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
-            <div class="userss">
-                状态总览<br>STATE THE OVERVIEW
-            </div>
-            <div class="right2" ng-click="vm.signout()">
-                <img src="../../../static/images2/red-end.png" alt="" class="red">
-                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
-            </div>
-        </div>
-    </div>
     <div class="box">
         <div class="title">
             <ul>
-                <li><a ui-sref="main.meeting-room({page:1})">会议室管理</a></li>
+                <li><a ui-sref="main.meeting-room({page:1})" translate="ADMIN_ROOM_MANAGE"></a></li>
                 <li class="nav-icon"> ></li>
-                <li class="active">修改</li>
+                <li class="active" translate="ADMIN_MODIFY"></li>
             </ul>
         </div>
         <div class="create-broadcast">
             <div class="box-room">
            <span class="titleLeft">
                 <i>*</i>
-               会议室名：
+               <span translate="ADMIN_ROOM_NAME2"></span>
            </span>
-                <input type="text" class="inputBox " id="meetingroom-name" ng-model="vm.meetingroomName">
+                <input type="text" class="inputBox " id="meetingroom-name" ng-model="vm.name">
             </div>
             <div class="box-room">
-           <span class="titleLeft">
-                <i>*</i>
-               会议室号：
-           </span>
-                <label class="inputBox">{{vm.meetingroomNum}}</label>
+           <span class="titleLeft" translate="ADMIN_ROOM_NUMBER"></span>
+                <label class="inputBox">{{vm.meetingRoomNum}}</label>
             </div>
             <div class="box-room">
-           <span class="titleLeft">
-                <i>*</i>
-               最多人数：
-           </span>
-                <input type="text" class="inputBox" ng-model="vm.maxNum">
+           <span class="titleLeft" translate="ADMIN_LIMIT_COUNT1"></span>
+                <input type="text" class="inputBox" ng-model="vm.capacity">
             </div>
-            <div class="describe">
-           <span class="titleLeft">
-               会议室别名：
-           </span>
-                <div class="anotherName">
-                    <span style="display:block"  ng-repeat="item in vm.anotherName">{{item.alias}}</span>
-                </div>
+
+            <div class="box-room">
+           <span class="titleLeft" translate="ADMIN_MEETING_THEME1"></span>
+           <select class="inputBox" ng-model="vm.themeId">
+                <option ng-value="theme.themeId" ng-repeat="theme in vm.selectableThemes">{{theme.themeName}}</option>
+           </select>
             </div>
             <div class="box-room">
-           <span class="titleLeft">
-               主持人密码：
-           </span>
+           <span class="titleLeft" translate="ADMIN_HOST1"></span>
                 <input type="text" class="inputBox" ng-model="vm.hostPassword">
             </div>
-            <div class="box-room">
-           <span class="titleLeft">
-               参会者密码：
-           </span>
-                <input type="text" class="inputBox" ng-model="vm.guestPassword">
-            </div>
             <div class="box-room" style="display: flex;">
-           <span class="titleLeft">
-               允许参会者加入：
-           </span>
+           <span class="titleLeft" translate="ADMIN_ALLOW_JOIN"></span>
                 <span class="join-participant-permission">
-                <input id="admin" type="radio" name="admitButton" class="admit" value="0" checked>
-                <label for="admin">是</label>
-                <input id="forbid" type="radio" name="admitButton" class="no" value="1">
-                <label for="forbid">否</label>
+                    <span ng-repeat="item in vm.checkList" class="checkList">
+                        <input type="radio" name="admintButton" value="{{item.key}}" ng-click="vm.changeStatus(item.key)"
+                            ng-checked="item.key==vm.allowGuestFlag" ng-model="vm.allowGuestFlag">{{item.value}}
+                    </span>
             </span>
             </div>
+
+            <div class="box-room" ng-show="vm.allowGuestFlag == 1">
+           <span class="titleLeft" translate="ADMIN_GUEST1"></span>
+                <input type="text" class="inputBox" ng-model="vm.guestPassword">
+            </div>
+
             <div class="describe">
-           <span class="titleLeft">
-               会议室描述：
-           </span>
-                <textarea name="" id="" cols="30" ng-model="vm.description" rows="3" placeholder="请输入描述信息，50字以内"></textarea>
+           <span class="titleLeft" translate="ADMIN_ROOM_DESCRIPTION"></span>
+                <textarea name="" id="" cols="30" ng-model="vm.description" rows="3"
+                          placeholder="{{'ADMIN_INPUT_DESCRIPTION'| translate}}"></textarea>
             </div>
             <div class="bottom">
-                <input type="button" value="保存" id="save" class="common" ng-click="vm.saveModify()">
-                <input type="button" value="取消" id="cancel" class="common" ui-sref="main.meeting-room({page:1})">
+                <input type="button" value="{{'ADMIN_SAVE'| translate}}" id="save" class="common" ng-click="vm.saveModify()">
+                <input type="button" value="{{'ADMIN_CANCEL'| translate}}" id="cancel" class="common" ui-sref="main.meeting-room({page:1})">
             </div>
         </div>
     </div>

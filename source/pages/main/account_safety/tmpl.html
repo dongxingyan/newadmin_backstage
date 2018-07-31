@@ -1,0 +1,65 @@
+<div class="main">
+    <!-- 进入首页的 page -->
+    <div class="box">
+        <div class="title">
+            <span translate="ADMIN_ACCOUNT_SECURITY"></span>
+        </div>
+        <hr />
+        <div class="login-alter">
+            <span translate="ADMIN_LOGIN_ACCOUNT"></span>
+            <span>{{vm.username}}</span>
+            <span class="green" ng-show="!vm.isUsernameModified && !vm.alterInputVisibly" ng-click="vm.alterInputVisibly=true" translate="ADMIN_MODIFY"></span>
+            <span class="alter-area" ng-show="vm.alterInputVisibly">
+                <input class="form-control alter-input" type="text" ng-class="{'is-error': vm.errorTip.username}" ng-model="vm.newUsername">
+                <div class="error-tip">{{vm.errorTip.username}}</div>
+                <span class="green" ng-click="vm.alterAccNameConfirm()" translate="ADMIN_SAVE"></span>
+                <span class="green" ng-click="vm.alterAccNameCancel()" translate="ADMIN_CANCEL"></span>
+            </span>
+            <span class="warn" ng-show="!vm.isUsernameModified" translate="ADMIN_MODIFY_TIP"></span>
+        </div>
+
+        <div class="login-info">
+            <div class="info-row">
+                <span class="row-span">
+                    <img src="../../../static/images/hardware/secure-ok.png" alt="">
+                </span>
+                <span class="row-span" translate="ADMIN_LOGIN_PASSWORD"></span>
+                <span class="row-span" translate="ADMIN_MODIFY_TIP1"></span>
+                <span class="row-span" ui-sref="main.alter-password" translate="ADMIN_MODIFY"></span>
+            </div>
+            <div class="info-row" ng-if="!vm.email">
+                <span class="row-span">
+                    <img src="../../../static/images/hardware/secure-warn.png" alt="">
+                </span>
+                <span class="row-span" translate="ADMIN_BIND_MAILBOX"></span>
+                <span class="row-span" translate="ADMIN_BING_TIP"></span>
+                <span class="row-span" ui-sref="main.bind-email" translate="ADMIN_BIND"></span>
+            </div>
+            <div class="info-row" ng-if="vm.email">
+                <span class="row-span">
+                    <img src="../../../static/images/hardware/secure-ok.png" alt="">
+                </span>
+                <span class="row-span" translate="ADMIN_VERIFYING_MAILBOX"></span>
+                <span class="row-span"><span translate="ADMIN_MAILBOX_NUMBER"></span>{{vm.email}}</span>
+                <span class="row-span" ui-sref="main.alter-email({email: vm.encodeEmail})" translate="ADMIN_MODIFY"></span>
+            </div>
+            <div class="info-row" ng-if="!vm.phone">
+                <span class="row-span">
+                    <img src="../../../static/images/hardware/secure-warn.png" alt="">
+                </span>
+                <span class="row-span" translate="ADMIN_BIND_PHONE"></span>
+                <span class="row-span" translate="ADMIN_NO_BIND"></span>
+                <span class="row-span" ui-sref="main.bind-phone" translate="ADMIN_BIND"></span>
+            </div>
+            <div class="info-row" ng-if="vm.phone">
+                <span class="row-span">
+                    <img src="../../../static/images/hardware/secure-ok.png" alt="">
+                </span>
+                <span class="row-span" translate="ADMIN_CHECK_PHONE"></span>
+                <span class="row-span"><span translate="ADMIN_VERIFY_PHONE"></span>{{vm.phone}}</span>
+                <span class="row-span" ui-sref="main.alter-phone({phone: vm.phone})" translate="ADMIN_MODIFY"></span>
+            </div>
+        </div>
+
+    </div>
+</div>

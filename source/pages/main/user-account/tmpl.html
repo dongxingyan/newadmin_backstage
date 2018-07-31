@@ -1,24 +1,22 @@
 <div class="main">
     <div class="feedback" ng-show="vm.visible">
         <div class="alerts1">
-            <div class="alert1-head">
-                编辑账号
-            </div>
+            <div class="alert1-head" translate="ADMIN_EDIT_ACCOUNT"></div>
             <div class="create-broadcast">
-                <div class="box-broadcast">
-                    <div class="box-left">
-                        <span class="notice">*</span>
-                        <span class="titleText">所属机构：</span>
-                    </div>
-                    <div class="box-right">
-                        <!--<input type="text" class="titleContent" ng-model="vm.personName" maxlength="30" placeholder="请输入姓名">-->
-                        <span class="titleContent"> {{vm.department}}</span>
-                    </div>
-                </div>
+                <!--<div class="box-broadcast">-->
+                    <!--<div class="box-left">-->
+                        <!--<span class="notice">*</span>-->
+                        <!--<span class="titleText" translate="ADMIN_INSTITUTIONS"></span>-->
+                    <!--</div>-->
+                    <!--<div class="box-right">-->
+                        <!--&lt;!&ndash;<input type="text" class="titleContent" ng-model="vm.personName" maxlength="30" placeholder="请输入姓名">&ndash;&gt;-->
+                        <!--<span class="titleContent"> {{vm.department}}</span>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="box-broadcast">
                     <div class="box-left">
                         <span class="notice"></span>
-                        <span class="titleText">账号别名：</span>
+                        <span class="titleText" translate="ADMIN_ALIAS_ACCOUNT"></span>
                     </div>
                     <div class="box-right">
                         <!--<input type="text" class="titleContent" ng-model="vm.personEmail" maxlength="30" placeholder="请输入邮箱">-->
@@ -28,29 +26,29 @@
                 <div class="box-broadcast">
                     <div class="box-left">
                         <span class="notice">*</span>
-                        <span class="titleText">登录账号：</span>
+                        <span class="titleText" translate="ADMIN_LOGIN_ACCOUNT1"></span>
                     </div>
                     <div class="box-right">
-                        <input type="text" class="titleContent" ng-model="vm.account" maxlength="30" placeholder="6-12位字母或数字">
+                        <input type="text" class="titleContent" ng-model="vm.account" maxlength="30" placeholder="{{'ADMIN_INPUT_TYPE'| translate}}">
                     </div>
                 </div>
                 <div class="box-broadcast">
                     <div class="box-left">
                         <span class="notice">*</span>
-                        <span class="titleText">登录密码：</span>
+                        <span class="titleText" translate="ADMIN_LOGIN_PASSWORD1"></span>
                     </div>
                     <div class="box-right">
-                        <input type="text" class="titleContent" ng-model="vm.loginPassword" maxlength="30" placeholder="6-12位字母或数字">
+                        <input type="text" class="titleContent" ng-model="vm.loginPassword" maxlength="30" placeholder="{{'ADMIN_INPUT_TYPE'| translate}}">
                     </div>
                 </div>
                 <div class="box-broadcast">
                     <div class="box-left">
                         <span class="notice"></span>
-                        <span class="titleText">部门：</span>
+                        <span class="titleText" translate="ADMIN_DEPARTMENT"></span>
                     </div>
                     <div class="box-right">
                         <select ng-model="vm.departName" style="border: 1px solid #cccccc;">
-                            <option value="">无</option>
+                            <option value="" translate="ADMIN_NOTHING"></option>
                             <option ng-value="item.id" ng-repeat="item in vm.departments" ng-hide="item.tName === ''">{{item.departName}}</option>
                         </select>
                     </div>
@@ -58,7 +56,7 @@
                 <div class="box-broadcast">
                     <div class="box-left">
                         <span class="notice"></span>
-                        <span class="titleText">用户名：</span>
+                        <span class="titleText" translate="ADMIN_USER_NAME"></span>
                     </div>
                     <div class="box-right">
                         <input type="text" class="titleContent" ng-model="vm.userName" maxlength="30">
@@ -67,7 +65,7 @@
                 <div class="box-broadcast">
                     <div class="box-left">
                         <span class="notice"></span>
-                        <span class="titleText">账号邮箱：</span>
+                        <span class="titleText" translate="ADMIN_MAILBOX1"></span>
                     </div>
                     <div class="box-right">
                         <input type="text" class="titleContent" ng-model="vm.acountEmail" maxlength="30">
@@ -76,7 +74,7 @@
                 <div class="box-broadcast">
                     <div class="box-left">
                         <span class="notice"></span>
-                        <span class="titleText">联系电话：</span>
+                        <span class="titleText" translate="ADMIN_CONTACT_NUMBER"></span>
                     </div>
                     <div class="box-right">
                         <input type="text" class="titleContent" ng-model="vm.phoneNum" maxlength="30">
@@ -85,78 +83,82 @@
                 <div class="box-describe">
                     <div class="box-left">
                         <span class="notice"></span>
-                        <span class="titleText">账号描述：</span>
+                        <span class="titleText" translate="ADMIN_ACCOUNT_DESCRIPTION"></span>
                     </div>
                     <div class="box-right">
-                        <textarea class="live-desc" name="" ng-model="vm.remark" cols="30" rows="5" placeholder="请输入描述信息，50字以内"></textarea>
+                        <textarea class="live-desc" name="" ng-model="vm.remark" cols="30" rows="5" placeholder="{{'ADMIN_INPUT_DESCRIPTION'| translate}}"></textarea>
                     </div>
                 </div>
 
             </div>
             <div class="alert-bottom">
-                <span class="alert-sure" ng-click="vm.sureEdit()">确定</span>
-                <span class="alert-cancel" ng-click="vm.close()">取消</span>
+                <span class="alert-sure" ng-click="vm.sureEdit()" translate="ADMIN_SURE"></span>
+                <span class="alert-cancel" ng-click="vm.close()" translate="ADMIN_CANCEL"></span>
             </div>
         </div>
     </div>
     <div class="feedback" ng-show="vm.visible1">
         <div class="alerts">
             <div class="alert-head">
-                温馨提示
+                <span translate="ADMIN_REMINDER"></span>
                 <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.close()">
                 <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
             </div>
             <div class="alert-content">{{vm.feedbackContent}}</div>
             <div class="alert-bottom">
-                <span class="alert-sure" ng-click="vm.close()">确定</span>
-            </div>
-        </div>
-    </div>
-    <div class="head">
-        <div class="head-content">
-            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
-            <div class="userss">
-                用户账号<br>USER ACCOUNT
-            </div>
-            <div class="right2" ng-click="vm.signout()">
-                <img src="../../../static/images2/red-end.png" alt="" class="red">
-                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+                <span class="alert-sure" ng-click="vm.close()" translate="ADMIN_SURE"></span>
             </div>
         </div>
     </div>
     <div class="box">
         <div class="title">
-            <span>用户账号</span>
+            <span translate="ADMIN_TERMINAL"></span>
         </div>
         <div class="list">
             <table class="table">
                 <tr>
-                    <th>账号别名</th>
-                    <th>用户名</th>
-                    <th>登录账号</th>
-                    <th>登录密码</th>
-                    <th>用户电话</th>
-                    <th>操作</th>
+                    <th translate="ADMIN_ALIAS_ACCOUNT1"></th>
+                    <th translate="ADMIN_USER_NAME1"></th>
+                    <th translate="ADMIN_LOGIN_ACCOUNT"></th>
+                    <th translate="ADMIN_LOGIN_PASSWORD"></th>
+                    <!-- <th>用户电话</th> -->
+                    <th translate="ADMIN_OPERATION"></th>
                 </tr>
-                <tr ng-repeat="item in vm.users">
+                <tr ng-repeat="item in vm.accountList">
                     <td>{{!item.accountAlias?"":item.accountAlias}}</td>
                     <td>{{!item.displayName?"":item.displayName}}</td>
-                    <td>{{!item.userName?"":item.userName}}</td>
-                    <td>{{!item.password?"":item.password}}</td>
-                    <td>{{!item.userTel?"":item.userTel}}</td>
-                    <td><a href="" style="text-decoration: none" ng-click="vm.userModify(item.id,item.departId,item.accountAlias,item.departId)">修改</a></td>
+                    <td>{{!item.pexipName?"":item.pexipName}}</td>
+                    <td>{{!item.pexipPassword?"":item.pexipPassword}}</td>
+                    <!-- <td>{{!item.userTel?"":item.userTel}}</td> -->
+                    <td><a href="" style="text-decoration: none" ng-click="vm.userModify(item.id,item.departId,item.accountAlias,item.departId)" translate="ADMIN_MODIFY"></a>
+                        <a href="" data-toggle="modal" data-target="#showCodeModal" ng-click="vm.showCode(item.qrcode)" translate="ADMIN_QR_CODE"></a></td>
                 </tr>
             </table>
         </div>
-        <div class="paging">
-            <span>第<i ng-bind="vm.selPage"></i>页/共<i ng-bind="vm.total"></i>页，共<i ng-bind="vm.totalCount"></i>条</span>
-            <span class="before page-common" ng-click="vm.prevPage(vm.selPage)" ng-class="{1:'bg'}[vm.selPage]">＜</span>
-            <ul>
-                <li class="pageNum page-common" ng-click="vm.selectPage(item.value)"  ng-repeat="item in vm.pager" ng-class="{true:'current',false:'normal'}[item.isCurrent]">{{item.type==0?item.value:'...'}}</li>
-            </ul>
-            <span class="after page-common" ng-click="vm.nextPage(vm.selPage)" ng-class="{'bg':vm.selPage==vm.total}">＞</span>
-            <input type="text" class="skip" ng-model="vm.count">
-            <span class="skipButton" ng-click="vm.jump(vm.count)">跳转</span>
+        <div class="footer">
+            <span class="page-text"><span translate="ADMIN_TOTAL2"></span>{{ vm.totalCount }}<span translate="ADMIN_EACH_PAGE"></span>{{ vm.pageSize }}<span translate="ADMIN_STRIP"></span></span>
+            <ul uib-pagination ng-change="vm.getAccountInfo();" max-size="7" next-text="|>" previous-text="<|" total-items="vm.totalCount" ng-model="vm.selPage" force-ellipses="true" items-per-page="vm.pageSize"></ul>
+        </div>
+    </div>
+<!--显示二维码弹框-->
+    <div class="code-modal modal fade" id="showCodeModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_QR_INFO"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <!--startprint-->
+                    <img class="content" src="{{vm.codeSrc}}"/>
+                    <!--endprint-->
+                    <div class="operation">
+                        <a id="download-code" class="download-btn" ng-click="vm.downloadBtn()" translate="ADMIN_DOWNLOAD"></a>
+                        <div class="print-btn" ng-click="vm.printCode()" translate="ADMIN_PRINT"></div>
+                        <div class="cancel-btn" data-dismiss="modal" translate="ADMIN_CANCEL"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -5,24 +5,7 @@ main-meeting-manage {
     margin-left: 20px;
   }
   .main {
-  //width: 100%
-    position relative
-    height: 100%
-    display: flex
-  //background: pink;
-    flex-direction column
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
     font-size: 14px;
-    .feedback{
-      z-index 2
-      position absolute
-      width: 100%
-      height: 100%
-      display: flex
-      justify-content center
-      align-items center
-      background:rgba(0,0,0,.5)
-    }
     .alerts{
       width: 300px;
       height: 210px;
@@ -52,9 +35,9 @@ main-meeting-manage {
       }
       .alert-content{
         height: 110px;
-        line-height: 110px;
-        text-align: center;
-        font-family: "微软雅黑";
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 16px;
 
       }
@@ -97,7 +80,7 @@ main-meeting-manage {
           line-height: 30px
           width: 80px
           border: none;
-          background #0099CC
+          background #1d94f5
           margin-top: 10px;
           margin-right: 20px;
           color: #fff;

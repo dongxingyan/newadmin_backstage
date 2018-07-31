@@ -1,9 +1,11 @@
 import {Page, IPageParams, page} from "../../../common/page";
 import {global} from "../../../common/global";
+import 'ztree';
 // webpack的配置，不用管
 require.keys().filter(x => /^\.\/[^\/]+(\/index)?\.(js|ts)$/.test(x)).forEach(x => require(x));
 // 引入样式
 require('./style.styl');
+require("../../../../node_modules/ztree/css/zTreeStyle/zTreeStyle.css")
 // 路由参数的设置
 interface IDepartmentManagePageParams extends IPageParams {
     page: string;
@@ -17,7 +19,6 @@ interface IDepartmentManagePageParams extends IPageParams {
     // 依赖注入，在init函数的参数表中可以获取。
     requires: ['$timeout'],
     // 这一页的标题
-    title: '机构管理系统',
     name: 'main.department-manage'
 })
     /**
@@ -50,15 +51,15 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
     next
 
     init(timeout: angular.ITimeoutService) {
+        let self = this;
         // timeout(() => {
         $.ajax({
             type:"get",
             url:global.API_PATH+'v1/orgs/'+sessionStorage.getItem("orgId")+'?token='+sessionStorage.getItem("token"),
             dataType:'json',
-            success:function(data){
-                var names=data.data.name
-
-                var arr={
+            success:function(res){
+                let names=res.data.name
+                let arr={
                     "id":0,
                     "parentId":-1,
                     "departName":names,
@@ -69,8 +70,8 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                     type:"get",
                     url:global.API_PATH+'v1/orgs/'+sessionStorage.getItem("orgId")+'/depts?token='+sessionStorage.getItem("token"),
                     dataType:'json',
-                    success:function(data){
-                        var zNodes=data.data.concat(arr);
+                    success:function(res){
+                        var zNodes=res.data.concat(arr);
                         var setting = {
                             view: {
                                 addHoverDom: addHoverDom,
@@ -83,9 +84,9 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                                 editNameSelectAll: true,
                                 showRemoveBtn: showRemoveBtn,
                                 showRenameBtn: true,
-                                removeTitle:'删除',
-                                renameTitle:"重命名",
-                                addmoreTitle:"添加子节点",
+                                removeTitle: self.translate.instant('ADMIN_DELETE'),
+                                renameTitle: self.translate.instant('ADMIN_RENAME'),
+                                addmoreTitle: self.translate.instant('ADMIN_ADD_NODE'),
 
                             },
                             data: {
@@ -117,24 +118,23 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                             className = (className === "dark" ? "":"dark");
                             showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.departName);
                             var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                            if(treeNode.parentId==null){
+                                alert(self.translate.instant('ADMIN_UNABLE_EDIT'));
+                                return false;
+                            }
                             zTree.selectNode(treeNode);
-                            // $(".alerts-delet").show()
-                            // $(".bcgs").show()
-                            // $(".alert-content").html("进入节点 -- " + treeNode.departName + " 的编辑状态吗？")
-                            // return false
-                            return confirm("进入节点 -- " + treeNode.departName + " 的编辑状态吗？");
                         }
                         function beforeRemove(treeId, treeNode) {
                             className = (className === "dark" ? "":"dark");
                             showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.departName);
                             var zTree = $.fn.zTree.getZTreeObj("treeDemo");
                             zTree.selectNode(treeNode);
-                            return confirm("确认删除 节点 -- " + treeNode.departName + " 吗？");
+                            return confirm( self.translate.instant('ADMIN_DELETE_NODE') + treeNode.departName + self.translate.instant('ADMIN_IF'));
                         }
                         function onRemove(e, treeId, treeNode) {
                             $.ajax({
                                 type:'delete',
-                                url:global.API_PATH+'v1/orgs/{org_id}/depts/{dept_id}?token='+sessionStorage.getItem("token")+'&dept_id='+treeNode.id+'&org_id='+admin_id,
+                                url:global.API_PATH+'v1/orgs/{org_id}/depts/{dept_id}?token='+sessionStorage.getItem("token")+'&dept_id='+treeNode.id+'&org_id='+sessionStorage.getItem("orgId"),
                                 dataType:'json',
                                 success:function(){
                                     showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.departName);
@@ -151,13 +151,12 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                             className = (className === "dark" ? "":"dark");
                             showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
                             newName=$.trim(newName)
-                            console.log(newName)
                             if (newName.length == 0) {
                                 var zTree = $.fn.zTree.getZTreeObj("treeDemo");
                                 setTimeout(function(){zTree.editName(treeNode)}, 10);
                                 $(".bcgs").show();
                                 $(".alerts").show()
-                                $(".alert-content").html("部门名称不能为空")
+                                $(".alert-content").html(self.translate.instant('ADMIN_CANNOT_EMPTY'))
                                 flag=false;
                                 $(".alert-sure").click(function(){
                                     location.reload()
@@ -169,13 +168,12 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                         }
 
                         function onRename(e, treeId, treeNode, isCancel) {
-
                             $.ajax({
                                 type:"get",
                                 dataType:"json",
                                 url:global.API_PATH+'v1/orgs/'+sessionStorage.getItem("orgId")+'/depts/'+treeNode.id+'?token='+sessionStorage.getItem("token"),
-                                success:function(data){
-                                    var parentidss=data.data.parentId;
+                                success:function(res){
+                                    var parentidss=res.data.parentId;
                                     var c=treeNode.id;
                                     var d=treeNode.departName
                                     var data={
@@ -183,8 +181,7 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                                         parentId:parentidss,
                                         departName:d
                                     }
-                                    console.log(data)
-                                    var url1 = global.API_PATH+'v1/orgs/'+sessionStorage.getItem('orgId')+'/depts/'+c+'?token='+sessionStorage.getItem("token");
+                                    var url1 = global.API_PATH+'v1/orgs/'+sessionStorage.getItem("orgId")+'/depts/'+c+'?token='+sessionStorage.getItem("token");
                                     var xmlhttp = new XMLHttpRequest();
                                     xmlhttp.open("put", url1, false);
                                     // xmlhttp.setRequestHeader("token", this.token);
@@ -192,12 +189,11 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                                     xmlhttp.send(JSON.stringify(data));
 
                                     if(xmlhttp.status==200){
-                                        console.log(JSON.parse(xmlhttp.responseText))
                                         var codes=JSON.parse(xmlhttp.responseText)
                                         if(codes.code==19){
                                             $(".bcgs").show();
                                             $(".alerts").show()
-                                            $(".alert-content").html("创建失败，部门名称不能重复")
+                                            $(".alert-content").html(self.translate.instant('ADMIN_CREATE_FAIL'))
                                             $(".alert-sure").click(function(){
                                                 location.reload()
                                             })
@@ -213,8 +209,6 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                                             showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.departName + (isCancel ? "</span>":""));
                                         }
                                     }else{
-                                        console.log("faile");
-                                        console.log(JSON.parse(xmlhttp.responseText));
                                     }
 
                                 }
@@ -251,12 +245,12 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                             sObj.after(addStr);
                             var btn = $("#addBtn_"+treeNode.tId);
                             if (btn) btn.bind("click", function(){
-                                var prompts=$.trim(prompt("请输入部门名称"))
+                                var prompts=$.trim(prompt(self.translate.instant('ADMIN_DEPARTMENT_NAME')))
                                 // alert(prompts)
                                 $.ajax({
                                     type:"get",
                                     dataType:"json",
-                                    url:global.API_PATH+'cloudpServer/v1/orgs/'+sessionStorage.getItem("orgId")+'/depts?token='+sessionStorage.getItem("token"),
+                                    url:global.API_PATH+'v1/orgs/'+sessionStorage.getItem("orgId")+'/depts?token='+sessionStorage.getItem("token"),
                                     success:function(data){
                                         var content=data.data;
                                         var lengths=data.data.length;
@@ -266,11 +260,11 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                                         }
                                         var d=array.indexOf(prompts)
                                         if((d==-1)&&(prompts!=='')){
-                                            var data={
+                                            let data={
                                                 parentId:treeNode.id,
                                                 departName:prompts
                                             }
-                                            var url1 = global.API_PATH+'cloudpServer/v1/orgs/'+sessionStorage.getItem("orgId")+'/depts?token='+sessionStorage.getItem("token");
+                                            var url1 = global.API_PATH+'v1/orgs/'+sessionStorage.getItem("orgId")+'/depts?token='+sessionStorage.getItem("token");
                                             var xmlhttp = new XMLHttpRequest();
                                             xmlhttp.open("post", url1, false);
                                             // xmlhttp.setRequestHeader("token", this.token);
@@ -278,7 +272,6 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                                             xmlhttp.send(JSON.stringify(data));
 
                                             if(xmlhttp.status==200){
-                                                console.log(JSON.parse(xmlhttp.responseText))
                                                 var codes=JSON.parse(xmlhttp.responseText)
                                                 if(codes.code==0){
                                                     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
@@ -287,19 +280,17 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
                                                     return false;
                                                 }
                                             }else{
-                                                console.log("faile");
-                                                console.log(JSON.parse(xmlhttp.responseText));
                                             }
                                         }
                                         else if(prompts==''){
                                             $(".bcgs").show();
                                             $(".alerts").show()
-                                            $(".alert-content").html("部门名称不能为空")
+                                            $(".alert-content").html(self.translate.instant('ADMIN_CANNOT_EMPTY'))
                                         }
                                         else{
                                             $(".bcgs").show();
                                             $(".alerts").show()
-                                            $(".alert-content").html("部门名称不能重复")
+                                            $(".alert-content").html(self.translate.instant('ADMIN_REPEAT'))
                                         }
                                     }
 
@@ -326,11 +317,10 @@ class MainDepartment_ManagePage extends Page<IDepartmentManagePageParams> {
             }
         })
         // })
+
     }
     signout() {
-        this.session.clear();
-        this.uiState.go('login');
-
+        this.rootScope.signout()
     }
 
 }

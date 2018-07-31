@@ -1,154 +1,147 @@
 <div class="main" ng-cloak>
-    <div class="head">
-        <div class="head-content">
-            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
-            <div class="userss">
-                会议管理<br>MEETING MANAGEMENT
+    <div class="feedback" ng-show="vm.visible">
+        <div class="alerts">
+            <div class="alert-head">
+                <span translate="ADMIN_REMINDER"></span>
+                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.close()">
+                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
             </div>
-            <div class="right2" ng-click="vm.signout()">
-                <img src="../../../static/images2/red-end.png" alt="" class="red">
-                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
+            <div class="alert-content">{{vm.feedbackContent}}</div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.close()" translate="ADMIN_SURE"></span>
             </div>
         </div>
     </div>
-    <div class="box">
+    <div class="feedback" ng-show="vm.visible1">
+        <div class="alerts">
+            <div class="alert-head">
+                <span translate="ADMIN_REMINDER"></span>
+                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.close1()">
+                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
+            </div>
+            <div class="alert-content">{{vm.feedbackContent1}}</div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.close1()" translate="ADMIN_SURE"></span>
+            </div>
+        </div>
+    </div>
+    <div class="box1">
         <div class="title">
             <ul>
-                <li><a ui-sref="main.meeting-manage({page:1})">会议管理</a></li>
+                <li><a ui-sref="main.meeting-manage({page:1})" translate="ADMIN_MEETING_MANAGE"></a></li>
                 <li class="nav-icon"> ></li>
-                <li class="active">新建会议</li>
+                <li class="active" translate="ADMIN_NEW_MEETING"></li>
             </ul>
         </div>
         <div class="create-broadcast">
             <div class="box-meeting">
            <span class="titleLeft">
                <i>*</i>
-               会议主题
+               <span translate="ADMIN_MEETING_THEME"></span>
            </span>
                 <input type="text" class="theme" ng-model="vm.theme">
             </div>
             <div class="box-meeting">
             <span class="titleLeft">
                <i>*</i>
-               预计会议时间
+               <span translate="ADMIN_MEETING_TIME"></span>
            </span>
                 <div class="box-right">
-                    <input id="J-create-start-time" name="start-time" class="inputBox laydate-icon"
+                    <input type="text" id="J-create-start-time" name="start-time" class=""
                            ng-model="vm.startLiveTime">
-                    <span class="meeting-time-text">至</span>
-                    <input id="J-create-end-time" name="end-time" class="inputBox laydate-icon"
+                    <span class="meeting-time-text" translate="ADMIN_TO"></span>
+                    <input id="J-create-end-time" name="end-time" class=""
                            ng-model="vm.endLiveTime">
                 </div>
             </div>
             <div class="box-meeting">
            <span class="titleLeft">
                <i>*</i>
-               会议室号
+               <span translate="ADMIN_ROOM_NUMBER1"></span>
            </span>
                 <select class="inputBox" name="" id="vmr" ng-model="vm.vmrNum" ng-change="vm.change()" ng-options="item for item in vm.vmr">
                 </select>
-                <button class="get" ng-click="vm.getMeetingInfo()" ng-class="{btnBg:vm.isActive}">获取</button>
+                <button class="get" ng-click="vm.getMeetingInfo()" ng-class="{btnBg:vm.isActive}" translate="ADMIN_GET"></button>
             </div>
             <div class="box-meeting">
            <span class="titleLeft">
                <i>*</i>
-               会议容量
+               <span translate="ADMIN_CAPACITY"></span>
            </span>
                 <span class="inputBox">{{vm.container}}</span>
             </div>
             <div class="box-meeting">
-           <span class="titleLeft">
-               <i>*</i>
-               参会密码
-           </span>
+           <span class="titleLeft" style="display: inline-block;" translate="ADMIN_CIPHER"></span>
                 <span class="inputBox">{{vm.enterPassword}}</span>
             </div>
             <div class="box-meeting" style="display: flex;">
            <span class="titleLeft">
                <i></i>
-               是否发送邮件
+               <span translate="ADMIN_IF_SEND"></span>
            </span>
                 <span class="is-send-mail-container">
                 <input id="yes" type="radio"  value="0" name="admitButton" checked>
-                <label for="yes">是</label>
+                <label for="yes" translate="ADMIN_YES"></label>
                 <input id="no" type="radio"  value="1" name="admitButton">
-                <label for="no">否</label>
+                <label for="no" translate="ADMIN_NOT"></label>
             </span>
             </div>
             <div class="describe join-meeting-member">
-           <span class="titleLeft">
-               与会人员
-           </span>
+           <span class="titleLeft" translate="ADMIN_ATTENDANTS"></span>
                 <div class="addressMember">
-                    <span class="memberName" style="text-align: center">通讯录人员</span>
+                    <span class="memberName" style="text-align: center" translate="ADMIN_ADDRESS"></span>
                     <div class="allMember">
                         <ul ng-repeat="item in vm.team">
-                            <li id="{{item.id}}" ng-click="vm.showPerson(item.id)">>{{item.tName}}({{item.account}}人)</li>
-                            <li ng-repeat="items in vm.persons | filter: {teamId: item.id}" ng-if="vm.isClicked">{{items.cName}}
-                                <input type="checkbox" ng-click="vm.chose(items.id,items.cName)">
+                            <li id="{{item.id}}" ng-click="vm.showPerson(item.id, item)">>{{item.tName}}({{item.account}}人)</li>
+                            <li ng-repeat="items in item.children | filter: {teamId: item.id}" ng-show="items.teamId == vm.activeIndex && vm.isClicked">&nbsp;&nbsp;{{items.cName}}
+                                <input type="checkbox" id="{{$index}}" name="{{items.cName}}" ng-click="vm.chose(items,$event,items.id)" ng-checked="isSeclected(items.id)">
                             </li>
                         </ul>
-
                     </div>
                 </div>
                 <div class="arrow"></div>
                 <div class="inviteMember">
                     <div class="memberName">
-                        <span class="invited">邀请的与会人员</span>
-                        <span class="clearAll" ng-click="vm.clearAll()"> 清除全部</span>
+                        <span class="invited" translate="ADMIN_INVITED"></span>
+                        <span class="clearAll" ng-click="vm.clearAll()" translate="ADMIN_CLEAN_ALL"></span>
                     </div>
                     <div class="allInviter">
                         <ul>
-                            <li ng-repeat="vm.participants">{{item}}</li>
+                            <li ng-repeat="item in vm.participants track by $index">{{item.cName}}</li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="describe">
-           <span class="titleLeft">
-               其他人员
-           </span>
-                <textarea name="" id="" cols="100" rows="3" ng-model="vm.others"></textarea>
+           <span class="titleLeft" translate="ADMIN_OTHERS"></span>
+                <textarea name="" id="" cols="100" rows="3" ng-model="vm.others" placeholder="{{'ADMIN_ENTER_TIP' | translate}}"></textarea>
             </div>
             <!--<div class="create-broadcast">-->
             <div class="box-meeting">
            <span class="titleLeft">
                <i>*</i>
-               会议发起人
+               <span translate="ADMIN_SPONSOR"></span>
            </span>
                 <input type="text" class="inputBox mr90" ng-model="vm.originator">
             </div>
             <div class="box-meeting">
             <span class="titleLeft">
                 <i>*</i>
-                联系电话
+                <span translate="ADMIN_CONTACT_NUMBER1"></span>
             </span>
                 <input type="text" class="inputBox" ng-model="vm.phoneNum">
             </div>
             <div class="box-meeting">
            <span class="titleLeft">
                <i>*</i>
-               邮箱
+               <span translate="ADMIN_MAILBOX"></span>
            </span>
                 <input type="text" class="theme" ng-model="vm.email">
             </div>
             <!--</div>-->
             <div class="bottom">
-                <input type="button" value="确定" id="save" class="common sure" ng-click="vm.sure()" >
-                <input type="button" value="取消" id="cancel" class="common cancel" ng-click="vm.cancel()">
-            </div>
-        </div>
-    </div>
-    <div class="feedback" ng-show="vm.visible">
-        <div class="alerts">
-            <div class="alert-head">
-                温馨提示
-                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.close()">
-                <img src="../../../static/images1/zhuyi.png" alt="" class="img-left">
-            </div>
-            <div class="alert-content">{{vm.feedbackContent}}</div>
-            <div class="alert-bottom">
-                <span class="alert-sure" ng-click="vm.close()">确定</span>
+                <input type="button" value="{{'ADMIN_SURE'| translate}}" id="save" class="common sure" ng-click="vm.sure()"  ng-disabled="vm.sureBtn == false">
+                <input type="button" value="{{'ADMIN_CANCEL'| translate}}" id="cancel" class="common cancel" ng-click="vm.cancel()">
             </div>
         </div>
     </div>

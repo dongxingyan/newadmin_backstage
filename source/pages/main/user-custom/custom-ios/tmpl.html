@@ -1,0 +1,329 @@
+<div class="main">
+
+    <input type="file" id="J-ios-input-file" class="ios-input-of-file">
+
+    <div class="custom">
+        <div class="row package-header">
+            <div class="el-col-5 custom-title" translate="ADMIN_PACKAGE_INFO"></div>
+            <div class="el-col-7 title-tip"><img src="../../../../static/images/tip.png" translate="ADMIN_PACKAGE_TIP"></div>
+            <div class="el-col-5 title-tip title-tip-new" ng-if="vm.isHasNewVersion"><img
+                src="../../../../static/images/new-tip-black.png" ><span translate="ADMIN_PACKAGE_NEW"></span></div>
+        </div>
+        <div class="row package-info" ng-if="!vm.version">
+            <div translate="ADMIN_NON_PACKAGE"></div>
+            <div class="loading-mask" ng-show="vm.isPublish">
+                <div class="loading-spinner">
+                    <img src="../../../../static/images/loading.gif" alt="loading" width="30px" height="30px">
+                    <span translate="ADMIN_IN_RELEASE"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row package-info" ng-if="vm.version">
+            <div class="el-col-5">
+                <span translate="ADMIN_APPLICATION_NAME"></span>
+                {{vm.packAppName}}
+            </div>
+            <div class="el-col-7">
+                <span translate="ADMIN_VERSION"></span>
+                {{vm.version}}
+            </div>
+            <div class="el-col-8">
+                <span translate="ADMIN_PACKAGE_NAME"></span>
+                {{vm.packName}}
+            </div>
+            <div class="el-col-3">
+                <img src="../../../../static/images/apple.png">
+                <a class="package-info-a" ng-href="{{vm.imageUrl + vm.downloadUrl}}" translate="ADMIN_DOWNLOAD"></a>
+            </div>
+            <div class="loading-mask" ng-show="vm.isPublish">
+                <div class="loading-spinner el-col-23">
+                    <img src="../../../../static/images/loading.gif" alt="loading" width="30px" height="30px">
+                    <span translate="ADMIN_IN_RELEASE"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row app-made">
+            <div class="el-col-5" style="font-weight:bold;" translate="ADMIN_APP_PRODUCT"></div>
+            <div class="el-col-6 title-tip"><img src="../../../../static/images/tip.png">
+                <span translate="ADMIN_CODE_VERSION"></span>
+                {{vm.systemVersion}}
+            </div>
+        </div>
+
+        <div class="form-custom">
+            <div class="row-box" style="height:72px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_APP_NAME"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <input class="form-control" ng-model="vm.appName">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:140px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_APP_ICON"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.ico" ng-src="{{vm.imageUrl+vm.ico}}" alt="" width="50px" height="50px">
+                        <div ng-show="!vm.ico" class="ios-ico"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        <span translate="ADMIN_IMAGE_TYPE"></span>
+                        <button class="btn btn-default btn-sm btn-up-img" type="primary" size="small"
+                                ng-click="vm.selectFile('ico')" translate="ADMIN_UPLOAD_IMAGE">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:174px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_START_PAGE"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.startPageImage" ng-src="{{vm.imageUrl+vm.startPageImage}}" width="74px"
+                             height="133px">
+                        <div ng-show="!vm.startPageImage" class="ios-start-page"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        <span translate="ADMIN_RECOMMENDED_SIZE"></span>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('startPageImage')" translate="ADMIN_UPLOAD_IMAGE"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:174px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_BACKGROUND"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.backgroundUrl" ng-src="{{vm.imageUrl+vm.backgroundUrl}}" width="74px"
+                             height="133px">
+                        <div ng-show="!vm.backgroundUrl" class="ios-start-page"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        <span translate="ADMIN_RECOMMENDED_SIZE3"></span>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('backgroundUrl')" translate="ADMIN_UPLOAD_IMAGE"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:90px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_LOGIN_LOGO"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.loginLogo" ng-src="{{vm.imageUrl+vm.loginLogo}}" width="175px" height="50px">
+                        <div ng-show="!vm.loginLogo" class="ios-login-logo"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        <span translate="ADMIN_RECOMMENDED_SIZE1"></span>
+                        <button class="btn btn-default btn-sm btn-up-img" type="primary" size="small"
+                                ng-click="vm.selectFile('loginLogo')" translate="ADMIN_UPLOAD_IMAGE"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:92px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_HISTORY_LOGO"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img class="item-content-input-img" ng-show="vm.callHistoryLogo"
+                             ng-src="{{vm.imageUrl+vm.callHistoryLogo}}" width="50px" height="50px">
+                        <div ng-show="!vm.callHistoryLogo" class="ios-call-history"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        <span translate="ADMIN_RECOMMENDED_SIZE2"></span>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('callHistoryLogo')" translate="ADMIN_UPLOAD_IMAGE"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:174px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_IPAD_START"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.ipadStartPageUrl" ng-src="{{vm.imageUrl+vm.ipadStartPageUrl}}" width="74px"
+                             height="133px">
+                        <div ng-show="!vm.ipadStartPageUrl" class="ios-start-page"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        <span translate="ADMIN_RECOMMENDED_SIZE4"></span>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('ipadStartPageUrl')" translate="ADMIN_UPLOAD_IMAGE"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:66px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_COPYRIGHT"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <input class="form-control" ng-model="vm.copyright" maxlength="20">
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips" translate="ADMIN_RESTRICT"></div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:90px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_THEMECOLOR"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <label class="color-radio-grop blue">
+                            <span class="color-box">
+                                <input class="inner-radio" ng-model="vm.color" type="radio" name="color" ng-value="vm.colors.blue">
+                                <span class="rotate-check" ng-class="{'is-checked': vm.color==='#0a9af9'}"></span>
+                            </span>
+                            <br>
+                            <span translate="ADMIN_BLUE"></span>
+                        </label>
+                        <label class="color-radio-grop gold">
+                            <span class="color-box">
+                                <input class="inner-radio" ng-model="vm.color" type="radio" name="color" ng-value="vm.colors.gold">
+                                <span class="rotate-check" ng-class="{'is-checked': vm.color==='#d4a660'}"></span>
+                            </span>
+                            <br>
+                            <span translate="ADMIN_GOLDEN"></span>
+                        </label>
+                        <label class="color-radio-grop green">
+                            <span class="color-box">
+                                <input class="inner-radio" ng-model="vm.color" type="radio" name="color" ng-value="vm.colors.green">
+                                <span class="rotate-check" ng-class="{'is-checked': vm.color==='#0da591'}"></span>
+                            </span>
+                            <br>
+                            <span translate="ADMIN_GREEN"></span>
+                        </label>
+                        <label class="color-radio-grop orange">
+                            <span class="color-box">
+                                <input class="inner-radio" ng-model="vm.color" type="radio" name="color" ng-value="vm.colors.orange">
+                                <span class="rotate-check" ng-class="{'is-checked': vm.color==='#f8922f'}"></span>
+                            </span>
+                            <br>
+                            <span translate="ADMIN_ORANGE"></span>
+                        </label>
+                        <label class="color-radio-grop red">
+                            <span class="color-box">
+                                <input class="inner-radio" ng-model="vm.color" type="radio" name="color" ng-value="vm.colors.red">
+                                <span class="rotate-check" ng-class="{'is-checked': vm.color==='#a3121a'}"></span>
+                            </span>
+                            <br>
+                            <span translate="ADMIN_RED"></span>
+                        </label>
+                    </div>
+
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips" translate="ADMIN_CHOOSE_COLOR"></div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:72px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_APPLE_ACCOUNT"></div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        <label class="radio-label">
+                            <input type="radio" name="radio" ng-model="vm.hasAppleAccount" value="1">
+                            <span translate="ADMIN_HAVE"></span>
+                            <div class="radio-back-img">
+
+                            </div>
+
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="radio" ng-model="vm.hasAppleAccount" value="0">
+                            <span translate="ADMIN_NOT_HAVE"></span>
+                            <div class="radio-back-img">
+
+                            </div>
+
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="vm.hasAppleAccount === '1'" class="row-box" style="height:72px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        Bundle_ID
+                    </div>
+                </div>
+                <div class="col-box col-box-bundle">
+                    <div class="item-content item-content-label">
+                        {{vm.bundleID}}
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips" translate="ADMIN_BUNDLE_ID"></div>
+                </div>
+            </div>
+
+            <div ng-show="vm.hasAppleAccount === '1'" class="row-box" style="height: 243px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_CERTIFICATE"></div>
+                </div>
+                <div class="col-box col-box-text">
+                    <div class="item-content item-content-text">
+                        <span translate="ADMIN_FILE_TIP"></span>
+                        <button ng-show="!vm.certificateUrl" class="btn btn-default btn-sm btn-up-img"
+                                ng-click="vm.selectFile('certificateUrl')" translate="ADMIN_UPLOAD_ZIP">
+                        </button>
+                        <button ng-show="vm.certificateUrl" class="btn btn-default btn-sm btn-up-img"
+                                ng-click="vm.selectFile('certificateUrl')" translate="ADMIN_UPDATE_ZIP"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="vm.hasAppleAccount === '1'" class="row-box" style="height:72px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label" translate="ADMIN_IOS_PASSWORD"></div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <input class="form-control" ng-model="vm.certificatePassword">
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips" translate="ADMIN_NO_PASSWORD"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-area">
+            <button class="btn btn-primary btn-save" type="button" ng-click="vm.iOSInfoSave()" translate="ADMIN_SAVE"></button>
+            <button ng-show="!vm.isPublish" class="btn btn-info" type="button" ng-click="vm.publishIOSVersion()" translate="ADMIN_PUBLISH"></button>
+            <button ng-show="vm.isPublish" class="btn btn-info having-publish" type="button" translate="ADMIN_PUBLISHING"></button>
+        </div>
+    </div>
+
+</div>

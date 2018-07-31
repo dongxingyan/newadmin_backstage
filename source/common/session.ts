@@ -2,13 +2,11 @@ import * as angular from 'angular';
 
 export let name = 'app.session';
 export class SessionService {
-
     get token() {
         return sessionStorage.getItem('token');
     }
 
     set token(value: string) {
-        console.log(`获得token: ${value}`);
         sessionStorage.setItem('token', value);
     }
 
@@ -23,12 +21,25 @@ export class SessionService {
         return sessionStorage.getItem('orgId')
     }
     set orgId(value: string){
-        console.log("获得userId")
         sessionStorage.setItem('orgId',value);
+    }
+    get accountId(){
+        return sessionStorage.getItem('accountId')
+    }
+    set accountId(value: string){
+        sessionStorage.setItem('accountId',value);
+    }
+    get userId(){
+        return sessionStorage.getItem('userId')
+    }
+    set userId(value: string){
+        sessionStorage.setItem('userId',value);
     }
     clear(){
         this.token = '';
         this.orgId='';
+        this.accountId = '';
+        this.userId = '';
     }
     constructor() {
 

@@ -1,0 +1,91 @@
+.box{
+    // 通用的验证和绑定
+    .form-group{
+        position: relative;
+    }
+    .form{
+        width: 250px;
+        margin: auto;
+        margin-top: 29px;
+        margin-bottom: 95px;
+        input {
+            height: 26px;
+        }
+        .save-button {
+            height: 34px;
+            background: rgba(29,148,245,1);
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+        // 错误input
+        input.is-error {
+            border-color: #f56c6c;
+        }
+        .form-control:focus{
+            box-shadow: none;
+        }
+
+        .code-input{
+            width: 145px;
+        }
+
+        .code-btn{
+            position: absolute;
+            top: 25px;
+            right: 0;
+            color: #fff;
+            background: #1d94f5;
+            height: 26px;
+            font-size: 12px;
+            padding-top: 5px;
+            &[disabled]{
+                cursor: default;
+                background-color: rgb(190, 190,190);
+                border-color: rgb(190, 190,190);
+            }
+        }
+        .code-btn-phone{
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #fff;
+            background: #1d94f5;
+            height: 26px;
+            font-size: 12px;
+            padding-top: 5px;
+            &[disabled]{
+                cursor: default;
+                background-color: rgb(190, 190,190);
+                border-color: rgb(190, 190,190);
+            }
+        }
+
+        .code-tip{
+            color:rgba(207,207,207,1);
+            font-size: 12px;
+            margin-top: 15px;
+            white-space: nowrap;
+        }
+        // 原手机号码，邮箱
+        .old-info{
+            margin-left: 14px;
+        }
+
+        .error-tip{
+            color: red;
+            font-size: 12px;
+            position: absolute;
+        }
+    }
+    hr {
+        height: 1px;
+        width: 96%;
+        margin-left: 20px;
+        margin-top: 0;
+        margin-bottom: 0;
+        border-top: none;
+        background:rgba(0,0,0,0.05);
+    }
+}

@@ -16,7 +16,6 @@ interface IAddressListPageParams extends IPageParams {
     // 依赖注入，在init函数的参数表中可以获取。
     requires: ['$timeout'],
     // 这一页的标题
-    title: '机构管理系统',
     name: 'main.address-list'
 })
     /**
@@ -69,20 +68,14 @@ class MainAddress_ListPage extends Page<IAddressListPageParams> {
     pager: any[] = []
     total//总页数
     totalCount//总条数
-    pageSize:number =15;//每页显示条数
-    count:number//跳转到某页
-    selPage:number=1
+    pageSize: number = 10;//每页显示条数
+    count: number//跳转到某页
+    selPage: number = 1
 
     init() {
-        if(!this.teamManage){
-            this.teamManage=0;
+        if (!this.teamManage) {
+            this.teamManage = 0;
         }
-        // timeout(() => {
-        // 左边表格默认显示的是所有联系人
-        this.remote.getAllPersons(this.selPage, this.pageSize, -1)
-            .then((res) => {
-                this.allContacts = res.data.data;
-            })
 
         //获取所有联系人
         this.remote.getAllPersons()
@@ -91,15 +84,13 @@ class MainAddress_ListPage extends Page<IAddressListPageParams> {
                     this.allContactsCount = 0
                 }
                 else {
-                    this.allContacts=res.data.data;
+                    this.allContacts = res.data.data;
                     this.allContactsCount = res.data.data.length;
                     this.totalCount = parseInt(res.data.data.length);
                     this.total = Math.ceil(this.totalCount / this.pageSize);
                     this.pager = this.paging(this.total, this.selPage);
-                    this.items=this.allContacts.slice(0,this.pageSize)
-                    console.log(this.allContacts)
-                    console.log(this.items)
-                    console.log("hahah")
+                    this.items = this.allContacts.slice(0, this.pageSize)
+                    this.count = 1;
                 }
             })
 
@@ -118,157 +109,150 @@ class MainAddress_ListPage extends Page<IAddressListPageParams> {
         this.remote.getTeam()
             .then((res) => {
                 this.teams = res.data.data;
-                console.log(this.teams)
             })
-        // })
     }
+
     //点击退出登录
     signout() {
-        this.session.clear();
-        this.uiState.go('login');
-
+        this.rootScope.signout()
     }
 
     //点击编辑单条人员信息
-    modifySingle(name,email,phone,team,id){
-        this.visible3=true;
-        this.personName=name;
-        this.personEmail=email;
-        this.personPhone=phone;
-        this.teamManage=team;
-        this.singleId=id;
-        console.log(this.teamManage+"当前")
+    modifySingle(name, email, phone, team, id) {
+        this.visible3 = true;
+        this.personName = name;
+        this.personEmail = email;
+        this.personPhone = phone;
+        if (team == 0) {
+            this.teamManage = "0";
+        }
+        else {
+            this.teamManage = team;
+        }
+        this.selPage = 1;
+        this.singleId = id;
     }
 
     //点击删除单条人员信息
-    deleteSingle(id){
-        this.visible4=true;
-        this.deleteSingleId=id;
-        this.feedbackContent4="确定删除吗"
+    deleteSingle(id) {
+        this.visible4 = true;
+        this.deleteSingleId = id;
+        this.feedbackContent4 = this.translate.instant('ADMIN_SURE_DELETE')
 
     }
+
     //点击确定删除表格中的单条数据
-    sureDeleteSingle(){
-        this.visible4=false;
-        this.visible=true;
+    sureDeleteSingle() {
+        this.visible4 = false;
         this.remote.deletePerson(this.deleteSingleId)
-            .then((res)=>{
-                if(res.data.code==0){
-                    this.feedbackContent="删除成功"
+            .then((res)=> {
+                if (res.data.code == 0) {
+                    this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS1'));
+                    this.selPage = 1;
                     this.init();
                 }
-                else{
-                    this.feedbackContent="删除失败"
+                else {
+                    this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP19'));
                     this.init();
                 }
             })
     }
 
     //取消单条删除
-    cancelSingle(){
-        this.visible4=false;
+    cancelSingle() {
+        this.visible4 = false;
     }
 
 
-    sureModify(){
-        if(!this.personName||!this.personPhone||!this.personEmail||!this.teamManage){
-            this.visible3=false;
-            this.visible=true;
-            this.feedbackContent="请完善信息";
+    sureModify() {
+        if (!this.personName || !this.personPhone || !this.personEmail || !this.teamManage) {
+            this.visible3 = false;
+            this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_WARN_TIP17'));
         }
-        else{
-            let data2={
-                id:this.singleId,
-                orgId:sessionStorage.getItem('orgId'),
-                teamId:this.teamManage,
+        else {
+            let data2 = {
+                id: this.singleId,
+                orgId: sessionStorage.getItem('orgId'),
+                teamId: this.teamManage,
                 cName: this.personName,
                 phoneNum: this.personPhone,
                 email: this.personEmail,
                 remark: this.remark,
             }
-            this.visible3=false;
-            this.visible=true;
+            this.visible3 = false;
             this.remote.modifyPerson(data2)
-                .then((res)=>{
-                    if(res.data.code==0){
-                        this.feedbackContent="编辑成功"
+                .then((res)=> {
+                    if (res.data.code == 0) {
+                        this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS5'));
                         this.init();
                     }
-                    else{
-                        this.feedbackContent="编辑失败"
+                    else {
+                        this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP18'));
                         this.init();
                     }
                 })
         }
-
     }
+
     //点击添加人员按钮添加人员
-    addPerson(){
-        this.personName='';
-        this.personEmail='';
-        this.personPhone="";
-        this.teamManage=''
-        this.visible2=true;
+    addPerson() {
+        this.personName = '';
+        this.personEmail = '';
+        this.personPhone = "";
+        this.teamManage = "";
+        this.remark = "";
+        this.visible2 = true;
 
     }
 
     //点击所有联系人左边表格展示对应的所有联系人
     showAll() {
         if (this.allContactsCount == 0) {
-            alert("暂无数据")
+            this.rootScope.toggleInfoModal(2, this.translate.instant('ADMIN_WARN_TIP18'));
         }
         else {
             this.uiState.go('main.address-list', {page: 1});
-            this.selPage=1;
+            this.selPage = 1;
             this.remote.getAllPersons()
                 .then((response) => {
-                    this.allContacts=response.data.data
+                    this.allContacts = response.data.data
                     this.totalCount = parseInt(response.data.data.length);
                     this.total = Math.ceil(this.totalCount / this.pageSize);
                     this.pager = this.paging(this.total, this.selPage);
-                    this.items=this.allContacts.slice(0,this.pageSize)
+                    this.items = this.allContacts.slice(0, this.pageSize)
                 })
-            // this.remote.getAllPersons(this.selPage, this.pageSize, -1)
-            //     .then((res) => {
-            //         this.allContacts = res.data.data;
-            //
-            //
-            //     })
         }
 
     }
 
     //点击确定添加人员信息
-    sureAdd(){
-        let data1={
-            // id:peopleid,
-            orgId:sessionStorage.getItem('orgId'),
-            teamId:this.teamManage,
+    sureAdd() {
+        let data1 = {
+            orgId: sessionStorage.getItem('orgId'),
+            teamId: this.teamManage || 0,
             cName: this.personName,
             phoneNum: this.personPhone,
             email: this.personEmail,
             remark: this.remark,
         }
         //首先判断必填项是否为空
-        if(!this.personName||!this.personEmail||!this.personPhone){
-            this.visible2=false;
-            this.visible=true;
-            this.feedbackContent="请完善信息";
+        if (!this.personName || !this.personEmail || !this.personPhone) {
+            this.visible2 = false;
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_WARN_TIP17'));
         }
-        else{
-            this.visible2=false;
-            this.visible=true;
+        else {
+            this.visible2 = false;
             this.remote.addPerson(data1)
-                .then((res)=>{
-                if(res.data.code==0){
-                    this.feedbackContent="添加成功"
-                    this.init();
-                }
-                else{
-                    this.feedbackContent="添加失败"
-                    this.init();
-                }
-
+                .then((res)=> {
+                    if (res.data.code == 0) {
+                        this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS6'));
+                        this.selPage = 1;
+                        this.init();
+                    }
+                    else {
+                        this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP20'));
+                        this.init();
+                    }
                 })
         }
     }
@@ -276,24 +260,20 @@ class MainAddress_ListPage extends Page<IAddressListPageParams> {
     //点击未分组联系人左边的表格展示对应的未分组联系人
     showUngrouped() {
         this.remote.getPerson(0)
-        this.selPage=1
+        this.selPage = 1
         if (this.ungrouped == 0) {
-            alert("暂无数据")
+            this.rootScope.toggleInfoModal(2, this.translate.instant('ADMIN_WARN_TIP18'));
         }
         else {
             this.uiState.go('main.address-list', {page: 1});
             this.remote.getPerson(0)
                 .then((response) => {
-                    this.allContacts=response.data.data;
+                    this.allContacts = response.data.data;
                     this.totalCount = parseInt(response.data.data.length);
                     this.total = Math.ceil(this.totalCount / this.pageSize);
                     this.pager = this.paging(this.total, this.selPage);
-                    this.items=this.allContacts.slice(0,this.pageSize)
+                    this.items = this.allContacts.slice(0, this.pageSize)
                 })
-            // this.remote.getAllPersons(this.selPage, this.pageSize,0)
-            //     .then((res) => {
-            //         this.allContacts = res.data.data;
-            //     })
         }
 
 
@@ -301,136 +281,123 @@ class MainAddress_ListPage extends Page<IAddressListPageParams> {
 
     //点击联系组中的某个组左边表格显示对应的组成员
     showGroup(id, count) {
-        this.selPage=1;
-        console.log(this.groupMember + "hdofhdohfod")
+        this.selPage = 1;
         if (count == 0) {
-            alert("暂无数据")
+            this.rootScope.toggleInfoModal(2, this.translate.instant('ADMIN_WARN_TIP18'));
         }
         else {
             this.uiState.go('main.address-list', {page: 1});
             this.remote.getPerson(id)
                 .then((res) => {
-                    this.allContacts=res.data.data;
+                    this.allContacts = res.data.data;
                     this.totalCount = parseInt(res.data.data.length);
                     this.total = Math.ceil(this.totalCount / this.pageSize);
                     this.pager = this.paging(this.total, this.selPage);
-                    this.items=this.allContacts.slice(0,this.pageSize)
+                    this.items = this.allContacts.slice(0, this.pageSize)
                 })
-            // this.remote.getAllPersons(this.selPage, this.pageSize,id)
-            //     .then((res) => {
-            //         this.allContacts = res.data.data;
-            //     })
         }
-
-
     }
 
     //点击添加按钮添加联系组
-    addGroup(){
-        this.ifAdd=!this.ifAdd;
+    addGroup() {
+        this.ifAdd = !this.ifAdd;
+        this.groupName = "";
     }
 
     //点击确定按钮保存添加的分组
-    sure(){
-        let data={
-            orgId:sessionStorage.getItem('orgId'),
-            tName:this.groupName,
+    sure() {
+        let data = {
+            orgId: sessionStorage.getItem('orgId'),
+            tName: this.groupName,
         }
-        if(!this.groupName){
-            this.visible=true;
-            this.feedbackContent="请填写组名"
+        if (!this.groupName) {
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_WARN_TIP19'));
         }
-        else{
+        else {
             this.remote.addTeam(data)
-                .then((res)=>{
-                    if(res.data.code==0){
-                        this.visible=true;
-                        this.feedbackContent="添加成功"
+                .then((res)=> {
+                    if (res.data.code == 0) {
+                        this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS6'));
                         this.remote.getTeam()
                             .then((res) => {
                                 this.teams = res.data.data;
-                                console.log(this.teams)
                             })
                     }
-                    else{
-                        this.visible=true;
-                        this.feedbackContent="添加失败"
+                    else {
+                        this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP20'));
                     }
                 })
         }
+        this.ifAdd = false;
     }
-    //控制关闭弹框
-    close() {
-        this.visible = false;
-    }
+
     //点击修改分组名称
-    modify(id){
-    this.ifModify=true;
-    this.parentId=id;
+    modify(id) {
+        this.ifModify = true;
+        this.parentId = id;
     }
+
     //点击删除该组
-    delete(id){
-        this.visible1="true"
-        this.feedbackContent="确定删除吗？"
-        this.deleteId=id;
+    delete(id) {
+        this.visible1 = "true"
+        this.feedbackContent = this.translate.instant('ADMIN_SURE_DELETE')
+        this.deleteId = id;
     }
-    sureDelete(){
-        this.visible1=false;
+
+    sureDelete() {
+        this.visible1 = false;
         this.remote.deleteTeam(this.deleteId)
-            .then((res)=>{
-                if(res.data.code==0){
-                    this.visible=true;
-                    this.feedbackContent='删除成功';
+            .then((res)=> {
+                if (res.data.code == 0) {
+                    this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS1'));
                     this.remote.getTeam()
                         .then((res) => {
                             this.teams = res.data.data;
-                            console.log(this.teams)
                         })
                 }
-                else{
-                    this.visible=true;
-                    this.feedbackContent="删除失败"
+                else {
+                    this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP19'));
                 }
             })
     }
+
     //点击确定保存修改的组名称
-    sureEdit(id){
-        if(!this.groupName1){
-            alert("组名不能为空")
+    sureEdit(id) {
+        if (!this.groupName1) {
+            this.rootScope.toggleInfoModal(3, this.translate.instant('ADMIN_WARN_TIP20'));
         }
-        else{
-            let data={
-                id:id,
-                tName:this.groupName1,
+        else {
+            let data = {
+                id: id,
+                tName: this.groupName1,
             }
             this.remote.editTeam(data)
-                .then((res)=>{
-                    if(res.data.code==0){
-                        this.groupName1=""
-                        this.ifModify=false;
-                        this.visible=true;
-                        this.feedbackContent="修改成功"
+                .then((res)=> {
+                    if (res.data.code == 0) {
+                        this.groupName1 = ""
+                        this.ifModify = false;
+                        this.rootScope.toggleInfoModal(1, this.translate.instant('ADMIN_SUCCESS4'));
                         this.remote.getTeam()
                             .then((res) => {
                                 this.teams = res.data.data;
-                                console.log(this.teams)
                             })
                     }
-                    else{
-                        this.visible=true;
-                        this.feedbackContent="添加失败"
+                    else {
+                        this.rootScope.toggleInfoModal(4, this.translate.instant('ADMIN_ERROR_TIP20'));
                     }
                 })
         }
     }
+
     //点击取消修改的组名称
-    cancelEdit(){
-        this.ifModify=false;
+    cancelEdit() {
+        this.ifModify = false;
     }
-    cancel(){
-        this.visible1=false;
-        this.visible2=false;
-        this.visible3=false;
+
+    cancel() {
+        this.visible1 = false;
+        this.visible2 = false;
+        this.visible3 = false;
     }
 
     paging(total, current) {
@@ -491,71 +458,35 @@ class MainAddress_ListPage extends Page<IAddressListPageParams> {
         }
     }
 
-    setData(data){
-        console.log(this.selPage+"xuanze d")
-        this.items=data.slice((this.pageSize)*(this.selPage-1),this.selPage*(this.pageSize))
-        console.log(this.items)
+    setData(data) {
+        this.items = data.slice((this.pageSize) * (this.selPage - 1), this.selPage * (this.pageSize))
     }
 
-    selectPage(page){
-        if(page<1||page>this.total) return;
-        console.log("shifou ")
-        // if(page>2){
-        //     this.setData(this.rooms);
-        // }
-        this.selPage=page
+    selectPage(page, type) {
+        if (page < 1 || page > this.total) return;
+        if (type == 1) return;
+        this.selPage = page
+        this.count = page;
         this.setData(this.allContacts);
-        console.log(this.selPage)
-        console.log(typeof this.selPage)
-        this.pager=this.paging(this.total,this.selPage)
-        console.log(this.pager);
+        this.pager = this.paging(this.total, this.selPage)
     }
+
     //页码的显示
     // 上一页
     async  prevPage(page) {
-        this.selectPage(page-1);
-        console.log(page)
+        this.selectPage(page - 1, null);
     }
+
     //下一页
     async nextPage(page) {
-        this.selectPage(page+1)
+        this.selectPage(page + 1, null)
     }
+
     //页面跳转
-    jump(page){
-        console.log(page)
-        if(page){
-            var page1=parseInt(page)
-            this.selectPage(page1)
+    jump(page) {
+        if (page) {
+            var page1 = parseInt(page)
+            this.selectPage(page1, null)
         }
-
     }
-
-
-    // jump(page) {
-    //     if (page <= this.total && page > 0) {
-    //         this.uiState.go("main.address-list", {page: page});
-    //     }
-    // }
-    //
-    // async nextPage() {
-    //     let maxPage = await this.total;
-    //     let page = parseInt(this.params.page);
-    //     console.log(page)
-    //     if (page < maxPage) {
-    //         this.uiState.go('main.address-list', {page: page + 1});
-    //     } else {
-    //         this.uiState.go('main.address-list', {page: maxPage});
-    //     }
-    // }
-    //
-    // async  prevPage() {
-    //     let maxPage = this.total
-    //     let page = parseInt(this.params.page);
-    //     console.log(page)
-    //     if (page > 1) {
-    //         this.uiState.go('main.address-list', {page: page - 1})
-    //     } else {
-    //         this.uiState.go('main.address-', {page: 1})
-    //     }
-    // }
 }

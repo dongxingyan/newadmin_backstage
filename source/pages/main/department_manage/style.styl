@@ -5,22 +5,45 @@ main-department-manage {
     margin-left: 20px;
   }
   .main {
-  //width: 100%
-    height: 100%
-    display: flex
-  //background: pink;
-    flex-direction column
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
     font-size: 14px;
     .list{
-      ul{
-        list-style none;
-        margin:0;
-        padding:0;
+      ul.ztree {
+        margin-top: 0px;
+        border: none;
+        font-size: 16px;
+        background: none;
+        overflow-y:auto;
+        margin-left: 41px;
         li{
-          height: 40px
-          line-height: 40px
+          list-style none;
         }
+      }
+      .ztree li span.button.add {
+        background: url(../../../static/images2/add1.png) no-repeat 0px 0px;
+        background-size: contain;
+      }
+      .ztree li span.button.edit{
+        background: url(../../../static/images2/rename.png) no-repeat 0px 0px;
+        background-size: contain;
+        margin-left: 3px;
+      }
+      .ztree li span.button.ico_docu{
+        background: url(../../../static/images2/personal.png) no-repeat 0px 0px;
+      }
+      .ztree li span.button.ico_close,.ztree li span.button.ico_open{
+        background: url(../../../static/images2/department.png) no-repeat 0px 0px;
+      }
+      .ztree li span.button.remove{
+        background: url(../../../static/images2/delete.png) no-repeat 0px 0px;
+        background-size: contain;
+        margin-left: 3px;
+      }
+      .ztree li span.button.noline_open{
+        background: url(../../../static/images2/subtraction.png) no-repeat 3px 3px;
+      }
+      .ztree li span.button.noline_close{
+        background: url(../../../static/images2/add.png) no-repeat 3px 3px;
+
       }
     }
   }

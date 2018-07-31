@@ -1,0 +1,64 @@
+<div class="main">
+    <div class="conference-header">
+        <input type="file" id="J-conference-upload" class="file-input">
+        <div class="title">
+            <div class="icon"></div>
+            <div class="name">视频会议</div>
+        </div>
+        <div class="info">
+            <img src="../../../../static/images/hardware/warning.png">
+            <div>保存后，立即生效</div>
+        </div>
+    </div>
+
+    <div class="conference-body">
+        <div class="item">
+            <div class="item-title">LOGO</div>
+            <div class="img-container">
+                <img ng-show="vm.updateForm.backgroundLogo" ng-src="{{ vm.imgUrl+vm.updateForm.backgroundLogo }}" width="40" height="40">
+                <div ng-show="!vm.updateForm.backgroundLogo" class="logo"></div>
+            </div>
+            <div class="item-oper">
+                <div class="tip">PNG格式，尺寸70*70，图片大小不能超过5M</div>
+                <div class="upload-btn" ng-click="vm.uploadClick('backgroundLogo')">上传LOGO</div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-title">启动等待图</div>
+            <div class="img-container">
+                <img ng-show="vm.updateForm.startPageUrl" ng-src="{{ vm.imgUrl+vm.updateForm.startPageUrl }}" width="137" height="78">
+                <div class="wait" ng-show="!vm.updateForm.startPageUrl"></div>
+            </div>
+            <div class="item-oper">
+                <div class="tip">PNG格式，尺寸1920*1080，图片大小不能超过5M</div>
+                <div class="upload-btn" ng-click="vm.uploadClick('startPageUrl')">上传启动等待图</div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-title">默认背景图</div>
+            <div class="img-container">
+                <img ng-show="vm.updateForm.backgroundUrl" ng-src="{{ vm.imgUrl+vm.updateForm.backgroundUrl }}" width="137" height="78">
+                <div class="background" ng-show="!vm.updateForm.backgroundUrl"></div>
+            </div>
+            <div class="item-oper">
+                <div class="tip">PNG格式，尺寸1920*1080，图片大小不能超过5M</div>
+                <div class="upload-btn" ng-click="vm.uploadClick('backgroundUrl')">上传默认背景图</div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-title">左侧呼叫图</div>
+            <div class="img-container">
+                <img ng-show="vm.updateForm.leftCallUrl" ng-src="{{ vm.imgUrl+vm.updateForm.leftCallUrl }}" width="70" height="100">
+                <div class="call" ng-show="!vm.updateForm.leftCallUrl"></div>
+            </div>
+            <div class="item-oper">
+                <div class="tip">PNG格式，尺寸701*909，图片大小不能超过5M</div>
+                <div class="upload-btn" ng-click="vm.uploadClick('leftCallUrl')">上传左侧呼叫图</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="conference-footer">
+        <div class="save-btn" ng-click="vm.conferenceSave()">保存</div>
+    </div>
+</div>

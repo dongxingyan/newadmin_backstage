@@ -1,87 +1,101 @@
+<div class="alert alert-success info-modal toggle" role="alert" ng-show="vm.infoType === 1"><span class="glyphicon glyphicon-ok-sign"></span> {{vm.infoText}}</div>
+<div class="alert alert-info info-modal" role="alert" ng-show="vm.infoType === 2"><span class="glyphicon glyphicon-info-sign"></span> {{vm.infoText}}</div>
+<div class="alert alert-warning info-modal" role="alert" ng-show="vm.infoType === 3"><span class="glyphicon glyphicon-exclamation-sign"></span> {{vm.infoText}}</div>
+<div class="alert alert-danger info-modal" role="alert" ng-show="vm.infoType === 4"><span class="glyphicon glyphicon-remove-sign"></span> {{vm.infoText}}</div>
+<div class="notification" ng-show="vm.notificationType === 1">
+    <div class="icon success" aria-label="Center Align"><span class="glyphicon glyphicon-ok"></span></div>
+    <div class="text">
+        <h2 class="title">{{vm.notificationTitle}}</h2>
+        <div class="content">{{vm.notificationText}}</div>
+    </div>
+</div>
+<div class="notification" ng-show="vm.notificationType === 2">
+    <div class="icon error" aria-label="Center Align"><span class="glyphicon glyphicon-remove"></span></div>
+    <div class="text">
+        <h2 class="title">{{vm.notificationTitle}}</h2>
+        <div class="content">{{vm.notificationText}}</div>
+    </div>
+</div>
+
 <div class="wrap">
-    <!--<div class="header">-->
-        <!--<div class="content">-->
-            <!--<div class="header-left">-->
-                <!--<span class="name pf14">机构管理系统</span>-->
-            <!--</div>-->
-            <!--<div class="header-right">-->
-                <!--<div class="userName pf16">-->
-                    <!--你好{{vm.name}}-->
-                    <!--<div class="exit tc" ng-click="vm.signout()">退出机构管理系统</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div class="header">
+        <img src="{{ vm.systemLogo }}" ng-if="vm.systemLogo">
+        <div class="user-operation-container">
+            <span class="operation-text" ng-click="vm.signout()" translate="ADMIN_LOG_OUT">退出</span>
+            <span class="operation-line"> | </span>
+            <span class="operation-text" ng-if="vm.currentLan == 'en'"  ng-click="vm.chooseLang('cn-cn')" translate="ADMIN_LANGUAGE_CHINESE"></span>
+            <span class="operation-text" ng-if="vm.currentLan == 'cn'" ng-click="vm.chooseLang('en-us')" translate="ADMIN_LANGUAGE_ENGLISH"></span>
+        </div>
+    </div>
     <div class="container">
         <div class="contain">
             <div class="nav pf12">
-                <div class="nav-logo">
-
-                </div>
-                <div class="status common" ng-class="{active:vm.isActive('main.status')}" ui-sref="main.status" >
+                <div class="status common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.status')}" ui-sref="main.status" >
                     <span class="iconfont">&#xe619;</span>
-                    状态预览
+                    <span translate="ADMIN_OVERVIEW"></span>
                 </div>
-                <div class="meeting-room common" ng-class="{active:vm.isActive('main.meeting-room')}" ui-sref="main.meeting-room">
+                <div class="meeting-room common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.meeting-room')}" ui-sref="main.meeting-room">
                     <i class="iconfont">&#xe6aa;</i>
-                    会议室管理</div>
-                <div class="meeting common" ng-class="{active:vm.isActive('main.meeting-manage')}" ui-sref="main.meeting-manage">
+                    <span translate="ADMIN_ROOM_MANAGE"></span>
+                </div>
+                <div class="meeting common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.meeting-manage')}" ui-sref="main.meeting-manage">
                     <i class="iconfont">&#xe618;</i>
-                    会议管理</div>
-                <div class="record common" ng-class="{active:vm.isActive('main.live-recording')}" ui-sref="main.live-recording">
+                    <span translate="ADMIN_MEETING_MANAGE"></span>
+                </div>
+                <!-- 录制直播 -->
+                <div class="record common" ng-click="vm.navToggle('liveRecord')">
                     <i class="iconfont">&#xe636;</i>
-                    录制直播</div>
-                <div class="count common" ng-class="{active:vm.isActive('main.meeting-count')}" ui-sref="main.meeting-count">
-                    <i class="iconfont"> &#xe62c;</i>
-                    会议统计</div>
-                <div class="statistics common" ng-click="vm.navToggle()">
+                    <span translate="ADMIN_LIVE"></span>
+                </div>
+                <div class="statistics-use common" ng-show="vm.subNav.liveRecord"
+                     ui-sref="main.live" ng-class="{active:vm.isActive('main.live')}" translate="ADMIN_LIVE_ACTIVITY1"></div>
+                <div class="statistics-broadcast common"  ng-show="vm.subNav.liveRecord" ui-sref="main.record"
+                     ng-class="{active:vm.isActive('main.record')}" translate="ADMIN_RECORD"></div>
+                <!-- 统计 -->
+                <div class="statistics common" ng-click="vm.navToggle('statistics')">
                     <i class="iconfont"> &#xe63a;</i>
-                    统计
+                    <span translate="ADMIN_STATISTIC"></span>
                 </div>
-                <div class="statistics-use common" ng-show="vm.isClick" ui-sref="main.use-count" ng-class="{active:vm.isActive('main.use-count')}">
-                    使用统计
-                </div>
-                <div class="statistics-broadcast common"  ng-show="vm.isClick" ng-class="{active:vm.isActive('main.broadcast-count')}">
-                    直播统计
-                </div>
-
-                <div class="device common" ng-class="{active:vm.isActive('main.device-manage')}" ui-sref="main.device-manage({page:1})">
+                <div class="statistics-use common" ng-show="vm.subNav.statistics"
+                     ui-sref="main.use-count" ng-class="{active:vm.isActive('main.use-count')}" translate="ADMIN_USE_STATISTICS"></div>
+                <div class="statistics-broadcast common"  ng-show="vm.subNav.statistics" ui-sref="main.broadcast-count"
+                     ng-class="{active:vm.isActive('main.broadcast-count')}" translate="ADMIN_LIVE_STATISTIC"></div>
+                <!-- <div class="device common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.device-manage')}" ui-sref="main.device-manage({page:1})">
                     <i class="iconfont"> &#xe641;</i>
-                    硬件管理</div>
-                <div class="account common" ng-class="{active:vm.isActive('main.user-account')}" ui-sref="main.user-account({page:1})">
+                    终端账号</div> -->
+                <div class="account common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.user-account')}" ui-sref="main.user-account({page:1})">
                     <i class="iconfont"> &#xe607;</i>
-                    用户账号</div>
-                <div class="department common" ng-class="{active:vm.isActive('main.department-manage')}" ui-sref="main.department-manage">
+                    <span translate="ADMIN_TERMINAL"></span>
+                </div>
+                <div class="department common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.department-manage')}" ui-sref="main.department-manage">
                     <i class="iconfont"> &#xe612;</i>
-                    部门管理</div>
-                <div class="communication common" ng-class="{active:vm.isActive('main.address-list')}" ui-sref="main.address-list({page:1})">
+                    <span translate="ADMIN_DEPARTMENT_MANAGE"></span>
+                </div>
+                <div class="communication common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.address-list')}" ui-sref="main.address-list({page:1})">
                     <i class="iconfont">&#xe605;</i>
-                    通讯录</div>
-                <div class="change common" ng-class="{active:vm.isActive('main.change-password')}" ui-sref="main.change-password">
+                    <span translate="ADMIN_ADDRESS_LIST"></span>
+                </div>
+                <div class="change common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.account-safety')}" ui-sref="main.account-safety">
                     <i class="iconfont"> &#xe62f;</i>
-                    修改密码</div>
+                    <span translate="ADMIN_ACCOUNT_SECURITY"></span>
+                </div>
+                <div class="record common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.user-custom')}" ui-sref="main.user-custom">
+                    <i class="iconfont"> &#xe603;</i>
+                    <span translate="ADMIN_CUSTOMIZATION"></span>
+                </div>
+                <div class="record common" ng-click="vm.ifShow()" ng-class="{active:vm.isActive('main.box-manage')}" ui-sref="main.box-manage">
+                    <i class="iconfont"> &#xe6ed;</i>
+                    <span translate="ADMIN_DEVICE_MANAGE"></span>
+                </div>
             </div>
             <div class="contain-right">
-                <!--<div class="header">-->
-                <!--<div class="content">-->
-                <!--<div class="header-left">-->
-                <!--<span class="name pf14">机构管理系统</span>-->
-                <!--</div>-->
-                <!--<div class="header-right">-->
-                <!--<div class="userName pf16">-->
-                <!--你好{{vm.name}}-->
-                <!--<div class="exit tc" ng-click="vm.signout()">退出机构管理系统</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-
-
+                <div class="head">
+                    <div class="head-content">
+                    </div>
+                </div>
                 <ui-view>
                 </ui-view>
             </div>
-
-
         </div>
     </div>
 </div>

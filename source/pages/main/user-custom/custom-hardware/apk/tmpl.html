@@ -1,0 +1,249 @@
+<div class="apk">
+    <div class="header">
+        <div class="title">定制APK管理</div>
+        <div class="operation">
+            <span>apk名称</span>
+            <input type="text" ng-model="vm.apkName">
+            <div ng-click="vm.getApkInfoList()">查询</div>
+            <div data-toggle="modal" data-target="#apkCreateModal">新增</div>
+        </div>
+    </div>
+    <input id="J-install-upload" class="hide-file" type="file">
+    <input id="J-update-install-upload" class="hide-file" type="file">
+    <div class="body">
+        <table>
+            <thead>
+                <th>
+                    <input id="select-all" type="checkbox" ng-click="vm.isSelectAll()" ng-checked="vm.isAllSelect">
+                    <label ng-click="vm.isSelectAll()">全选</label>
+                    <span class="union-delete" ng-click="vm.deleteManyOpen()">删除</span>
+                </th>
+                <th>apk名称</th>
+                <th>类别</th>
+                <th>版本号</th>
+                <th>安装方式</th>
+                <th>上下线</th>
+                <th>操作</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="apk in vm.apkList">
+                    <td><input ng-show="apk.type==3" type="checkbox" ng-checked="apk.isSelect==1" ng-click="vm.isAllSelectOfItemClick(apk)"></td>
+                    <td>{{ apk.name }}</td>
+                    <td ng-cloak ng-show="apk.type!=3">系统应用</td>
+                    <td ng-cloak ng-show="apk.type==3">自定义</td>
+                    <td>{{ apk.versionNum }}</td>
+                    <td ng-cloak ng-show="apk.installWay==1">静默安装</td>
+                    <td ng-cloak ng-show="apk.installWay==2">询问安装</td>
+                    <td ng-show="apk.type==3">
+                        <div class="online-container">
+                            <span class="up-line" ng-click="vm.upOrDownline(apk);" ng-class="{'is-click': !apk.online}">上线</span>
+                            <span class="down-line" ng-click="vm.upOrDownline(apk);" ng-class="{'is-click': apk.online}">下线</span>
+                        </div>
+                    </td>
+                    <td ng-show="apk.type==3">
+                        <span class="operation" data-toggle="modal" data-target="#apkVersionModal" ng-click="vm.version.index=$index; vm.version.apkId=apk.id; vm.version.apkName=apk.name; vm.getApkVersionInfo();">版本管理</span>
+                        <span class="operation" data-toggle="modal" data-target="#apkEditModal" ng-click="vm.updateModalShow(apk, $index)">编辑</span>
+                        <span class="delete" data-toggle="modal" data-target="#apkDeleteModal" ng-click="vm.deleteId=apk.id; vm.delete.deleteType=1">删除</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer">
+        <span class="page-text">共{{ vm.totalSize }}条，每页{{ vm.pageSize }}条</span>
+        <ul uib-pagination ng-change="vm.getApkInfoList();" max-size="vm.maxSize" next-text="|>" previous-text="<|" total-items="vm.totalSize" ng-model="vm.pageId" class="pagination-sm" force-ellipses="true" items-per-page="vm.pageSize"></ul>
+    </div>
+    <!--新增 Modal-->
+    <div class="apk-create-modal modal fade" id="apkCreateModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">新增</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="title">
+                        填写相关信息
+                    </div>
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">apk名称</div>
+                            <input type="text" ng-model="vm.create.apkName" placeholder="请填写APK名称">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">安装方式</div>
+                            <select ng-model="vm.create.installType">
+                                <option value="1">静默安装</option>
+                                <option value="2">询问安装</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span class="error-tip" ng-show="vm.create.isShowErrorTip">{{ vm.create.errorText }}</span>
+                    <div class="save-btn" ng-click="vm.createOfApk()">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--版本管理 Modal-->
+    <div class="apk-version-modal modal fade" id="apkVersionModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">版本管理</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="operation">
+                        <div class="label">APK名称</div>
+                        <div class="name">{{ vm.version.apkName }}</div>
+                        <div class="add-btn" data-toggle="modal" data-target="#createVersionModal" ng-click="vm.createVersionModalShow()">新增版本</div>
+                    </div>
+                    <table>
+                        <tr class="table-header">
+                            <td>版本号</td>
+                            <td>版本描述</td>
+                            <td>包名</td>
+                            <td>修改时间</td>
+                            <td>操作</td>
+                        </tr>
+                        <tr class="table-content" ng-repeat="version in vm.version.versionList">
+                            <td>{{ version.versionNum }}</td>
+                            <td>{{ version.versionDesc }}</td>
+                            <td>{{ version.packName }}</td>
+                            <td>{{ version.updateTime * 1000 | formatTimeFilter }}</td>
+                            <td class="td-oper">
+                                <div class="update-btn" data-toggle="modal" data-target="#editVersionModal" ng-click="vm.updateVersionModalShow(version)">修改</div>
+                                <div class="delete-btn" ng-click="vm.deleteVersion(version.id)">删除</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="footer">
+                        <span class="page-text">共{{ vm.version.totalSize }}条，每页{{ vm.version.pageSize }}条</span>
+                        <ul uib-pagination ng-change="vm.getApkVersionInfo();" max-size="vm.maxSize" next-text="|>" previous-text="<|" total-items="vm.version.totalSize" ng-model="vm.version.pageId" class="pagination-sm" force-ellipses="true" items-per-page="vm.version.pageSize"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--新增 版本 Modal-->
+    <div class="create-version-modal modal fade" id="createVersionModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">新增</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">版本号</div>
+                            <input type="text" ng-model="vm.version.create.versionNum" placeholder="请输入版本号">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">包名</div>
+                            <textarea ng-model="vm.version.create.packName" placeholder="请输入包名"></textarea>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">安装包</div>
+                            <textarea ng-model="vm.version.create.absoluteUrl" placeholder="请选择安装包"></textarea>
+                            <div class="select-btn" ng-click="vm.selectFile()">选择文件</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">版本简介</div>
+                            <textarea ng-model="vm.version.create.versionDesc" placeholder="请说明版本简介" class="version-desc"></textarea>
+                        </div>
+                    </div>
+                    <div class="oper-btn">
+                        <span class="error-tip" ng-show="vm.version.create.isShowErrorTip">{{ vm.version.create.errorText }}</span>
+                        <div class="save-btn" ng-click="vm.createVersion()">保存</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--修改 版本 Modal-->
+    <div class="edit-version-modal modal fade" id="editVersionModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">编辑</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">版本号</div>
+                            <input type="text" ng-model="vm.version.update.versionNum" placeholder="请输入版本号">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">包名</div>
+                            <textarea ng-model="vm.version.update.packName" placeholder="请输入包名"></textarea>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">安装包</div>
+                            <textarea ng-model="vm.version.update.absoluteUrl" placeholder="请选择安装包"></textarea>
+                            <div ng-click="vm.updateSelectFile()" class="select-btn">选择文件</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">版本简介</div>
+                            <textarea ng-model="vm.version.update.versionDesc" placeholder="请说明版本简介" class="version-desc"></textarea>
+                        </div>
+                    </div>
+                    <div class="oper-btn">
+                        <span class="error-tip" ng-show="vm.version.create.isShowErrorTip">{{ vm.version.create.errorText }}</span>
+                        <div class="save-btn" ng-click="vm.updateVersion()">保存</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑apk-->
+    <div class="apk-edit-modal modal fade" id="apkEditModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">编辑</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="title">
+                        填写相关信息
+                    </div>
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">apk名称</div>
+                            <input type="text" ng-model="vm.update.apkName">
+                        </div>
+                        <div class="item">
+                            <div class="item-title">安装方式</div>
+                            <select ng-model="vm.update.installType">
+                                <option value="1">静默安装</option>
+                                <option value="2">询问安装</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span class="error-tip" ng-show="vm.update.isShowErrorTip">{{ vm.update.errorText }}</span>
+                    <div class="save-btn" ng-click="vm.updateOfApk()">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--删除apk-->
+    <div class="apk-delete-modal modal fade" id="apkDeleteModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">提示</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="content">删除之后不可恢复，确定删除</div>
+                    <div class="operation">
+                        <div class="sure-btn" ng-click="vm.deleteApks()">确定</div>
+                        <div class="cancel-btn" data-dismiss="modal">取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

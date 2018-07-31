@@ -1,8 +1,12 @@
-import {Page, IPageParams, page} from "../../../common/page";
+import {Page, IPageParams, page} from 'common/page';
+import * as echarts from 'libs/echarts/echarts.min.js';
+import formatDate from 'utils/format-date';
+
 // webpack的配置，不用管
 require.keys().filter(x => /^\.\/[^\/]+(\/index)?\.(js|ts)$/.test(x)).forEach(x => require(x));
 // 引入样式
 require('./style.styl');
+
 // 路由参数的设置
 interface IStatusPageParams extends IPageParams {
     page: string;
@@ -16,7 +20,7 @@ interface IStatusPageParams extends IPageParams {
     // 依赖注入，在init函数的参数表中可以获取。
     requires: ['$timeout'],
     // 这一页的标题
-    title: '机构管理系统',
+    title: "",
     name: 'main.status'
 })
     /**
@@ -38,185 +42,242 @@ interface IStatusPageParams extends IPageParams {
      *   3 页面类的对象在模板上用vm表示。用   {{vm.**}}   这种方式做绑定就可以了。
      */
 class MainStatusPage extends Page<IStatusPageParams> {
-    name:"";
+    name: '';
     department;//所属机构
     count;//会议室总数
     deviceAccount;//设备账号
     userAccount;//用户账号
-    page: number;
-    pageSize = 6;
-    order: any[] = []
-    pager: any[] = []
+    account
     total
-    current
-    next
+    meetingDurationChart
+    activeMeetingInfoList
 
     init(timeout: angular.ITimeoutService) {
-        // timeout(() => {
-            this.remote.getDepartment()
-                .then((res) => {
-                    if(res.data.code=="0")
-                    this.department=res.data.data.name;
-                })
+        this.pathTurnSession();
+        this.getDepartmentInfo();       // 获取机构信息
+        this.getTotalMeetingRoom();     // 获取会议室总数
+        this.getDeviceAccount();        // 获取设备账号
+        this.getUserAccount();          // 获取用户账号
+        this.getChartDataOfChannel();   // 获取统计数据
+        this.getActiveConference();     // 获取实时会议信息
+        this.meetingDurationChart = echarts.init(document.getElementById('container'));
+    }
+    // 官网试用跳转, 获取localStorage数据转移到sessionStorage，然后删除
+    pathTurnSession() {
+        let url =  document.location.search; //获取url中"?"符后的字串
+        if (url.indexOf("?") != -1) {
+            let arr = url.substr(1).split('&');
+            for (let item of arr.values()) {
+                let dataArr = item.split('=');
+                sessionStorage.setItem(dataArr[0], dataArr[1]);
+            }
+        }
+    }
+    // 获取机构信息
+    getDepartmentInfo () {
+        this.remote.getDepartment()
+            .then((res) => {
+                if (res.data.code === '0')
+                    this.department = res.data.data.name;
+            })
+    }
+    // 获取会议室总数
+    getTotalMeetingRoom () {
         this.remote.totalCount()
-            .then((res)=>{
-                if(res.data.code=="0"){
-                    this.count=res.data.data.count;
+            .then((res)=> {
+                if (res.data.code == "0") {
+                    this.count = res.data.data.count;
                 }
-                console.log(res.data)
             })
+    }
+    // 获取设备账号
+    getDeviceAccount () {
         this.remote.getDeviceAccount()
-                .then((res)=>{
-                    this.deviceAccount=res.data.data.count;
+            .then((res)=> {
+                this.deviceAccount = res.data.data.count;
             })
+    }
+    // 获取用户账号
+    getUserAccount () {
         this.remote.getUserAccount()
-            .then((res)=>{
-                this.userAccount=res.data.data.count;
+            .then((res)=> {
+                this.userAccount = res.data.data.count;
             })
-
-        var series = new Array();
-        var cates=new Array()
-        var series2=new Array()
-        var cates2=new Array()
-        $('#container').highcharts({
-            chart: {
-                type: 'column'
-                // margin: [ 50, 50, 100, 80]
-            },
-            credits: {
-                enabled: false //不显示LOGO
-            },
-            title: {
-                text: '会议时长统计'
-            },
-            xAxis: {
-                categories: cates,
-                labels: {
-                    rotation: -45,
-                    align: 'right',
-                    style: {
-                        fontSize: '11px',
-                        fontFamily: 'Verdana, sans-serif'
+    }
+    // 获取统计的数据
+    getChartDataOfChannel () {
+        // 获取请求参数
+        let requestData = {
+            startTime: `${formatDate.lastMonthDate()} 00:00:00`,
+            endTime: `${formatDate.nowDate()} 00:00:00`
+        }
+        // 获取会议室使用次数
+        this.getMeetingTimesData(requestData, meetingResponse => {
+            this.getConcurrentData(requestData, concurrentResponse => {
+                // 渲染会议使用图表
+                this.renderMeetingUseChart(meetingResponse, concurrentResponse)
+            })
+        })
+    }
+    // 获取会议室使用次数 数据
+    getMeetingTimesData (requestData, callback) {
+        this.remote.getConferenceCount (requestData)
+            .then(response => {
+                if (response.data) {
+                    let responseData = response.data
+                    if (responseData.code === '0') {
+                        if (!responseData.data) {
+                            return false
+                        }
+                        callback(responseData.data.timeline)
+                    } else {
+                        this.rootScope.toggleInfoModal(4, responseData.message);
                     }
                 }
+            })
+            .catch(error => {
+                this.rootScope.toggleInfoModal(4, error);
+            })
+    }
+    // 获取最高并发 数据
+    getConcurrentData (requestData, callback) {
+        this.remote.getSimultaneousCount (requestData)
+            .then(response => {
+                if (response.data) {
+                    let responseData = response.data
+                    if (responseData.code === '0') {
+                        callback(responseData.data.timeline)
+                    } else {
+                        this.rootScope.toggleInfoModal(4, responseData.message);
+                    }
+                }
+            })
+            .catch(error => {
+                this.rootScope.toggleInfoModal(4, error);
+            })
+    }
+    // 渲染会议使用图表
+    renderMeetingUseChart (meetingData, concurrentData) {
+        let meetingUseOption = {
+            color: [
+                'rgba(82,192,250,1)', 'rgba(239, 100, 57, 1)'
+            ],
+            title: {
+                text: this.translate.instant('ADMIN_STATUS_CHART_TITLE'),
+                'x': 'left',
+                textStyle: {
+                    color: '#30383d',
+                    fontWeight: 'bold',
+                    fontSize: '14'
+                },
+                left: '10%',
+                top: '8%'
             },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: '会议时长 (秒)'
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+                    shadowStyle: {
+                        color: '#e8f4fe',
+                        opacity: 0.8
+                    }
                 }
             },
             legend: {
-                enabled: false
-            },
-            tooltip: {
-                pointFormat: '会议时长: <b>{point.y:.1f} 秒</b>',
-            },
-            series: [{
-                name: '会议时长',
-                data: series,
-                dataLabels: {
-                    enabled: false,
-                    rotation: 0,
-                    color: '#FFFFFF',
-                    align: 'center',
-                    x: 4,
-                    y: 10,
-                    style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif',
-                        textShadow: '0 0 3px black'
+                data: [{
+                    name: this.translate.instant('ADMIN_STATUS_LEGEND_TIMES'),
+                    icon: 'roundRect',
+                    textStyle: {
+                        color: '#30383d',
+                        fontWeight: 'bolder',
+                        fontSize: '14px'
                     }
+                }, {
+                    name: this.translate.instant('ADMIN_STATUS_LEGEND_CONCURRENCY'),
+                    icon: 'roundRect',
+                    textStyle: {
+                        color: '#30383d',
+                        fontWeight: 'bolder',
+                        fontSize: '14px'
+                    }
+                }],
+                align: 'left',
+                right: '10%',
+                top: '8%'
+            },
+            calculable: true,
+            xAxis: [{
+                type: 'category',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                boundaryGap: true,
+                data: meetingData.map((item) => { return item.time })
+            }],
+            yAxis: [{
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
                 }
+            }],
+            series: [{
+                name: this.translate.instant('ADMIN_STATUS_LEGEND_TIMES'),
+                smooth: true,
+                type: 'line',
+                lineStyle: {
+                    normal: {
+                        width: 5
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                width: '30px',
+                data: meetingData.map(item => {
+                    return item.totalCount
+                })
+            }, {
+                name: this.translate.instant('ADMIN_STATUS_LEGEND_CONCURRENCY'),
+                smooth: true,
+                lineStyle: {
+                    normal: {
+                        width: 5
+                    }
+                },
+                type: 'line',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                barMaxWidth: '25px',
+                data: concurrentData.map((item) => {
+                    return item.simultaneous
+                })
             }]
-        });
-
-        // })
-    }
-
-    signout() {
-        this.session.clear();
-        this.uiState.go('login');
-
-    }
-
-    paging(total, current) {
-        // 小于十页全显示
-        if (total <= 10) {
-            let arr = [];
-            for (var i = 0; i < total; i++) {
-                arr[i] = i + 1;
-            }
-            return arr.map(x => ({
-                type: 0,
-                value: x,
-                isCurrent: x === current
-            }))
         }
-        // 大于十页部分显示
-        else {
-            // 当前页号小于等于5
-            if (current <= 4) {
-                return [1, 2, 3, 4, 5].map<{type,value?,isCurrent?}>(x => ({
-                    type: 0,
-                    value: x,
-                    isCurrent: x === current
-                }))
-                    .concat([
-                        {type: 1},
-                        {type: 0, value: total, isCurrent: false}
-                    ])
-            }
-            // 当前页号是最后5页之一
-            else if (current > total - 4) {
-                return [
-                    {type: 0, value: 1, isCurrent: false},
-                    {type: 1}
-                ]
-                    .concat([total - 4, total - 3, total - 2, total - 1, total].map(x => ({
-                        type: 0,
-                        value: x,
-                        isCurrent: x === current
-                    })))
-            }
-            // 其它情况
-            else {
-                return [
-                    {type: 0, value: 1, isCurrent: false},
-                    {type: 1}
-                ]
-                    .concat([current - 2, current - 1, current, current + 1, current + 2].map(x => ({
-                        type: 0,
-                        value: x,
-                        isCurrent: x === current
-                    })))
-                    .concat([
-                        {type: 1},
-                        {type: 0, value: total, isCurrent: false}
-                    ])
-            }
-        }
+        this.meetingDurationChart.setOption(meetingUseOption)
     }
-
-    async nextPage() {
-        let maxPage = await this.total;
-        let page = parseInt(this.params.page);
-        console.log(page)
-        if (page < maxPage) {
-            this.uiState.go('main.order-manager', {page: page + 1});
-        } else {
-            this.uiState.go('main.order-manager', {page: maxPage});
-        }
+    // 获取实时会议信息列表
+    getActiveConference () {
+        this.remote.getActiveConferences()
+            .then((res) => {
+                if (res.data.code === '0')
+                    this.activeMeetingInfoList = res.data.data;
+            })
     }
-
-    async  prevPage() {
-        let maxPage = this.total
-        let page = parseInt(this.params.page);
-        console.log(page)        
-        if (page > 1) {
-            this.uiState.go('main.order-manager', {page: page - 1})
-        } else {
-            this.uiState.go('main.order-manager', {page: 1})
-        }
+    // 跳转至会议室详情页面
+    getMeetingDetail (item) {
+        let { meetingRoomNum, conferenceDuration, locked, guestsMuted } = item;
+        this.uiState.go('main.meeting-detail', { data: JSON.stringify({
+            meetingRoomNum,
+            conferenceDuration,
+            locked,
+            guestsMuted
+        }) });
     }
 }

@@ -1,0 +1,128 @@
+<div class="screen">
+    <input id="J-logo-upload" class="hide-file" type="file">
+    <div ng-show="!vm.isEditStatus">
+        <div class="operation">
+            <div class="edit-btn" ng-click="vm.isEditStatus=true">编辑模块</div>
+        </div>
+        <div class="content">
+            <img class="background-img" src="../../../../../static/images/hardware/background.png">
+            <div class="body">
+                <div class="header">
+                    <img ng-src="{{ vm.filePath+vm.logoUrl }}" width="120" height="30">
+                </div>
+                <div class="content-container">
+                    <div class="content" ng-repeat="tofu in vm.realTofuInfoList">
+                        <div class="title">
+                            <span class="icon"></span>
+                            <span>{{ tofu.beanCurdCubeName }}</span>
+                        </div>
+                        <div class="module">
+                            <img ng-src="{{ vm.filePath+tofu.detailList[0].url }}" width="175">
+                            <div class="shadow">
+                                <div class="main-title">{{ tofu.detailList[0].title }}</div>
+                                <div class="sub-head">{{ tofu.detailList[0].subtitle }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="vm.isEditStatus">
+        <div class="operation">
+            <div class="negative-edit-btn">编辑模块</div>
+            <div class="delete-btn" ng-click="vm.editTofuCancel()">取消</div>
+            <div class="save-btn" ng-click="vm.saveEditOfTofuList()">保存</div>
+        </div>
+        <div class="content">
+            <img class="background-img" src="../../../../../static/images/hardware/background.png">
+            <div class="body">
+                <div class="header">
+                    <img ng-src="{{ vm.filePath+vm.logo.url }}" width="120" height="30">
+                    <div data-toggle="modal" data-target="#uploadLogoModal" ng-click="vm.logoEditModalShow()">上传LOGO</div>
+                </div>
+                <div class="content-container">
+                    <div class="content" dnd-list class="content" ng-repeat="tofu in vm.edit.tofuInfoList track by $index"
+                         dnd-draggable="null"
+                         dnd-effect-allowed="move"
+                         dnd-drop="vm.dragDrop(tofu, $index)"
+                         dnd-dragstart="vm.dragStart(tofu, $index)">
+                        <div class="title">
+                            <span class="icon"></span>
+                            <span>{{ tofu.beanCurdCubeName }}</span>
+                        </div>
+                        <div class="module">
+                            <img ng-src="{{ vm.filePath+tofu.detailList[0].url }}" width="175">
+                            <div class="shadow">
+                                <div class="main-title">{{ tofu.detailList[0].title }}</div>
+                                <div class="sub-head">{{ tofu.detailList[0].subtitle }}</div>
+                            </div>
+                        </div>
+                        <div ng-show="tofu.type==3 || tofu.isAdd" class="delete" ng-click="vm.deleteTofu(tofu, $index)">
+                            <img src="../../../../../static/images/hardware/delete.png">
+                            <div>删除模块</div>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="title">
+                            <span style="height: 15px;"></span>
+                            <span>&nbsp;</span>
+                        </div>
+                        <div class="add" data-toggle="modal" data-target="#importTofuModal" ng-click="vm.getAllTofuList()">
+                            <img src="../../../../../static/images/hardware/add-tofu.png" width="175">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--导入豆腐块 Modal-->
+    <div class="import-tofu-modal modal fade" id="importTofuModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">导入豆腐块</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">豆腐块名称</div>
+                            <input ng-click="vm.inputClickOfCreate()" type="text" ng-model="vm.add.tofuInfo.name" placeholder="请选择豆腐块">
+                            <div class="tofu-select-container" ng-show="vm.add.isShowOfTofuSelect">
+                                <div ng-click="vm.selectTofu(tofu)" ng-repeat="tofu in vm.add.tofuList | filter: (vm.add.tofuInfo.name)">{{ tofu.name }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <span ng-show="vm.add.isShowErrorTip">{{ vm.add.errorText }}</span>
+                    <div class="save-btn" ng-click="vm.saveOfAddTofu()">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--上传LOGO Modal-->
+    <div class="upload-logo-modal modal fade" id="uploadLogoModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title">首页LOGO编辑</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="item">
+                            <div class="item-title">首屏LOGO</div>
+                            <div class="content-container">
+                                <div ng-show="!vm.logo.url" class="content-img-container"></div>
+                                <img width="134" height="130" ng-show="vm.logo.url" ng-src="{{ vm.filePath+vm.logo.url }}">
+                                <div class="select-btn" ng-click="vm.selectFile()">选择文件</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="save-btn" data-dismiss="modal">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

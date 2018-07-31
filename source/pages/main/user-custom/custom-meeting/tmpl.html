@@ -1,0 +1,157 @@
+<div class="main">
+
+    <input type="file" id="J-meeting-input-file" class="meeting-input-of-file">
+
+    <div class="custom">
+        <div class="form-custom">
+            <div class="row-box" style="height:76px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        系统名称
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <input class="form-control" ng-model="vm.systemName"/>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips ">
+                    <div class="item-content item-content-tips">
+                        *必填
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:70px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        自定义域名
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <input class="form-control" ng-model="vm.customizedDomain"/>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        若不需要，可置空 <br> 域名解析（cname）地址：{{vm.defaultDomain}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:64px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        HTTPS证书
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <button class="btn btn-default btn-sm btn-up-img" ng-show="!vm.certificateUrl"
+                                ng-click="vm.selectFile('certificateUrl')">上传https证书
+                        </button>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-show="vm.certificateUrl"
+                                ng-click="vm.selectFile('certificateUrl')">更新https证书
+                        </button>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        <img src="../../../../static/images/tip.png"> 若使用自定义域名，请上传https证书
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:74px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        登录页logo
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.loginLogo" ng-src="{{vm.imageUrl+vm.loginLogo}}" width="180px" height="35px">
+                        <div ng-show="!vm.loginLogo" class="meeting-login-logo"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        图片支持png格式，小于512k，380*128像素 <br>
+                        <button class="btn btn-default btn-sm btn btn-default btn-sm btn-up-img"
+                                ng-click="vm.selectFile('loginLogo')">上传图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:90px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        icon图标
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.ico" ng-src="{{vm.imageUrl+vm.ico}}" width="50px" height="50px">
+                        <div ng-show="!vm.ico" class="meeting-ico"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        图片支持png格式，48*48像素 <br>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('ico')">上传图片</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:90px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        登陆后左上角logo
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.systemLogo" ng-src="{{vm.imageUrl+vm.systemLogo}}" alt="" width="50px"
+                             height="50px">
+                        <div ng-show="!vm.systemLogo" class="meeting-ico"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        图片支持png格式，小于512k，40*40像素 <br>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('systemLogo')">上传图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:148px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        背景图
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img class="item-content-input-img" ng-show="vm.background"
+                             ng-src="{{vm.imageUrl+vm.background}}" width="150px" height="100px">
+                        <div ng-show="!vm.background" class="meeting-background"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        建议png格式,尺寸1920*1080，图片大小不能超过1M， <br> 中心区域380*400 会被覆盖 <br>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('background')">上传图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-area">
+            <button class="btn btn-primary btn-save" type="button" ng-click="vm.meetingInfoSave()">保存</button>
+        </div>
+    </div>
+</div>

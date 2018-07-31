@@ -1,0 +1,17 @@
+<div class="main-hardware">
+    <div class="hardware-header">
+        <div class="title">
+            <div class="icon"></div>
+            <div class="name">企视通</div>
+        </div>
+        <div class="module">
+            <div ng-class="{ active: vm.isActive==1 }" ng-click="vm.changeModule('main.custom-hardware.apk', 1)">定制APK管理</div>
+            <div ng-class="{ active: vm.isActive==2 }" ng-click="vm.changeModule('main.custom-hardware.tofu', 2)">豆腐块管理</div>
+            <div ng-class="{ active: vm.isActive==3 }" ng-click="vm.changeModule('main.custom-hardware.screen', 3)">首屏管理</div>
+        </div>
+    </div>
+
+    <div class="hardware-body">
+        <ui-view></ui-view>
+    </div>
+</div>

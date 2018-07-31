@@ -1,0 +1,81 @@
+<div class="main">
+    <div class="box" style="background: none;">
+        <div class="broadcast-count-box-right-header">
+            <div class="broadcast-count-text-container">
+                <div class="broadcast-count-nav-icon"></div>
+                <div class="right-title" translate="ADMIN_LIVE_STATISTIC"></div>
+            </div>
+            <div class="search-condition-container">
+                <div class="time-button-container">
+                    <div id="J-today" ng-class="{ 'selected': vm.currentBtn == 1 }" ng-click = "vm.getTodayData()" translate="ADMIN_TODAY"></div>
+                    <div id="J-yesterday" ng-class="{ 'selected': vm.currentBtn == 2 }" ng-click = "vm.getYesterdayData()" translate="ADMIN_YESTERDAY"></div>
+                    <div id="J-nearly-week" ng-class="{ 'selected': vm.currentBtn == 3 }" ng-click = "vm.getOneWeekData()" translate="ADMIN_SEVEN_DAY"></div>
+                    <div id="J-nearly-month" ng-class="{ 'selected': vm.currentBtn == 4 }" ng-click = "vm.getOneMonthData()" translate="ADMIN_THIRTY_DAY"></div>
+                </div>
+                <div class="search-time-container">
+                    <input type="text" ng-model="vm.calendarStart" id="J-calendar-start" placeholder="{{'ADMIN_START_DATE' | translate}}">
+                    <div translate="ADMIN_TO"></div>
+                    <input type="text" ng-model="vm.calendarEnd" id="J-calendar-end" placeholder="{{'ADMIN_END_DATE' | translate}}">
+                </div>
+                <div class="meeting-search-select-container" ng-show="vm.isShowOfSelect">
+                    <select name="" id="J-live-list-select">
+                        <option value="0" translate="ADMIN_ALL"></option>
+                        <option value="{{item.liveId}}" ng-repeat="item in vm.liveList">{{item.title}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-1">
+                    <div class="search-button" ng-click="vm.searchCountData()" translate="ADMIN_INFORMATION_QUERY"></div>
+                </div>
+                <div>
+                    <div class="output-table-button" ng-click="vm.outputCharts()" translate="ADMIN_EXPORT_REPORT"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="concurrent-chart">
+            <div class="live-concurrent-chart-container">
+                <div id="J-live-concurrent-chart" style="height: 300px;"></div>
+            </div>
+        </div>
+        <div class="row uc-hide uc-no-data-container" >
+          <div class="uc-no-data-title" translate="ADMIN_CONCURRENCY"></div>
+	        <div class="uc-no-data-img"></div>
+        </div>
+        <div class="row" id="user-zone-chart">
+            <div class="live-user-zone-chart-container">
+                <div id="J-live-user-zone-chart" style="height: 300px;"></div>
+            </div>
+        </div>
+        <div class="row uc-hide uc-no-data-container" >
+          <div class="uc-no-data-title" translate="ADMIN_USER_AREA"></div>
+	        <div class="uc-no-data-img"></div>
+        </div>
+        <div class="row" id="user-device-chart">
+            <div class="live-user-device-chart-container">
+                <div id="J-live-user-device-chart" style="height: 300px;"></div>
+            </div>
+        </div>
+        <div class="row uc-hide uc-no-data-container" >
+          <div class="uc-no-data-title" translate="ADMIN_EQUIPMENT"></div>
+	        <div class="uc-no-data-img"></div>
+        </div>
+        <div class="row" id="browser-version-chart">
+            <div class="live-browser-version-chart">
+                <div id="J-live-browser-version-chart" style="height: 300px;"></div>
+            </div>
+        </div>
+        <div class="row uc-hide uc-no-data-container" >
+          <div class="uc-no-data-title" translate="ADMIN_BROWSER_VERSION"></div>
+	        <div class="uc-no-data-img"></div>
+        </div>
+        <div class="row" id="flow-chart">
+            <div class="live-flow-chart-container">
+                <div id="J-live-flow-chart" style="height: 300px;"></div>
+            </div>
+        </div>
+        <div class="row uc-hide uc-no-data-container" >
+          <div class="uc-no-data-title" translate="ADMIN_FLOW"></div>
+	        <div class="uc-no-data-img"></div>
+        </div>
+    </div>
+
+</div>

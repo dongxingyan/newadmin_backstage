@@ -11,101 +11,35 @@ main-new-meeting {
     background:#333;
   }
   .main {
-  //width: 100%
-    height: 100%
-    display: flex
-    position: relative;
-    flex-direction column
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
     font-size: 12px;
-    .feedback{
-       z-index 2
-       position absolute
-       width: 100%
-       height: 100%
-       display: flex
-       justify-content center
-       align-items center
-       background:rgba(0,0,0,.5)
-      .alerts{
-        width: 300px;
-        height: 210px;
-        background:#fff;
-        border-radius: 5px;
-        .alert-head{
-          height: 40px;
-          background: #31a3dd;
-          line-height: 40px;
-          padding-left: 35px;
-          color: #ffffff;
-          font-size: 12px;
-          position: relative;
-          border-radius: 5px 5px 0px 0px;
-          .img-right,.delet-right,.add-right,.page-right{
-            position: absolute;
-            right: 6px;
-            top: 8px;
-            height: 25px;
+    .box1{
+      .title {
+        font-size: 14px;
+        height: 30px
+        margin-left: 20px
+        line-height: 30px
+        background: #fff;
+        ul {
+          list-style none
+          li {
+            float: left;
+            a {
+              text-decoration none;
+              color: #09c;
+            }
+          }
+          .nav-icon {
+            margin-left: 5px;
+            margin-right: 5px;
           }
         }
-        .img-left{
-          position: absolute;
-          left: 10px;
-          top: 10px;
-          height: 21px;
-        }
-        .alert-content{
-          height: 110px;
-          line-height: 110px;
-          text-align: center;
-          font-family: "微软雅黑";
-          font-size: 16px;
-
-        }
-        .alert-bottom span{
-          display: inline-block;
-          text-align: center;
-          padding: 5px;
-          height: 30px;
-          width: 80px;
-          cursor: pointer;
-          border-radius: 5px;
-        }
-        .alert-sure,.delet-sure,.add-sure,.page-sure{
-          background:#31a3dd;
-          color: #fff;
-        }
-        .alert-bottom{
-          text-align: center;
-        }
       }
-
-    }
-
-    .title {
-      font-size: 14px;
-      height: 30px
-      margin-left: 20px
-      line-height: 30px
-      background: #fff;
-      ul {
-        list-style none
-        li {
-          float: left;
-          a {
-            text-decoration none;
-            color: #09c;
-          }
-        }
-        .nav-icon {
-          margin-left: 5px;
-          margin-right: 5px;
-        }
+      .create-broadcast {
+        padding-left: 42px;
+        background: #fff
       }
     }
-    .create-broadcast {
-      margin-left: 42px;
-    }
+
     .join-meeting-member {
       display flex
 
@@ -115,7 +49,6 @@ main-new-meeting {
         display flex
         flex-direction column
         border: 1px solid #aaa
-        overflow: scroll;
       }
       div .memberName {
         background: #eee;
@@ -132,6 +65,7 @@ main-new-meeting {
       .addressMember {
         .allMember {
           flex 1;
+          overflow: scroll;
           ul {
             margin: 0;
             padding-left: 10px;
@@ -157,6 +91,7 @@ main-new-meeting {
       }
       .allInviter{
         flex:1;
+        overflow: scroll;
         ul>li{
           list-style none
         }
@@ -189,7 +124,7 @@ main-new-meeting {
     .titleLeft {
       display: flex
       justify-content space-between
-      width: 100px
+      width: 130px
       height: 25px
       line-height: 25px
       text-align right
@@ -237,7 +172,7 @@ main-new-meeting {
     margin: 20px;
     .titleLeft {
       display: inline-block
-      width: 100px
+      width: 130px
       height: 25px
       line-height: 25px
       text-align right

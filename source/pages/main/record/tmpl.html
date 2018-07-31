@@ -1,0 +1,72 @@
+<div class="main">
+    <div class="box">
+        <div class="title">
+            <span translate="ADMIN_RECORD"></span>
+        </div>
+
+        <div class="list">
+            <table class="table">
+                <tr>
+                    <th translate="ADMIN_SERIAL"></th>
+                    <th translate="ADMIN_MEETINGROOM"></th>
+                    <th translate="ADMIN_START"></th>
+                    <th translate="ADMIN_END"></th>
+                    <th translate="ADMIN_FILE_SIZE"></th>
+                    <th translate="ADMIN_OPERATION"></th>
+                </tr>
+                <tr ng-repeat="item in vm.recordInfo">
+                    <td>{{$index + 1 + vm.recordPageSize * (vm.recordCurrent - 1)}}</td>
+                    <td>{{item.meetingRoomNum}}</td>
+                    <td>{{vm.formatLocaleTime(item.startTime)}}</td>
+                    <td>{{vm.formatLocaleTime(item.endTime)}}</td>
+                    <td class="file-size-list">
+                        <div ng-repeat="sizeItem in item.list">{{sizeItem.size}}</div>
+                    </td>
+                    <td>
+                        <div ng-repeat="sizeItem in item.list" class="operation-item operation-item-container">
+                            <a ng-href="{{sizeItem.path}}" ng-if="item.list.length" download="{{sizeItem.path}}" translate="ADMIN_DOWNLOAD"></a>
+                            <div ng-click="vm.toggleVideoPlayModal(sizeItem.path)" ng-if="item.list.length" translate="ADMIN_PLAYBACK"></div>
+                            <div ng-click="vm.toggleDeleteModal(sizeItem.name)" data-toggle="modal" data-target="#deleteRecordModal" ng-if="item.list.length" translate="ADMIN_DELETE"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <span class="page-text"><span translate="ADMIN_TOTAL2"></span>{{ vm.recordTotalCount }}<span translate="ADMIN_EACH_PAGE"></span>{{ vm.recordPageSize }}<span translate="ADMIN_STRIP"></span></span>
+            <ul uib-pagination ng-change="vm.getRecordList();" max-size="7" next-text="|>" previous-text="<|" total-items="vm.recordTotalCount" ng-model="vm.recordCurrent" force-ellipses="true" items-per-page="vm.recordPageSize"></ul>
+        </div>
+    </div>
+    <!-- 录制 删除模态框 -->
+    <div class="delete-modal modal fade" id="deleteRecordModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_PROMPT"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="content" translate="ADMIN_IF_DELETE"></div>
+                    <div class="operation">
+                        <div class="sure-btn" ng-click="vm.saveDeleteRecord()" translate="ADMIN_SURE"></div>
+                        <div class="cancel-btn" data-dismiss="modal" translate="ADMIN_CANCEL"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--视频播放模态框-->
+    <div class="feedback" ng-show="vm.recordVideoPlayVisible">
+        <div class="alerts video-modal-container">
+            <div class="alert-head" style="padding: 0; text-align: center;">
+                <span translate="ADMIN_PLAY_VIDEO"></span>
+                <img src="../../../static/images1/alertshanchu.png" alt="" class="img-right" ng-click="vm.recordVideoPlayVisible = false;vm.stopPlay();">
+            </div>
+            <div class="video-play-container">
+                <video ng-src="{{vm.videoUrl}}" controls="controls" width="400" height="400">
+                    your browser does not support the video tag
+                </video>
+            </div>
+        </div>
+    </div>
+</div>

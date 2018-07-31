@@ -1,0 +1,35 @@
+<div class="main">
+    <div class="box">
+        <div class="title">
+            <span translate="ADMIN_DEVICE_MANAGE"></span>
+        </div>
+        <div class="search-condition">
+            <span>MAC/SN: </span>
+            <input class="input-text" type="text" ng-model="vm.keyword">
+            <span class="buy-date" translate="ADMIN_CONFIG_DATE"></span>
+            <input id="J-buy-date" name="start-time" class="input-text inputBox laydate-icon"
+                   ng-model="vm.buyDate">
+            <div ng-click="vm.getBoxInfoList()" translate="ADMIN_SEARCH"></div>
+        </div>
+        <div class="list">
+            <table class="table">
+                <tr>
+                    <th translate="ADMIN_BOX_NUMBER"></th>
+                    <th>MAC</th>
+                    <th>SN</th>
+                    <th translate="ADMIN_CONFIG_DATE1"></th>
+                </tr>
+                <tr ng-repeat="box in vm.boxList">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ box.mac }}</td>
+                    <td>{{ box.sn }}</td>
+                    <td>{{ box.createDate * 1000 | date : 'yyyy-MM-dd' }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <span class="page-text"><span translate="ADMIN_TOTAL2"></span>{{ vm.totalSize }}<span translate="ADMIN_EACH_PAGE"></span>{{ vm.pageSize }}<span translate="ADMIN_STRIP"></span></span>
+            <ul uib-pagination ng-change="vm.getBoxInfoList();" max-size="vm.maxSize" next-text="|>" previous-text="<|" total-items="vm.totalSize" ng-model="vm.pageId" force-ellipses="true" items-per-page="vm.pageSize"></ul>
+        </div>
+    </div>
+</div>

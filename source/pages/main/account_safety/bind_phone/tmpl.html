@@ -1,0 +1,35 @@
+<div class="main">
+
+    <!-- 修改/绑定手机号页面 -->
+    <div class="box">
+        <div class="title">
+            <span translate="ADMIN_BIND_PHONE"></span>
+        </div>
+        <hr />
+        <div class="form">
+            <div class="form-group">
+                <label for="" translate="ADMIN_NEW_PHONE"></label>
+                <input class="form-control" type="text" ng-class="{'is-error': vm.errorTips.newPhone}" name="newPhone" ng-model="vm.newPhone" placeholder="{{'ADMIN_INPUT_NEWPHONE' | translate}}">
+                <div class="error-tip">{{vm.errorTips.newPhone}}</div>
+            </div>
+            <div class="form-group">
+                <label for="" translate="ADMIN_PICTURE_VERIFY"></label>
+                <input class="form-control" type="text" ng-class="{'is-error': vm.errorTips.pictureCode}" name="pictureCode" ng-model="vm.pictureCode" placeholder="{{'ADMIN_INPUT_VERIFY' | translate}}">
+                <div class="error-tip">{{vm.errorTips.pictureCode}}</div>
+            </div>
+            <div class="form-group">
+                <img ng-src="{{vm.pictureUrl}}" alt="" ng-click="vm.changePictureCode()">
+                <span ng-click="vm.changePictureCode()" translate="ADMIN_PICTURE_CHANGE"></span>
+            </div>
+            <div class="form-group">
+                <input class="form-control code-input" type="text" ng-class="{'is-error': vm.errorTips.authCode}" name="authCode" ng-model="vm.authCode" placeholder="{{'ADMIN_ENTER_CODE' | translate}}">
+                <div class="error-tip">{{vm.errorTips.authCode}}</div>
+                <button class="btn code-btn-phone" type="button" ng-disabled="vm.disabled" ng-click="vm.getAuthCode()" translate="ADMIN_GET_CODE"></button>
+                <p class="code-tip" ng-show="vm.codeTipVisibly">{{'ADMIN_SEND_CODE_PHONE' | translate:vm.second }}</p>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block save-button" type="button" ng-click="vm.alterPhone()" translate="ADMIN_SURE"></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -22,7 +22,7 @@ export abstract class Page<T extends IPageParams> {
 
     pagetitle: string;
 
-    constructor(public scope, public uiState: router.StateService, public params: T, public global: Global, public session: SessionService, public remote: RemoteService, ...args) {
+    constructor(public Upload, public translate,public rootScope, public scope,public uiState: router.StateService, public params: T, public global: Global, public session: SessionService, public remote: RemoteService, ...args) {
         Promise.resolve().then(() => {
             this.pagetitle && (document.head.getElementsByTagName('title')[0].innerText = this.pagetitle);
             this.init && this.init(...args);
@@ -38,7 +38,7 @@ export function page(options: IPageOptions): Function {
         if (!options.requires) {
             options.requires = [];
         }
-        constructor.$inject = ['$scope', '$state', '$stateParams', 'Global', SessionService.name, RemoteService.name, ...options.requires];
+        constructor.$inject = ['Upload','$translate','$rootScope', '$scope', '$state', '$stateParams', 'Global', SessionService.name, RemoteService.name, ...options.requires];
         let name = 'app.pages.' + options.name;
         pageModules.push(name);
         let url = '/' + options.name.replace(/_\./g, '-').split('.').slice(-1)[0];

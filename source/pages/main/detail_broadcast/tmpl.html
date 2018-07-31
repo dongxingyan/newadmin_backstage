@@ -1,0 +1,83 @@
+<div class="main">
+    <div class="box">
+        <div class="title">
+            <ul>
+                <li><a ui-sref="main.live" translate="ADMIN_LIVE_ACTIVITY"> </a></li>
+                <li class="active create-live-title" translate="ADMIN_LIVE_VIEW_INFORMATION"></li>
+            </ul>
+        </div>
+        <div class="detail-broadcast">
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_LIVE_TITLE"></span>
+                </div>
+                <div class="box-right">{{vm.data.title}}</div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_LIVE_TIME"></span>
+                </div>
+                <div class="box-right">
+                    {{vm.data.startTime.split('.')[0]}}
+                    <span translate="ADMIN_TO"></span>
+                    {{vm.data.endTime.split('.')[0]}}
+                </div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_ROOM_NUMBER"></span>
+                </div>
+                <div class="box-right">{{vm.data.vmrNum}}</div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_LIVE_RIGHTS"></span>
+                </div>
+                <div class="box-right live-radio" ng-if="!vm.data.authority" translate="ADMIN_PUBLIC"></div>
+                <div class="box-right live-radio" ng-if="vm.data.authority" translate="ADMIN_ENCRYPTION"></div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_LIVE_INTERACTION"></span>
+                </div>
+                <div class="box-right live-radio" ng-if="vm.data.interact" translate="ADMIN_LIVE_ALLOW"></div>
+                <div class="box-right live-radio" ng-if="!vm.data.interact" translate="ADMIN_LIVE_NOT_ALLOW"></div>
+            </div>
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_DEFINITION"></span>
+                </div>
+                <div class="box-right live-radio" ng-if="!vm.data.definition" translate="ADMIN_SD"></div>
+                <div class="box-right live-radio" ng-if="vm.data.definition" translate="ADMIN_HIGH"></div>
+            </div>
+            <!-- 推流地址 -->
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_LIVE_PUSH_URL"></span>
+                </div>
+                <div class="box-right" ng-bind="vm.data.rtmpUrl"></div>
+            </div>
+            <!-- 拉流地址 -->
+            <div class="box-broadcast">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_LIVE_PULL_URL"></span>
+                </div>
+                <div class="box-right" ng-bind="vm.data.liveUrl"></div>
+            </div>
+            <div class="box-describe">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_LIVE_DESCRIPTION"></span>
+                </div>
+                <div class="box-right">{{vm.data.description}}</div>
+            </div>
+            <div class="box-pic">
+                <div class="box-left">
+                    <span class="titleText" translate="ADMIN_COVER_IMAGE"></span>
+                </div>
+                <div class="box-right" id="myCtrl">
+                    <img ng-src="{{vm.imageUrl + vm.data.imgUrl}}" class="img-rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

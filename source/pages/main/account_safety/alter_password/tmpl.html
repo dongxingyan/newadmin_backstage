@@ -1,0 +1,30 @@
+<div class="main">
+    <!-- 修改密码 -->
+    <div class="box">
+        <div class="title">
+            <span translate="ADMIN_CHANGE_PASSWORD"></span>
+        </div>
+        <hr />
+        <div class="form">
+            <div class="form-group">
+                <label for="" translate="ADMIN_OLD_PASSWORD"></label>
+                <input class="form-control" ng-class="{'is-error': vm.errorTips.oldPassword}" type="text" name="oldPassword" ng-model="vm.oldPassword" placeholder="{{'ADMIN_INPUT_OLD' | translate}}">
+                <div class="error-tip">{{vm.errorTips.oldPassword}}</div>
+            </div>
+            <div class="form-group">
+                <label for="" translate="ADMIN_NEW_PASSWORD"></label>
+                <input class="form-control" ng-class="{'is-error': vm.errorTips.newPassword}" type="text" name="newPassword" ng-model="vm.newPassword" placeholder="{{'ADMIN_INPUT_NEW' | translate}}">
+                <div class="error-tip">{{vm.errorTips.newPassword}}</div>
+            </div>
+            <div class="form-group">
+                <label for="" translate="ADMIN_CONFIRM_PASSWORD"></label>
+                <input class="form-control" ng-class="{'is-error': vm.errorTips.rePassword}" type="text" name="rePassword" ng-model="vm.rePassword" placeholder="{{'ADMIN_INPUT_CONFIRM' | translate}}">
+                <div class="error-tip">{{vm.errorTips.rePassword}}</div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block save-button" type="button" ng-click="vm.changePassword()" translate="ADMIN_SAVE"></button>
+            </div>
+        </div>
+    </div>
+
+</div>

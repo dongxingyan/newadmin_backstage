@@ -1,0 +1,138 @@
+<div class="main">
+    <input type="file" id="J-input-file" class="input-of-file">
+
+    <div class="custom">
+        <div class="form-custom">
+            <div class="row-box" style="height:72px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        系统名称
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <input class="form-control" ng-model="vm.admin.systemName"/>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips ">
+                    <div class="item-content item-content-tips">
+                        *必填
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:68px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        自定义域名
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <input class="form-control" ng-model="vm.admin.customizedDomain"/>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        若不需要，可置空 <br> 域名解析（cname）地址：{{vm.admin.defaultDomain}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:75px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        登录页logo
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.admin.loginLogo" ng-src="{{vm.imageUrl+vm.admin.loginLogo}}" alt=""
+                             width="180px" height="35px">
+                        <div ng-show="!vm.admin.loginLogo" class="default-login-logo"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        图片支持png格式，小于512k，200*38像素 <br>
+                        <button data-type="1" class="btn btn-default btn-sm btn-up-img"
+                                ng-click="vm.selectFile('loginLogo')">
+                            上传图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:92px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        icon图标
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.admin.ico" ng-src="{{vm.imageUrl+vm.admin.ico}}" alt="" width="50px"
+                             height="50px">
+                        <div ng-show="!vm.admin.ico" class="default-ico"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        图片支持png格式，48*48像素 <br>
+                        <button data-type="2" class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('ico')">
+                            上传图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:88px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        登陆后左上角logo
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.admin.systemLogo" ng-src="{{vm.imageUrl+vm.admin.systemLogo}}" alt=""
+                             width="50px" height="50px">
+                        <div ng-show="!vm.admin.systemLogo" class="default-ico"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        图片支持png格式，小于512k，140*140像素 <br>
+                        <button data-type="3" class="btn btn-default btn-sm btn-up-img"
+                                ng-click="vm.selectFile('systemLogo')">上传图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-box" style="height:148px">
+                <div class="col-box col-box-label">
+                    <div class="item-content item-content-label">
+                        背景图
+                    </div>
+                </div>
+                <div class="col-box col-box-input">
+                    <div class="item-content item-content-input">
+                        <img ng-show="vm.admin.background" class="item-content-input-img"
+                             ng-src="{{vm.imageUrl+vm.admin.background}}" alt="" width="150px" height="100px">
+                        <div ng-show="!vm.admin.background" class="default-background"></div>
+                    </div>
+                </div>
+                <div class="col-box col-box-tips">
+                    <div class="item-content item-content-tips">
+                        建议png格式,尺寸1920*1080，图片大小不能超过1M， <br> 中心区域380*400 会被覆盖 <br>
+                        <button class="btn btn-default btn-sm btn-up-img" ng-click="vm.selectFile('background')">上传图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-area">
+            <button class="btn btn-primary btn-save" type="button" ng-click="vm.adminInfoSave()">保存</button>
+        </div>
+    </div>
+</div>

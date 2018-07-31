@@ -1,0 +1,166 @@
+<div class="main">
+
+    <div class="custom-box">
+        <!-- <div class="custom-card" ng-click="vm.boxClick('main.custom-backstage', 'isOpenAdmin', vm.admin)">
+            <img src="../../../static/images/back-custom.png">
+            <div class="card-info">
+                <div class="info-title">
+                    <img class="vertical-bar" src="../../../static/images/vertical-bar.png"> 后台管理系统
+                </div>
+                <div class="info-version" ng-if="vm.isOpenAdmin == 1"></div>
+                <div class="no-open" ng-if="vm.isOpenAdmin == 2" ng-cloak>
+                    未开通定制化
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-card" ng-click="vm.boxClick('main.custom-meeting', 'isOpenMeeting', vm.meeting)">
+            <img src="../../../static/images/web-custom.png" alt="">
+            <div class="card-info">
+                <div class="info-title">
+                    <img class="vertical-bar" src="../../../static/images/vertical-bar.png"> web浏览器端
+                </div>
+                <div class="info-version" ng-if="vm.isOpenMeeting == 1"></div>
+                <div class="no-open" ng-if="vm.isOpenMeeting == 2" ng-cloak>
+                    未开通定制化
+                </div>
+            </div>
+        </div> -->
+
+        <div class="custom-card" ng-click="vm.boxClick('main.custom-ios', 'isOpenIOS', vm.iOS)" role="document">
+            <img src="../../../static/images/ios-custom.png">
+            <div class="card-info">
+                <div class="info-title">
+                    <img class="vertical-bar" src="../../../static/images/vertical-bar.png">
+                    <span translate="ADMIN_IOS_CLIENT"></span>
+                    <span ng-if="vm.iOS.version">({{vm.iOS.version}})</span>
+                </div>
+                <div class="open" ng-if="vm.isOpenIOS">
+                    <div class="info-version" ng-if="!vm.iOS.version" translate="ADMIN_NO_CONFIG"></div>
+                    <div class="info-version" ng-if="vm.iOS.version">
+                        <span>
+                            <img src="../../../static/images/apple-blue.png" alt="">
+                            <a ng-href="{{vm.imageUrl + vm.iOS.url}}" translate="ADMIN_DOWNLOAD"></a>
+                        </span>
+                    </div>
+                    <!-- <div class="new-version" ng-if="vm.iOS.isHasNewVersion">
+                        <img class="new-version-img" src="../../../static/images/new-tip.png"> 有新版
+                    </div> -->
+                </div>
+                <div class="no-open" ng-if="!vm.isOpenIOS" ng-cloak translate="ADMIN_NO_CUSTOMIZATION"></div>
+            </div>
+        </div>
+
+        <div class="custom-card" ng-click="vm.boxClick('main.custom-android', 'isOpenAndroid', vm.android)" role="document">
+            <img src="../../../static/images/android-custom.png">
+            <div class="card-info">
+                <div class="info-title">
+                    <img class="vertical-bar" src="../../../static/images/vertical-bar.png">
+                    <span translate="ADMIN_ANDROID_CLIENT"></span>
+                    <span ng-if="vm.android.version">({{vm.android.version}})</span>
+                </div>
+                <div class="open" ng-if="vm.isOpenAndroid">
+                    <div class="info-version" ng-if="!vm.android.version">
+                        <span translate="ADMIN_NO_CONFIG"></span>
+                    </div>
+                    <div class="info-version" ng-if="vm.android.version">
+                        <span>
+                            <img src="../../../static/images/android-blue.png" alt="">
+                            <a ng-href="{{vm.imageUrl + vm.android.url}}" translate="ADMIN_DOWNLOAD"></a>
+                        </span>  
+                    </div>
+                    <!-- <div class="new-version" ng-if="vm.android.isHasNewVersion">
+                        <img class="new-version-img" src="../../../static/images/new-tip.png"> 有新版
+                    </div> -->
+                </div>
+                <div class="no-open" ng-if="!vm.isOpenAndroid" ng-cloak translate="ADMIN_NO_CUSTOMIZATION"></div>
+            </div>
+        </div>
+
+        <div class="custom-card" ng-click="vm.boxClick('main.custom-pc', 'isOpenDesktop', vm.pc)" role="document">
+            <img src="../../../static/images/pc-custom.png">
+            <div class="card-info">
+                <div class="info-title">
+                    <img class="vertical-bar" src="../../../static/images/vertical-bar.png">
+                    <span translate="ADMIN_PC_CLIENT"></span>
+                    <span ng-if="vm.pc.version">({{vm.pc.version}})</span>
+                </div>
+                <div class="open" ng-if="vm.isOpenDesktop">
+                    <div class="info-version" ng-if="!vm.pc.version" translate="ADMIN_NO_CONFIG"></div>
+                    <div class="info-version" ng-if="vm.pc.version">
+                        <span class="pc-mac">
+                            <img src="../../../static/images/apple-blue.png" alt="">
+                            <a ng-href="{{vm.imageUrl + vm.pc.macUrl}}" translate="ADMIN_DOWNLOAD"></a>
+                        </span>
+                        <span>
+                            <img src="../../../static/images/windows-blue.png" alt="">
+                            <a ng-href="{{vm.imageUrl + vm.pc.windowsUrl}}" translate="ADMIN_DOWNLOAD"></a>
+                        </span>
+                    </div>
+                    <!-- <div class="new-version" ng-if="vm.pc.isHasNewVersion">
+                        <img class="new-version-img" src="../../../static/images/new-tip.png" alt=""> 有新版
+                    </div> -->
+                </div>
+                <div class="no-open" ng-if="!vm.isOpenDesktop" ng-cloak translate="ADMIN_NO_CUSTOMIZATION"></div>
+            </div>
+        </div>
+
+        <!-- <div class="custom-card" ng-click="vm.boxClick('main.custom-hardware.apk', 'isOpenHardware', vm.hardware)">
+            <img src="../../../static/images/hardware/hardware.png">
+            <div class="card-info" >
+                <div class="info-title">
+                    <img class="vertical-bar" src="../../../static/images/vertical-bar.png"> 硬件界面
+                </div>
+                <div class="info-version" ng-if="vm.isOpenHardware"></div>
+                <div class="no-open" ng-if="!vm.isOpenHardware" ng-cloak>
+                    未开通定制化
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-card" ng-click="vm.boxClick('main.custom-conference', 'isOpenConference', vm.conference)">
+            <img src="../../../static/images/hardware/conference.png">
+            <div class="card-info" >
+                <div class="info-title">
+                    <img class="vertical-bar" src="../../../static/images/vertical-bar.png"> 企业视讯
+                </div>
+                <div class="info-version" ng-if="vm.isOpenConference"></div>
+                <div class="no-open" ng-if="!vm.isOpenConference" ng-cloak>
+                    未开通定制化
+                </div>
+            </div>
+        </div> -->
+
+        <div class="custom-card" ng-click="vm.boxClick('main.custom-information.content', 'isOpenInformation', vm.information)">
+            <img src="../../../static/images/hardware/hardware.png">
+            <div class="card-info" >
+                <div class="info-title">
+                    <img class="vertical-bar" src="../../../static/images/vertical-bar.png">
+                    <span translate="ADMIN_CUSTOM_INFORMATION"></span>
+                </div>
+                <div class="info-version" ng-if="vm.isOpenInformation"></div>
+                <div class="no-open" ng-if="vm.isOpenInformation" ng-cloak translate="ADMIN_HAS_CUSTOMIZATION"></div>
+                <div class="no-open" ng-if="!vm.isOpenInformation" ng-cloak translate="ADMIN_NO_CUSTOMIZATION"></div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="modal-title" translate="ADMIN_PROMPT"></span>
+                </div>
+                <div class="modal-body">
+                    <div class="content" translate="ADMIN_NOT_OPEN"></div>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" translate="ADMIN_SURE"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,319 @@
+<div class="main-content">
+    <input type="file" id="J-information-input-file" class="information-input-of-file" accept=".png,.jpg">
+    <input type="file" id="J-information-input-PDF" class="information-input-of-file" accept=".pdf">
+    <div class="content-feedback" ng-show="vm.visible">
+        <div class="alerts1">
+            <div class="alert-head">
+                <span translate="ADMIN_NEWLY_ADDED"></span>
+                <img src="../../../../../static/images1/delete.png" alt="" class="img-right" ng-click="vm.cancel()">
+            </div>
+            <div class="create-broadcast">
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_ORDER"></span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" ng-model="vm.sort" maxlength="9" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"  placeholder="{{'ADMIN_INPUT_ORDER'| translate}}">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_INFORMATION_TITLE"></span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" id="inputTitle" class="titleContent" ng-model="vm.inputTitle" maxlength="12" placeholder="{{'ADMIN_INPUT_TITLE' | translate}}">
+                        <span class="number-tip">{{vm.add.titleLength? vm.add.titleLength : 0}}/12</span>
+                    </div>
+                </div>
+                <div class="box-describe">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_ABSTRACT"></span>
+                    </div>
+                    <div class="box-right">
+                        <textarea class="live-desc" name="" id="abstract" ng-model="vm.abstracts" cols="30" maxlength="300" rows="8"></textarea>
+                        <span class="number-tip">{{vm.add.abstractLength ? vm.add.abstractLength: 0}}/300</span>
+                    </div>
+                </div>
+                <div class="box-cover">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_COVER"></span>
+                        <button class="btn-upload" ng-click="vm.addListenerfileChange('J-information-input-file');vm.chooseFile('J-information-input-file')" translate="ADMIN_CHOOSE_FILE"></button>
+                    </div>
+                    <div class="box-right">
+                        <img  ng-src="{{vm.imageUrl+vm.coverImage}}" alt="">
+                        <!--<div ng-show="!vm.coverImage" class="default-cover"></div>-->
+                        <span style="width:100px" translate="ADMIN_RECOMMEND_SIZE"></span>
+                    </div>
+                </div>
+                <div class="box-type">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_CHOOSE_TYPE"></span>
+                    </div>
+                    <div class="box-right">
+                        <select ng-model="vm.selectedType">
+                            <option value="" translate="ADMIN_PLEASE_CHOOSE"></option>
+                            <option value="1" translate="ADMIN_DOCUMENT"></option>
+                            <option value="2" translate="ADMIN_VIDEO"></option>
+                            <option value="3" translate="ADMIN_GRAPHIC"></option>
+                        </select>
+                    </div>
+                </div>
+                <div ng-if="vm.selectedType==1">
+                    <div class="box-type">
+                        <div class="box-left">
+                            <span class="titleText" translate="ADMIN_DOCUMENT"></span>
+                        </div>
+                        <div class="box-right">
+                            <div>
+                                <button class="btn-upload" ng-click="vm.addListenerfileChange('J-information-input-PDF');vm.chooseFile('J-information-input-PDF')" translate="ADMIN_UPLOAD"></button>
+                                <div class="name-upload" ng-attr-title="{{vm.documentName}}">{{vm.documentName}}</div>
+                            </div>
+                            <span translate="ADMIN_ONLY_PDF"></span>
+                        </div>
+                    </div>
+                    <div style=""></div>
+                </div>
+
+                <div ng-if="vm.selectedType==2">
+                    <div class="box-broadcast" >
+                        <div class="box-left">
+                            <label>
+                                <input name="chooseType" type="radio" value="1"  ng-click="vm.linkAddress=true;vm.videoAddress=false" ng-checked="vm.linkAddress&&!vm.videoAddress">
+                                <span translate="ADMIN_LINK_ADDRESS"></span>
+                            </label>
+                            <label>
+                                <input name="chooseType" type="radio" value="2"  ng-click="vm.linkAddress=false;vm.videoAddress=true;" ng-checked="vm.videoAddress&&!vm.linkAddress">
+                                <span translate="ADMIN_CHOOSE_LIBRARY"></span>
+                            </label>
+
+                        </div>
+                        <div class="box-right" ng-show="vm.linkAddress">
+                            <input type="text" class="titleContent" ng-model="vm.linkUrl" placeholder="{{'ADMIN_INPUT_ADDRESS'| translate}}">
+                            <span  ng-show="vm.linkAddress" translate="ADMIN_NO_ADDRESS"></span>
+                        </div>
+                    </div>
+                    <span style="display: inline-block;margin-top:5px;color:red;" ng-show="vm.linkAddress" translate="ADMIN_SUPPORT_TYPE"></span>
+                    <div class="box-cover" ng-show="vm.videoAddress">
+                        <div class="box-left">
+                            <button class="btn-upload" data-toggle="modal" data-target="#contentChoseVideoModal" ng-click="vm.getGroupList()" translate="ADMIN_CHOOSE_FILE"></button>
+                        </div>
+                        <div class="box-right">
+                            <video  ng-src="{{vm.imageUrl+vm.videoUrl}}" alt=""></video>
+                            <!--<div ng-show="!vm.coverImage" class="default-cover"></div>-->
+                            <span>{{vm.addVideoName}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-describe" ng-show="vm.selectedType==3">
+                    <div class="box-right">
+                        <div id="editor" ></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.saveInforamtion()" translate="ADMIN_SAVE"></span>
+            </div>
+        </div>
+    </div>
+    <div class="content-feedback" ng-show="vm.visible1">
+
+        <div class="alerts1">
+            <div class="alert-head">
+                <span translate="ADMIN_EDIT"></span>
+                <img src="../../../../../static/images1/delete.png" alt="" class="img-right" ng-click="vm.cancel()">
+            </div>
+            <div class="create-broadcast">
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_ORDER"></span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" class="titleContent" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" ng-model="vm.sort" maxlength="9" placeholder="{{'ADMIN_INPUT_ORDER'| translate}}">
+                    </div>
+                </div>
+                <div class="box-broadcast">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_INFORMATION_TITLE"></span>
+                    </div>
+                    <div class="box-right">
+                        <input type="text" id="inputTitle1" class="titleContent" ng-model="vm.inputTitle" maxlength="12" placeholder="{{'ADMIN_INPUT_TITLE' | translate}}">
+                        <span class="number-tip">{{vm.edit.titleLength ? vm.edit.titleLength : 0}}/12</span>
+                    </div>
+                </div>
+                <div class="box-describe">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_ABSTRACT"></span>
+                    </div>
+                    <div class="box-right">
+                        <textarea class="live-desc" id="abstract1" name="" maxlength="300" ng-model="vm.abstracts" cols="30" rows="8"></textarea>
+                        <span class="number-tip">{{vm.edit.abstractLength ? vm.edit.abstractLength : 0}}/300</span>
+                    </div>
+                </div>
+                <div class="box-cover">
+                    <div class="box-left">
+                        <span class="titleText" translate="ADMIN_COVER"></span>
+                        <button class="btn-upload" ng-click="vm.addListenerfileChange('J-information-input-file');vm.chooseFile('J-information-input-file')" translate="ADMIN_CHOOSE_FILE"></button>
+                    </div>
+                    <div class="box-right">
+                        <img  ng-src="{{vm.imageUrl+vm.coverImage}}" alt="">
+                        <!--<div ng-show="!vm.coverImage" class="default-cover"></div>-->
+                        <span style="width: 100px;" translate="ADMIN_RECOMMEND_SIZE"></span>
+                    </div>
+                </div>
+                <div ng-if="vm.selectedType==1">
+                    <div class="box-type">
+                        <div class="box-left">
+                            <span class="titleText" translate="ADMIN_DOCUMENT"></span>
+                        </div>
+                        <div class="box-right">
+                            <div>
+                                <button class="btn-upload" ng-click="vm.addListenerfileChange('J-information-input-PDF');vm.chooseFile('J-information-input-PDF')" translate="ADMIN_UPLOAD"></button>
+                                <div class="name-upload" ng-attr-title="{{vm.documentName}}">{{vm.documentName}}</div>
+                            </div>
+                            <span translate="ADMIN_ONLY_PDF"></span>
+                        </div>
+                    </div>
+                    <div style=""></div>
+                </div>
+
+                <div ng-if="vm.selectedType==2">
+                    <div class="box-broadcast" >
+                        <div class="box-left">
+                            <label>
+                                <input name="videoType" type="radio" value="0" ng-click="vm.linkAddress=true;vm.videoAddress=false" ng-checked="vm.linkAddress">
+                                <span translate="ADMIN_LINK_ADDRESS"></span>
+                            </label>
+                            <label>
+                                <input name="videoType" type="radio" value="1" ng-click="vm.linkAddress=false;vm.videoAddress=true;" ng-checked="vm.videoAddress">
+                                <span translate="ADMIN_CHOOSE_LIBRARY"></span>
+                            </label>
+                        </div>
+                        <div class="box-right" ng-show="vm.linkAddress">
+                            <input type="text" class="titleContent" ng-model="vm.linkUrl" placeholder="{{'ADMIN_INPUT_ADDRESS' | translate}}">
+                            <span  ng-show="vm.linkAddress" translate="ADMIN_NO_ADDRESS"></span>
+                        </div>
+                    </div>
+                    <span style="display: inline-block;margin-top:5px;color:red;" ng-show="vm.linkAddress" translate="ADMIN_SUPPORT_TYPE"></span>
+                    <div class="box-cover" ng-show="vm.videoAddress">
+                        <div class="box-left">
+                            <button class="btn-upload" data-toggle="modal" data-target="#contentChoseVideoModal" ng-click="vm.getGroupList()" translate="ADMIN_CHOOSE_FILE"></button>
+                        </div>
+                        <div class="box-right">
+                            <video  ng-src="{{vm.imageUrl+vm.videoUrl}}"></video>
+                            <!--<div ng-show="!vm.coverImage" class="default-cover"></div>-->
+                            <span>{{vm.addVideoName}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-describe" ng-show="vm.selectedType==3">
+                    <div class="box-right">
+                        <div id="editor1" ></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="alert-bottom">
+                <span class="alert-sure" ng-click="vm.saveEditContent()" translate="ADMIN_SAVE"></span>
+            </div>
+        </div>
+    </div>
+    <div class="content-header">
+        <div class="operation">
+            <span translate="ADMIN_INFORMATION_TITLE"></span>
+            <input type="text" ng-model="vm.queryTitle">
+            <div ng-click="vm.getEnterpriseInfo()" translate="ADMIN_INFORMATION_QUERY"></div>
+            <div data-toggle="modal" data-target="#apkCreateModal" ng-click="vm.newBuilding()" translate="ADMIN_INFORMATION_NEW"></div>
+        </div>
+    </div>
+    <div class="content-body">
+        <table>
+            <tr class="thead">
+                <th class="col-md-2" translate="ADMIN_ORDER"></th>
+                <th class="col-md-2" translate="ADMIN_INFORMATION_TITLE"></th>
+                <th class="col-md-2" translate="ADMIN_ABSTRACT"></th>
+                <th class="col-md-2" translate="ADMIN_COVER"></th>
+                <th class="col-md-2" translate="ADMIN_CLASSIFICATION"></th>
+                <th class="col-md-2" translate="ADMIN_OPERATION"></th>
+            </tr>
+            <tr ng-repeat="item in vm.allContents" class="table-content">
+                <td class="col-md-2">{{item.sort}}</td>
+                <td class="col-md-2"><a class="item-abstract" ng-attr-title="{{item.title}}">{{item.title}}</a></td>
+                <td class="col-md-2"><a class="item-abstract" ng-attr-title="{{item.abstracts}}">{{item.abstracts}}</a></td>
+                <td class="col-md-2"><img ng-if="item.coverUrl" ng-src="{{vm.imageUrl+item.coverUrl}}" alt=""><img ng-if="!item.coverUrl" alt=""></td>
+                <!--<td class="col-md-2"><img ng-if="!vm.coverUrl" alt=""></td>-->
+                <td class="col-md-2" ng-if="!item.contentType"></td>
+                <td class="col-md-2" ng-if="item.contentType==1" translate="ADMIN_DOCUMENT"></td>
+                <td class="col-md-2" ng-if="item.contentType==2" translate="ADMIN_VIDEO"></td>
+                <td class="col-md-2" ng-if="item.contentType==3" translate="ADMIN_GRAPHIC"></td>
+                <td class="col-md-2">
+                    <a class="operation" ng-click="vm.editContent(item.id)" translate="ADMIN_EDIT"></a>
+                    <a class="delete" ng-click="vm.deleteContent(item.id)" data-toggle="modal" data-target="#deleteModal" translate="ADMIN_DELETE"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--选择视频模态框-->
+    <div class="content-choseVideo-modal modal fade" id="contentChoseVideoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="modal-title" translate="ADMIN_CHOOSE_VIDEO"></div>
+                </div>
+                <div class="modal-body">
+                    <div class="nav-list">
+                        <div class="nav-item"
+                             ng-click="vm.chooseGroup($index,item)"
+                             ng-repeat="item in vm.groupList"
+                             ng-class="{'active': vm.currentIndex == $index}">
+                            <span ng-attr-title="{{item.name}}" class="groupName">{{item.name}}</span><i>({{item.videoList.length?item.videoList.length:0}})</i>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="video-father">
+                            <div class="video-content">
+                                <div class="video-item" ng-class="{'middleItem': ($index+1) % 3 == 2,'deviation': ($index+1)%3 == 1}"
+                                     ng-click="vm.choosedVideo(item,$index)"
+                                     ng-repeat="item in vm.groupList[vm.currentIndex].videoList">
+                                    <div class="item-src">
+                                        <video src="{{vm.imageUrl+item.sourceVideoUrl}}"></video>
+                                        <div class="choose-video" ng-if="$index == vm.chooseVideo.index">
+                                            <img src="../../../../../static/images1/choosed_icon.png">
+                                        </div>
+                                    </div>
+                                    <div class="item-name">{{item.videoName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-area">
+                            <span class="alert-sure" ng-click="vm.confirmChoose()" translate="ADMIN_SAVE"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除模态框 -->
+    <div class="delete-modal modal fade" id="deleteModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" translate="ADMIN_PROMPT"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="content" translate="ADMIN_IF_DELETE"></div>
+                    <div class="operation">
+                        <div class="sure-btn" ng-click="vm.sureDelete()" translate="ADMIN_SURE"></div>
+                        <div class="cancel-btn" data-dismiss="modal" translate="ADMIN_CANCEL"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

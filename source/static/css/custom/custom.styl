@@ -1,0 +1,272 @@
+/* pc，ios... 定制化  start*/
+
+.custom{
+    margin: 5px 30px 0 30px;
+
+    .row{
+        margin: 0 0 0 0;
+    }
+
+    /* pc, android, ios*/
+    .package-header{
+        margin-bottom: 13px;
+    }
+
+    .custom-title {
+       font-size: 14px;
+       font-weight: bold;
+    }
+    .title-tip{
+      margin-top: 3px;
+      margin-left: 11px;
+      color: #7b8292;
+
+      &-new{
+        // new-tip
+        position: relative;
+        left: -22px;
+      }
+
+      img{
+        position: relative;
+        top: 1px;
+      }
+    }
+
+    .package-info{
+      height: 48px;
+      padding: 15px 30px;
+      margin: 0 0 12px 0;
+      font-weight: bold;
+      font-size: 12px;
+      background: white;
+
+      img{
+        // apple img 影响行高，暂时不好处理
+        // position: relative;
+      }
+
+      &-a{
+        // 下载超链接
+        position: relative;
+        top: 2px;
+        margin: 0 22px;
+        font-weight: normal;
+        text-decoration: none;
+        line-height: 20px;
+        & img {
+          position: absolute;
+          z-index: 2;
+          background-color: #fff;
+          top: -50%;
+          left: 0px;
+        }
+      }
+    }
+    .app-made{
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    // form style
+
+    .form-custom {
+        background: white;
+        padding:0 30px;
+        font-size: 12px;
+    }
+
+    .row-box {
+        position: relative;
+        border-bottom: 1px solid rgb(216, 222, 215);
+        box-sizing: border;
+    }
+
+    .col-box {
+        position: absolute;
+        height: 100%;
+        width: 20%;
+        box-sizing: border-box;
+        // border: 1px solid;
+
+        &-label {}
+
+        &-input {
+            left: 20%;
+        }
+
+        &-text {
+          left: 20%;
+          width: 50%;
+        }
+
+        &-bundle {
+          left: 20%;
+        }
+
+        &-tips {
+            left: 50%;
+            width: 50%;
+        }
+
+    }
+
+    .item-content {
+        // 实际的每一项内容，垂直居中
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
+        // 内容样式
+        &-label {
+          font-weight: bold;
+          color: #464545;
+        }
+
+        &-input {
+          img{
+            border: 1px solid rgb(216, 222, 215);
+            box-sizing: border-box;
+          }
+          .form-control {
+              background-color: rgb(245, 248, 249);
+          }
+        }
+
+        &-text {
+          color: #7b8292;
+        }
+
+        &-tips {
+          color: #7b8292;
+        }
+
+    }
+
+    // 通用颜色定制化
+    .color-radio-grop{
+        display: inline-block;
+        cursor: pointer;
+        margin-bottom: 0;
+        color: #909090;
+        font-weight: normal;
+
+        &+.color-radio-grop{
+            margin-left: 5px;
+        }
+        // mixin
+        radio-color(color) {
+            .color-box{
+                background-color: color;
+                border-color: color;
+            }
+        }
+        .color-box{
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 1px solid;
+            box-sizing: border-box;
+            // background-color: blue;
+            .inner-radio{
+                opacity: 0;
+                outline: none;
+                position: absolute;
+                z-index: -1;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: 0;
+            }
+            .rotate-check{
+                opacity: 0;
+                position: absolute;
+                top: 2px;
+                left: 5px;
+                width: 8px;
+                height: 11px;
+                border: 2px solid #fff;
+                border-left: 0;
+                border-top: 0;
+                box-sizing: border-box;
+                transform: rotate(45deg);
+            }
+            .is-checked{
+                opacity: 1;
+            }
+        }
+        // colors = {
+        //     blue: '#0a9af9',
+        //     gold: '#d4a660',
+        //     green: '#0da591',
+        //     orange: '#f8922f',
+        //     red: '#a3121a'
+        // };
+
+        &.blue{
+            radio-color(#0a9af9)
+        }
+        &.gold{
+            radio-color(#d4a660)
+        }
+        &.green{
+            radio-color(#0da591)
+        }
+        &.orange{
+            radio-color(#f8922f)
+        }
+        &.red{
+            radio-color(#a3121a)
+        }
+
+    }
+
+
+    .btn-up-img {
+        // 上传图片 btn
+        margin-top:10px;
+        line-height: 1;
+        font-size: 12px;
+        padding: 6px 15px;
+        border-radius: 18px;
+        border-color: #3a92f1;
+        color: #3a92f1;
+        background-color: white;
+
+        &:focus, &:hover{
+            // 上传图片按钮聚焦
+            outline:none;
+            background: #4db3ff;
+            border-color: #4db3ff;
+            color: #fff;
+        }
+
+    }
+
+    .btn-area{
+        margin: 15px 0 20px 20px;
+
+        .btn{
+            border-radius: 17px;
+            line-height: 1;
+        }
+
+        .btn-save{
+            margin-right: 20px;
+        }
+    }
+
+
+    /* 消除 btn foucs 轮廓*/
+    .btn:focus{
+        outline: none;
+    }
+    .btn-primary:focus{
+        border-color: #286090;
+    }
+}
+
+
+/* pc，ios... 定制化  end*/

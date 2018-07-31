@@ -16,7 +16,6 @@ interface IDeviceManagePageParams extends IPageParams {
     // 依赖注入，在init函数的参数表中可以获取。
     requires: ['$timeout'],
     // 这一页的标题
-    title: '机构管理系统',
     name: 'main.device-manage'
 })
     /**
@@ -58,127 +57,106 @@ class MainDevice_ManagePage extends Page<IDeviceManagePageParams> {
     pager: any[] = []
     total//总页数
     totalCount//总条数
-    pageSize:number =15;//每页显示条数
-    count:number//跳转到某页
-    selPage:number=1
+    pageSize: number = 10;//每页显示条数
+    count: number//跳转到某页
+    selPage: number = 1
 
 
     init() {
-        // timeout(() => {
-        // this.remote.getDeviceCount()
-        //     .then((res)=>{
-        //     if(res.data.code==0){
-        //         this.totalCount=parseInt(res.data.data.count);
-        //         console.log(this.totalCount)
-        //     }
-        //     else if(res.data.code==2){
-        //         this.uiState.go("login")
-        //     }
-        //     });
-        // timeout(()=>{
-            this.remote.getDevices()
-                .then((res)=>{
-                    if(res.data.code==0){
-                        console.log(this.totalCount)
-                        this.totalCount=res.data.data.length;
-                        this.total = Math.ceil(this.totalCount / this.pageSize)
-                        console.log(this.total)
-                        this.devices = res.data.data;
-                        this.pager = this.paging(this.total, this.selPage)
-                        this.items=this.devices.slice(0,this.pageSize)
-                    }
-                    else if(res.data.code==2){
-                        this.uiState.go("login")
-                    }
-                })
+        this.remote.getDevices()
+            .then((res)=> {
+                if (res.data.code == 0) {
+                    this.totalCount = res.data.data.length;
+                    this.total = Math.ceil(this.totalCount / this.pageSize)
+                    this.devices = res.data.data;
+                    this.pager = this.paging(this.total, this.selPage)
+                    this.items = this.devices.slice(0, this.pageSize)
+                    this.count = 1;
+                }
+                else if (res.data.code == 2) {
+                    this.uiState.go("login")
+                }
+            })
         // },150)
     }
 
     signout() {
-        this.session.clear();
-        this.uiState.go('login');
+        this.rootScope.signout()
     }
 
-    deviceModify(id,alias,displayName,name,password,departId,description){
-        this.visible=true;
-        this.deviceId=id;
-        this.deviceAlias=alias||"";
-        this.deviceName=displayName||"";
-        this.account=name||"";
-        this.password=password||"";
-        this.departName=departId||""
-        this.remark=description||""
-        console.log(departId)
+    deviceModify(id, alias, displayName, name, password, departId, description) {
+        this.visible = true;
+        this.deviceId = id;
+        this.deviceAlias = alias || "";
+        this.deviceName = displayName || "";
+        this.account = name || "";
+        this.password = password || "";
+        this.departName = departId || ""
+        this.remark = description || ""
         this.remote.getDepartment()
             .then((res) => {
-                if(res.data.code=="0")
-                    this.origanizeName=res.data.data.name;
-                console.log(this.origanizeName)
+                if (res.data.code == "0")
+                    this.origanizeName = res.data.data.name;
             })
         this.remote.getDepts()
             .then((res) => {
                 this.departNames = res.data.data;
-                console.log(this.departNames)
-                console.log(this.departName)
             })
     }
 
     //点击确定保存编辑内容
-    sureEdit(){
-    //        提交的时候需要判断的内容有：
-    //    如果绑定密码为空：提示请完善信息
-    //    如果绑定密码不符合要求，提示密码为6位纯数字
-    //    发送请求根据返回的code进行判断
-        if(this.password==""){
-            this.visible=false;
-            this.visible1=true;
-            this.feedbackContent="请完善信息";
+    sureEdit() {
+        //        提交的时候需要判断的内容有：
+        //    如果绑定密码为空：提示请完善信息
+        //    如果绑定密码不符合要求，提示密码为6位纯数字
+        //    发送请求根据返回的code进行判断
+        if (this.password == "") {
+            this.visible = false;
+            this.visible1 = true;
+            this.feedbackContent = this.translate.instant('ADMIN_WARN_TIP17');
         }
-        else if(!this.password.match(/^\d{6}$/)){
-            this.visible=false;
-            this.visible1=true;
-            this.feedbackContent="密码为6位纯数字"
+        else if (!this.password.match(/^\d{6}$/)) {
+            this.visible = false;
+            this.visible1 = true;
+            this.feedbackContent = this.translate.instant('ADMIN_WARN_TIP35')
         }
-        else{
-            let data={
-                organId:sessionStorage.getItem("orgId"),
-                id:this.deviceId,
-                departId:this.departName,
-                displayName:this.deviceName,
-                pexipName:this.account,
-                pexipPassword:this.password,
-                description:this.remark
+        else {
+            let data = {
+                organId: sessionStorage.getItem("orgId"),
+                id: this.deviceId,
+                departId: this.departName,
+                displayName: this.deviceName,
+                pexipName: this.account,
+                pexipPassword: this.password,
+                description: this.remark
             }
-            this.remote.editDevices(this.deviceId,data)
-                .then((res)=>{
-                if(res.data.code==0){
-                    this.visible=false;
-                    this.visible1=true;
-                    this.feedbackContent='编辑成功'
-                    this.init();
-                }
-                else if(res.data.code==999){
-                    this.visible=false;
-                    this.visible1=true;
-                    this.feedbackContent='服务器内部错误'
-                }
-                else if(res.data.code==16){
-                    this.visible=false;
-                    this.visible1=true;
-                    this.feedbackContent='设备名称已存在'
+            this.remote.editDevices(this.deviceId, data)
+                .then((res)=> {
+                    if (res.data.code == 0) {
+                        this.visible = false;
+                        this.visible1 = true;
+                        this.feedbackContent = this.translate.instant('ADMIN_SUCCESS5')
+                        this.init();
+                    }
+                    else if (res.data.code == 999) {
+                        this.visible = false;
+                        this.visible1 = true;
+                        this.feedbackContent = this.translate.instant('ADMIN_ERROR_TIP3')
+                    }
+                    else if (res.data.code == 16) {
+                        this.visible = false;
+                        this.visible1 = true;
+                        this.feedbackContent = this.translate.instant('ADMIN_ERROR_TIP29')
                     }
                 })
 
         }
     }
 
-    close(){
-        this.visible=false;
-        this.visible1=false;
+    close() {
+        this.visible = false;
+        this.visible1 = false;
     }
-    // sureEdit(){
-    //     this.visible=true;
-    // }
 
     paging(total, current) {
         // 小于十页全显示
@@ -196,7 +174,7 @@ class MainDevice_ManagePage extends Page<IDeviceManagePageParams> {
         // 大于十页部分显示
         else {
             // 当前页号小于等于5
-            if (current <= 4&&current>0) {
+            if (current <= 4 && current > 0) {
                 return [1, 2, 3, 4, 5].map<{type,value?,isCurrent?}>(x => ({
                     type: 0,
                     value: x,
@@ -238,61 +216,35 @@ class MainDevice_ManagePage extends Page<IDeviceManagePageParams> {
         }
     }
 
-    setData(data){
-        console.log(this.selPage+"xuanze d")
-        this.items=data.slice((this.pageSize)*(this.selPage-1),this.selPage*(this.pageSize))
-        console.log(this.items)
+    setData(data) {
+        this.items = data.slice((this.pageSize) * (this.selPage - 1), this.selPage * (this.pageSize))
     }
 
-    selectPage(page){
-        if(page<1||page>this.total) return;
-        console.log("shifou ")
-        // if(page>2){
-        //     this.setData(this.rooms);
-        // }
-        this.selPage=page
+    selectPage(page, type) {
+        if (page < 1 || page > this.total) return;
+        if (type == 1) return;
+        this.selPage = page
+        this.count = page;
         this.setData(this.devices);
-        console.log(this.selPage)
-        console.log(typeof this.selPage)
-        this.pager=this.paging(this.total,this.selPage)
-        console.log(this.pager);
+        this.pager = this.paging(this.total, this.selPage)
     }
+
     //页码的显示
     // 上一页
     async  prevPage(page) {
-        this.selectPage(page-1);
-        console.log(page)
+        this.selectPage(page - 1, null);
     }
+
     //下一页
     async nextPage(page) {
-        this.selectPage(page+1)
+        this.selectPage(page + 1, null)
     }
+
     //页面跳转
-    jump(page){
-        if(page){
-            var page1=parseInt(page)
-            this.selectPage(page1)
+    jump(page) {
+        if (page) {
+            var page1 = parseInt(page)
+            this.selectPage(page1, null)
         }
-
     }
-
-    // async nextPage() {
-    //     let maxPage = await this.total;
-    //     let page = parseInt(this.params.page);
-    //     if (page < maxPage) {
-    //         this.uiState.go('main.device-manage', {page: page + 1});
-    //     } else if(page>1&&page>=maxPage) {
-    //         this.uiState.go('main.device-manage', {page: maxPage});
-    //     }
-    // }
-    //
-    // async  prevPage() {
-    //     let page = parseInt(this.params.page);
-    //     console.log(page)
-    //     if (page > 1) {
-    //         this.uiState.go('main.device-manage', {page: page - 1})
-    //     } else {
-    //         this.uiState.go('main.device-manage', {page: 1})
-    //     }
-    // }
 }

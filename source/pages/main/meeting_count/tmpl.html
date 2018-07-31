@@ -1,29 +1,29 @@
 <div class="main">
-    <div class="head">
-        <div class="head-content">
-            <!--<h1 class="left"><img src="image/logo.png" alt=""></h1>-->
-            <div class="userss">
-                会议统计<br>CONFERENCE STATISTICS
-            </div>
-            <div class="right2">
-                <img src="../../../static/images2/red-end.png" alt="" style="display:none;" class="red">
-                <img src="../../../static/images2/gray-end.png" alt="" class="gray">
-            </div>
-        </div>
-    </div>
+    <!--<div class="head">-->
+        <!--<div class="head-content">-->
+            <!--&lt;!&ndash;<h1 class="left"><img src="image/logo.png" alt=""></h1>&ndash;&gt;-->
+            <!--<div class="userss">-->
+                <!--会议统计<br>CONFERENCE STATISTICS-->
+            <!--</div>-->
+            <!--<div class="right2">-->
+                <!--<img src="../../../static/images2/red-end.png" alt="" style="display:none;" class="red">-->
+                <!--<img src="../../../static/images2/gray-end.png" alt="" class="gray">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="box">
         <div class="count-title">
             <div class="buttons">
-                <button value="day" class="button1">近一年</button>
-                <button value="month" class="button2">近一月</button>
-                <button vlaue="week" class="button3">近一周</button>
+                <button value="day" class="button1" translate="ADMIN_YEAR"></button>
+                <button value="month" class="button2" translate="ADMIN_MONTH"></button>
+                <button vlaue="week" class="button3" translate="ADMIN_WEEK"></button>
             </div>
             <div class="chaxun-right">
                 <div class="imgcirle"></div>
-                <input type="text" id="J-count-start-time" name="start-time" id="datatime1" placeholder="点击获取开始日期" ng-model="vm.startTime">
+                <input type="text" id="J-count-start-time" name="start-time" id="datatime1" placeholder="{{'ADMIN_START_DATE'| translate}}" ng-model="vm.startTime">
                 <i style="display:inline-block;width:10px;background:#a9a9a9;height:1px;margin-right:2px;"></i>
                 <div class="imgcirle" style="left:142px"></div>
-                <input type="text" id="J-count-end-time" name="start-time" id="datatime2" placeholder="点击获取截止日期" style="margin-left:34px;" ng-model="vm.endTime">
+                <input type="text" id="J-count-end-time" name="start-time" id="datatime2" placeholder="{{'ADMIN_END_DATE'| translate}}" style="margin-left:34px;" ng-model="vm.endTime">
             </div>
             <span class="query" ng-click="vm.query()"></span>
         </div>
@@ -35,12 +35,12 @@
             <div class="list">
                 <table class="table">
                     <tr>
-                        <th>会议室号</th>
-                        <th>会议室名</th>
-                        <th>限制人数</th>
-                        <th>主持人密码</th>
-                        <th>参会者密码</th>
-                        <th>操作</th>
+                        <th translate="ADMIN_ROOM_NUMBER1"></th>
+                        <th translate="ADMIN_ROOM_NAME"></th>
+                        <th translate="ADMIN_LIMIT_COUNT"></th>
+                        <th translate="ADMIN_HOST"></th>
+                        <th translate="ADMIN_GUEST"></th>
+                        <th translate="ADMIN_OPERATION"></th>
                     </tr>
                     <tr>
                         <td>001</td>
@@ -48,12 +48,12 @@
                         <td>40</td>
                         <td>70012</td>
                         <td>123345</td>
-                        <td>编辑</td>
+                        <td translate="ADMIN_EDIT"></td>
                     </tr>
 
                 </table>
                 <div class="paging">
-                    <span>第<i>1</i>页/共<i>2</i>页，共<i>6</i>条</span>
+                    <span><span translate="ADMIN_NO"></span><i>1</i><span translate="ADMIN_TOTAL"></span><i>2</i><span translate="ADMIN_TOTAL1"></span><i>6</i><span translate="ADMIN_STRIP"></span></span>
                     <span class="before page-common">＜</span>
                     <ul>
                         <li class="pageNum page-common current">1</li>
@@ -62,7 +62,7 @@
                     </ul>
                     <span class="after page-common">＞</span>
                     <input type="text" class="skip">
-                    <span class="skipButton">跳转</span>
+                    <span class="skipButton" translate="ADMIN_JUMP"></span>
                 </div>
             </div>
 

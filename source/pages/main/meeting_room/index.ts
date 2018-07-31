@@ -1,4 +1,5 @@
 import {Page, IPageParams, page} from "../../../common/page";
+import {Global} from "../../../common/global";
 // webpack的配置，不用管
 require.keys().filter(x => /^\.\/[^\/]+(\/index)?\.(js|ts)$/.test(x)).forEach(x => require(x));
 // 引入样式
@@ -16,7 +17,6 @@ interface IMeetingRoomPageParams extends IPageParams {
     // 依赖注入，在init函数的参数表中可以获取。
     requires: ['$timeout'],
     // 这一页的标题
-    title: '机构管理系统',
     name: 'main.meeting-room'
 })
     /**
@@ -38,162 +38,27 @@ interface IMeetingRoomPageParams extends IPageParams {
      *   3 页面类的对象在模板上用vm表示。用   {{vm.**}}   这种方式做绑定就可以了。
      */
 class MainMeeting_RoomPage extends Page<IMeetingRoomPageParams> {
-    name = 'hello meeting room';
-    rooms
-    items//
-    pager: any[] = []
-    total//总页数
+    roomList
     totalCount//总条数
-    pageSize:number =15;//每页显示条数
-    count:number//跳转到某页
-    selPage:number=1
+    pageSize: number = 10;//每页显示条数
+    selPage: number = 1;
+    maxSize: number = 7
 
     init(timeout: angular.ITimeoutService) {
-        // timeout(() => {
-            this.remote.roomManage()
-                .then((res) => {
-                if(res.data.code=="0"){
-                    this.rooms=res.data.data;
-                    this.totalCount=parseInt(res.data.data.length);
-                    this.total = Math.ceil(this.totalCount / this.pageSize);
-                    this.pager=this.paging(this.total,this.selPage)
-                    this.items=this.rooms.slice(0,this.pageSize)
-                    console.log(this.items)
-                    // this.setData(this.rooms)
+        this.getMeetingRoomInfo();
+    }
+    getMeetingRoomInfo () {
+        this.remote.roomManage({
+            start: this.selPage,
+            size: this.pageSize
+        })
+            .then((res) => {
+                let resData = res.data;
+                if (resData.code == '0') {
+                    let resultData = resData.data;
+                    this.roomList = resultData.resultList;
+                    this.totalCount = resultData.totalSize;
                 }
-                else if(res.data.code=="2"){
-                    this.uiState.go("login")
-                }
-                })
-        console.log("hahah")
-
-        console.log(this.items)
-        // })
+            })
     }
-
-
-
-    signout() {
-        this.session.clear();
-        this.uiState.go('login');
-
-    }
-    paging(total, current) {
-        // 小于十页全显示
-        if (total <= 10) {
-            let arr = [];
-            for (var i = 0; i < total; i++) {
-                arr[i] = i + 1;
-            }
-            return arr.map(x => ({
-                type: 0,
-                value: x,
-                isCurrent: x === current
-            }))
-        }
-        // 大于十页部分显示
-        else {
-            // 当前页号小于等于5
-            if (current <= 4) {
-                return [1, 2, 3, 4, 5].map<{type,value?,isCurrent?}>(x => ({
-                    type: 0,
-                    value: x,
-                    isCurrent: x === current
-                }))
-                    .concat([
-                        {type: 1},
-                        {type: 0, value: total, isCurrent: false}
-                    ])
-            }
-            // 当前页号是最后5页之一
-            else if (current > total - 4) {
-                return [
-                    {type: 0, value: 1, isCurrent: false},
-                    {type: 1}
-                ]
-                    .concat([total - 4, total - 3, total - 2, total - 1, total].map(x => ({
-                        type: 0,
-                        value: x,
-                        isCurrent: x === current
-                    })))
-            }
-            // 其它情况
-            else {
-                return [
-                    {type: 0, value: 1, isCurrent: false},
-                    {type: 1}
-                ]
-                    .concat([current - 2, current - 1, current, current + 1, current + 2].map(x => ({
-                        type: 0,
-                        value: x,
-                        isCurrent: x === current
-                    })))
-                    .concat([
-                        {type: 1},
-                        {type: 0, value: total, isCurrent: false}
-                    ])
-            }
-        }
-    }
-
-    //设置数据的分页
-    setData(data){
-        console.log(this.selPage+"xuanze d")
-        this.items=data.slice((this.pageSize)*(this.selPage-1),this.selPage*(this.pageSize))
-        console.log(this.items)
-    }
-
-    selectPage(page){
-        if(page<1||page>this.total) return;
-        console.log("shifou ")
-        // if(page>2){
-        //     this.setData(this.rooms);
-        // }
-        this.selPage=page
-        this.setData(this.rooms);
-        console.log(this.selPage)
-        console.log(typeof this.selPage)
-        this.pager=this.paging(this.total,this.selPage)
-        console.log(this.pager);
-    }
-    //页码的显示
-    // 上一页
-    async  prevPage(page) {
-            this.selectPage(page-1);
-            console.log(page)
-    }
-    //下一页
-    async nextPage(page) {
-        this.selectPage(page+1)
-    }
-    //页面跳转
-    jump(page){
-        console.log(page)
-        if(page){
-            var page1=parseInt(page)
-            this.selectPage(page1)
-        }
-
-    }
-    // async nextPage() {
-    //     let maxPage = await this.total;
-    //     let page = parseInt(this.params.page);
-    //     console.log(page)
-    //     if (page < maxPage) {
-    //         this.uiState.go('main.order-manager', {page: page + 1});
-    //     } else {
-    //         this.uiState.go('main.order-manager', {page: maxPage});
-    //     }
-    // }
-
-    // async  prevPage() {
-    //     let maxPage = this.total
-    //     let page = parseInt(this.params.page);
-    //     console.log(page)
-    //     if (page > 1) {
-    //         this.uiState.go('main.order-manager', {page: page - 1})
-    //     } else {
-    //         this.uiState.go('main.order-manager', {page: 1})
-    //     }
-    // }
 }

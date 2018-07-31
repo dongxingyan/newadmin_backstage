@@ -5,23 +5,8 @@ main-user-account {
     margin-left: 20px;
   }
   .main {
-  //width: 100%
-    position: relative;
-    height: 100%
-    display: flex
-  //background: pink;
-    flex-direction column
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
     font-size: 14px;
     .feedback{
-      z-index 2
-      position absolute
-      width: 100%
-      height: 100%
-      display: flex
-      justify-content center
-      align-items center
-      background:rgba(0,0,0,.5)
       .alerts{
         width: 300px;
         height: 210px;
@@ -133,9 +118,9 @@ main-user-account {
         }
         .alert-content{
           height: 110px;
-          line-height: 110px;
-          text-align: center;
-          font-family: "微软雅黑";
+          display: flex;
+          align-items center;
+          justify-content: center;
           font-size: 16px;
 
         }
@@ -206,7 +191,7 @@ main-user-account {
           margin: 20px;
           display flex
           .box-left {
-            width: 130px
+            width: 150px
             line-height: 25px
             display: flex
             justify-content space-between
@@ -266,7 +251,7 @@ main-user-account {
           margin: 20px;
           display flex
           .box-left {
-            width: 130px
+            width: 150px
             line-height: 25px
             display: flex
             justify-content space-between
@@ -280,9 +265,9 @@ main-user-account {
         }
         .alert-content{
           height: 110px;
-          line-height: 110px;
-          text-align: center;
-          font-family: "微软雅黑";
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-size: 16px;
 
         }
@@ -311,5 +296,57 @@ main-user-account {
 
     }
 
+    // 显示二维码弹框 样式
+    .code-modal {
+      top: 15%;
+      .modal-content {
+        width: 450px;
+        margin: 0 auto;
+        .modal-header {
+          .modal-title {
+            font-size: 16px;
+            font-family: "Microsoft YaHei";
+            color: #727272
+          }
+        }
+        .modal-body {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .content {
+            width: 200px
+            height: 200px;
+            display: flex;
+            align-items: center;
+          }
+          .operation {
+            display: flex;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            .download-btn,.print-btn,.cancel-btn {
+              color: #68788c;
+              border: 1px solid #68788c;
+              height: 35px;
+              line-height: 35px;
+              width: 80px;
+              text-align: center;
+              cursor: pointer;
+              -webkit-border-radius: 4px;
+              -moz-border-radius: 4px;
+              border-radius: 4px;
+              margin-right: 20px;
+              font-family: "Microsoft YaHei";
+              text-decoration: none;
+            }
+            .download-btn:hover, .print-btn:hover, .cancel-btn:hover {
+              color: #fff;
+              background: #1093f4;
+              border: transparent;
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -1,0 +1,29 @@
+<div class="main">
+
+    <!-- 修改/绑定邮箱页面 -->
+    <div class="box">
+        <div class="title">
+            <span translate="ADMIN_BIND_MAILBOX"></span>
+        </div>
+
+        <hr />
+        <div class="form">
+            <div class="form-group">
+                <label for="" translate="ADMIN_NEW_MAIL"></label>
+                <input class="form-control" type="text" name="email" ng-class="{'is-error': vm.errorTips.email}" ng-model="vm.email" placeholder="{{'ADMIN_INPUT_MAIL' | translate}}">
+                <div class="error-tip">{{vm.errorTips.email}}</div>
+            </div>
+            <div class="form-group">
+                <label for="" translate="ADMIN_VERIFICATION_CODE"></label>
+                <input class="form-control code-input" name="authCode" type="text" ng-class="{'is-error': vm.errorTips.authCode}" ng-model="vm.authCode" placeholder="{{'ADMIN_ENTER_CODE' | translate}}">
+                <div class="error-tip">{{vm.errorTips.authCode}}</div>
+                <button class="btn code-btn" type="button" ng-disabled="vm.disabled" ng-click="vm.sendEmailCode()" translate="ADMIN_GET_CODE"></button>
+                <p class="code-tip" ng-show="vm.codeTipVisibly">{{'ADMIN_SEND_CODE' | translate:vm.second}}</p>
+                <!--<p class="code-tip" ng-show="vm.codeTipVisibly"><span translate="ADMIN_SEND_CODE"></span>{{vm.count}}<span translate="ADMIN_GET_TIME"></span></p>-->
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block save-button" type="button" ng-click="vm.alterEmail()" translate="ADMIN_SURE"></button>
+            </div>
+        </div>
+    </div>
+</div>
